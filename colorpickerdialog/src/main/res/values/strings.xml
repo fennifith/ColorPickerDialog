@@ -1,0 +1,11 @@
+<resources>
+    <string name="color_picker_name">Color Picker</string>
+    <string name="image_picker_name">Image Picker</string>
+
+    <string name="action_reset">Reset</string>
+    <string name="action_pick_image_color">Pick Color from Image</string>
+
+    <string name="red">Red</string>
+    <string name="blue">Blue</string>
+    <string name="green">Green</string>
+</resources>

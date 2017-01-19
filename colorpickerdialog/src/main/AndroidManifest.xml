@@ -1,0 +1,12 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="james.colorpickerdialog">
+
+    <application android:name=".ColorPicker">
+
+        <activity
+            android:name=".activities.ImagePickerActivity"
+            android:label="@string/image_picker_name"/>
+
+    </application>
+
+</manifest>
