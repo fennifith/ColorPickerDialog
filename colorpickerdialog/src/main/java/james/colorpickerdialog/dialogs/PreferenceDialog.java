@@ -6,10 +6,9 @@ import android.support.v7.app.AppCompatDialog;
 
 import james.colorpickerdialog.R;
 
-public class PreferenceDialog<T> extends AppCompatDialog {
+public abstract class PreferenceDialog<T> extends AppCompatDialog {
 
     private T preference, defaultPreference;
-    private Object tag;
     private OnPreferenceListener<T> listener;
 
     public PreferenceDialog(Context context) {
@@ -35,12 +34,20 @@ public class PreferenceDialog<T> extends AppCompatDialog {
     }
 
     public void confirm() {
-        if (hasListener()) getListener().onPreference(this, getPreference());
+        if (hasListener()) {
+            getListener().onPreference(this, getPreference());
+            setListener(null);
+        }
+
         if (isShowing()) dismiss();
     }
 
     public void cancel() {
-        if (hasListener()) getListener().onCancel(this);
+        if (hasListener()) {
+            getListener().onCancel(this);
+            setListener(null);
+        }
+
         if (isShowing()) dismiss();
     }
 
@@ -60,15 +67,6 @@ public class PreferenceDialog<T> extends AppCompatDialog {
 
     public T getDefaultPreference() {
         return defaultPreference;
-    }
-
-    public PreferenceDialog setTag(Object tag) {
-        this.tag = tag;
-        return this;
-    }
-
-    public Object getTag() {
-        return tag;
     }
 
     public PreferenceDialog setListener(OnPreferenceListener<T> listener) {

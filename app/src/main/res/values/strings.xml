@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">ColorPickerDialog</string>
+    <string name="default_amp_no_image_picker"><![CDATA[Default & No Image Picker]]></string>
+    <string name="no_default_amp_no_image_picker"><![CDATA[No Default & No Image Picker]]></string>
+    <string name="no_default_amp_image_picker"><![CDATA[No Default & Image Picker]]></string>
+    <string name="default_amp_image_picker"><![CDATA[Default & Image Picker]]></string>
 </resources>

@@ -11,21 +11,16 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.ColorInt;
-import android.support.v7.app.AppCompatDialog;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatSeekBar;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import james.colorpickerdialog.ColorPicker;
 import james.colorpickerdialog.R;
@@ -36,7 +31,6 @@ public class ColorPickerDialog extends PreferenceDialog<Integer> implements Colo
 
     private ColorPicker picker;
     private TextWatcher textWatcher;
-    private List<Integer> presetColors;
 
     private ImageView colorImage;
     private AppCompatEditText colorHex;
@@ -154,41 +148,6 @@ public class ColorPickerDialog extends PreferenceDialog<Integer> implements Colo
 
         setColor(getPreference(), false);
 
-        LinearLayout presetLayout = (LinearLayout) findViewById(R.id.colors);
-        LayoutInflater inflater = LayoutInflater.from(getContext());
-
-        if (presetColors == null) {
-            presetColors = new ArrayList<>();
-            for (int color : getContext().getResources().getIntArray(R.array.defaultColors)) {
-                presetColors.add(color);
-            }
-        } else presetColors = new ArrayList<>(presetColors);
-
-        List<Integer> colors = new ArrayList<>();
-        for (Integer color : presetColors) {
-            if (!colors.contains(color)) colors.add(color);
-        }
-
-        for (int preset : colors) {
-            View v = inflater.inflate(R.layout.item_color, presetLayout, false);
-
-            ImageView colorView = (ImageView) v.findViewById(R.id.color);
-            colorView.setImageDrawable(new ColorDrawable(preset));
-            colorView.setTag(preset);
-            colorView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Object tag = v.getTag();
-                    if (tag != null && tag instanceof Integer) {
-                        setColor((int) tag, true);
-                        setPreference((int) tag);
-                    }
-                }
-            });
-
-            presetLayout.addView(v);
-        }
-
         imagePicker.setVisibility(isImagePickerEnabled ? View.VISIBLE : View.GONE);
         imagePicker.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -196,6 +155,10 @@ public class ColorPickerDialog extends PreferenceDialog<Integer> implements Colo
                 getContext().startActivity(new Intent(getContext(), ImagePickerActivity.class));
             }
         });
+
+        Integer preference = getPreference();
+        Integer defaultPreference = getDefaultPreference();
+        reset.setVisibility(defaultPreference != null && !preference.equals(defaultPreference) ? View.VISIBLE : View.GONE);
 
         reset.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -270,19 +233,16 @@ public class ColorPickerDialog extends PreferenceDialog<Integer> implements Colo
         }
     }
 
-    public ColorPickerDialog setPresetColors(List<Integer> presetColors) {
-        this.presetColors = presetColors;
-        return this;
+    @Override
+    public ColorPickerDialog setDefaultPreference(Integer preference) {
+        return (ColorPickerDialog) super.setDefaultPreference(preference);
     }
 
     @Override
     public ColorPickerDialog setPreference(@ColorInt Integer preference) {
         Integer defaultPreference = getDefaultPreference();
-        if (preference != null && defaultPreference != null && reset != null) {
-            if (preference.equals(defaultPreference))
-                reset.setVisibility(View.GONE);
-            else reset.setVisibility(View.VISIBLE);
-        }
+        if (reset != null)
+            reset.setVisibility(defaultPreference != null && !preference.equals(defaultPreference) ? View.VISIBLE : View.GONE);
 
         return (ColorPickerDialog) super.setPreference(preference);
     }
