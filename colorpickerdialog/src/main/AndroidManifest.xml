@@ -5,7 +5,8 @@
 
         <activity
             android:name=".activities.ImagePickerActivity"
-            android:label="@string/image_picker_name"/>
+            android:label="@string/image_picker_name"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
     </application>
 
