@@ -11,6 +11,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.ColorInt;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatSeekBar;
 import android.text.Editable;
@@ -27,7 +28,8 @@ import james.colorpickerdialog.R;
 import james.colorpickerdialog.activities.ImagePickerActivity;
 import james.colorpickerdialog.utils.ColorUtils;
 
-public class ColorPickerDialog extends PreferenceDialog<Integer> implements ColorPicker.OnActivityResultListener {
+public class ColorPickerDialog extends PreferenceDialog<Integer> implements ColorPicker
+        .OnActivityResultListener {
 
     private ColorPicker picker;
     private TextWatcher textWatcher;
@@ -56,10 +58,13 @@ public class ColorPickerDialog extends PreferenceDialog<Integer> implements Colo
         colorImage = (ImageView) findViewById(R.id.color);
         colorHex = (AppCompatEditText) findViewById(R.id.colorHex);
         red = (AppCompatSeekBar) findViewById(R.id.red);
+        ColorUtils.setProgressBarColor(red, Color.rgb(255, 0, 0));
         redInt = (TextView) findViewById(R.id.redInt);
         green = (AppCompatSeekBar) findViewById(R.id.green);
+        ColorUtils.setProgressBarColor(green, Color.rgb(0, 255, 0));
         greenInt = (TextView) findViewById(R.id.greenInt);
         blue = (AppCompatSeekBar) findViewById(R.id.blue);
+        ColorUtils.setProgressBarColor(blue, Color.rgb(0, 0, 255));
         blueInt = (TextView) findViewById(R.id.blueInt);
         imagePicker = findViewById(R.id.image);
         reset = findViewById(R.id.reset);
@@ -90,7 +95,7 @@ public class ColorPickerDialog extends PreferenceDialog<Integer> implements Colo
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
                 int color = getPreference();
-                color = Color.argb(255, i, Color.green(color), Color.blue(color));
+                color = Color.rgb(i, Color.green(color), Color.blue(color));
                 setColor(color, false);
                 setPreference(color);
             }
@@ -110,7 +115,7 @@ public class ColorPickerDialog extends PreferenceDialog<Integer> implements Colo
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
                 int color = getPreference();
-                color = Color.argb(255, Color.red(color), i, Color.blue(color));
+                color = Color.rgb(Color.red(color), i, Color.blue(color));
                 setColor(color, false);
                 setPreference(color);
             }
@@ -130,7 +135,7 @@ public class ColorPickerDialog extends PreferenceDialog<Integer> implements Colo
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
                 int color = getPreference();
-                color = Color.argb(255, Color.red(color), Color.green(color), i);
+                color = Color.rgb(Color.red(color), Color.green(color), i);
                 setColor(color, false);
                 setPreference(color);
             }
@@ -146,8 +151,6 @@ public class ColorPickerDialog extends PreferenceDialog<Integer> implements Colo
             }
         });
 
-        setColor(getPreference(), false);
-
         imagePicker.setVisibility(isImagePickerEnabled ? View.VISIBLE : View.GONE);
         imagePicker.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -158,7 +161,8 @@ public class ColorPickerDialog extends PreferenceDialog<Integer> implements Colo
 
         Integer preference = getPreference();
         Integer defaultPreference = getDefaultPreference();
-        reset.setVisibility(defaultPreference != null && !preference.equals(defaultPreference) ? View.VISIBLE : View.GONE);
+        reset.setVisibility(defaultPreference != null && !preference.equals(defaultPreference) ?
+                View.VISIBLE : View.GONE);
 
         reset.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -168,6 +172,14 @@ public class ColorPickerDialog extends PreferenceDialog<Integer> implements Colo
                 setPreference(color);
             }
         });
+
+        if (getDefaultPreference() != null) {
+            setPreference(getDefaultPreference());
+        } else {
+            setDefaultPreference(getPreference());
+        }
+
+        setColor(getPreference(), false);
 
         findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -186,7 +198,11 @@ public class ColorPickerDialog extends PreferenceDialog<Integer> implements Colo
 
     private void setColor(@ColorInt int color, boolean animate) {
         if (!isTrackingTouch && animate) {
-            ValueAnimator animator = ValueAnimator.ofObject(new ArgbEvaluator(), getPreference(), color);
+            int oldColor = getPreference();
+            if (getDefaultPreference() != null) oldColor = getDefaultPreference();
+
+            ValueAnimator animator = ValueAnimator.ofObject(new ArgbEvaluator(), oldColor,
+                    color);
             animator.setDuration(250);
             animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                 @Override
@@ -221,7 +237,9 @@ public class ColorPickerDialog extends PreferenceDialog<Integer> implements Colo
             colorImage.setImageDrawable(new ColorDrawable(color));
             colorHex.removeTextChangedListener(textWatcher);
             colorHex.setText(String.format("#%06X", (0xFFFFFF & color)));
-            colorHex.setTextColor(ColorUtils.isColorDark(color) ? Color.WHITE : Color.BLACK);
+            colorHex.setTextColor(ColorUtils.isColorDark(color)
+                    ? ContextCompat.getColor(getContext(), R.color.primaryTextDark)
+                    : ContextCompat.getColor(getContext(), R.color.primaryTextLight));
             colorHex.addTextChangedListener(textWatcher);
             redInt.setText(String.valueOf(Color.red(color)));
             greenInt.setText(String.valueOf(Color.green(color)));
@@ -241,8 +259,9 @@ public class ColorPickerDialog extends PreferenceDialog<Integer> implements Colo
     @Override
     public ColorPickerDialog setPreference(@ColorInt Integer preference) {
         Integer defaultPreference = getDefaultPreference();
-        if (reset != null)
-            reset.setVisibility(defaultPreference != null && !preference.equals(defaultPreference) ? View.VISIBLE : View.GONE);
+        if (reset != null
+            reset.setVisibility(!preference.equals(defaultPreference) ? View.VISIBLE : View
+                    .GONE);
 
         return (ColorPickerDialog) super.setPreference(preference);
     }
@@ -260,26 +279,29 @@ public class ColorPickerDialog extends PreferenceDialog<Integer> implements Colo
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         Bitmap bitmap = null;
 
-        if (requestCode == ImagePickerActivity.ACTION_PICK_IMAGE && resultCode == ImagePickerActivity.RESULT_OK) {
+        if (requestCode == ImagePickerActivity.ACTION_PICK_IMAGE && resultCode ==
+                ImagePickerActivity.RESULT_OK) {
             try {
-                bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), data.getData());
+                bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(),
+                        data.getData());
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
 
         if (bitmap != null) {
-            new ImageColorPickerDialog(getContext(), bitmap).setDefaultPreference(Color.BLACK).setListener(new PreferenceDialog.OnPreferenceListener<Integer>() {
-                @Override
-                public void onPreference(PreferenceDialog dialog, Integer preference) {
-                    setColor(preference, false);
-                    setPreference(preference);
-                }
+            new ImageColorPickerDialog(getContext(), bitmap).setDefaultPreference(Color.BLACK)
+                    .setListener(new PreferenceDialog.OnPreferenceListener<Integer>() {
+                        @Override
+                        public void onPreference(PreferenceDialog dialog, Integer preference) {
+                            setColor(preference, false);
+                            setPreference(preference);
+                        }
 
-                @Override
-                public void onCancel(PreferenceDialog dialog) {
-                }
-            }).show();
+                        @Override
+                        public void onCancel(PreferenceDialog dialog) {
+                        }
+                    }).show();
         }
     }
 

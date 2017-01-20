@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2017. Jahir Fiquitiva. Android Developer. All rights reserved.
+  -->
+
+<resources>
+    <color name="primaryTextLight">#de000000</color>
+    <color name="primaryTextDark">#fff</color>
+</resources>
