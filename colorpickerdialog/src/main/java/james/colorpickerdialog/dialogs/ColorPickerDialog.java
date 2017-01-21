@@ -151,6 +151,8 @@ public class ColorPickerDialog extends PreferenceDialog<Integer> implements Colo
             }
         });
 
+        setColor(getPreference(), false);
+
         imagePicker.setVisibility(isImagePickerEnabled ? View.VISIBLE : View.GONE);
         imagePicker.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -161,8 +163,7 @@ public class ColorPickerDialog extends PreferenceDialog<Integer> implements Colo
 
         Integer preference = getPreference();
         Integer defaultPreference = getDefaultPreference();
-        reset.setVisibility(defaultPreference != null && !preference.equals(defaultPreference) ?
-                View.VISIBLE : View.GONE);
+        reset.setVisibility(defaultPreference != null && !preference.equals(defaultPreference) ? View.VISIBLE : View.GONE);
 
         reset.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -172,14 +173,6 @@ public class ColorPickerDialog extends PreferenceDialog<Integer> implements Colo
                 setPreference(color);
             }
         });
-
-        if (getDefaultPreference() != null) {
-            setPreference(getDefaultPreference());
-        } else {
-            setDefaultPreference(getPreference());
-        }
-
-        setColor(getPreference(), false);
 
         findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -198,11 +191,7 @@ public class ColorPickerDialog extends PreferenceDialog<Integer> implements Colo
 
     private void setColor(@ColorInt int color, boolean animate) {
         if (!isTrackingTouch && animate) {
-            int oldColor = getPreference();
-            if (getDefaultPreference() != null) oldColor = getDefaultPreference();
-
-            ValueAnimator animator = ValueAnimator.ofObject(new ArgbEvaluator(), oldColor,
-                    color);
+            ValueAnimator animator = ValueAnimator.ofObject(new ArgbEvaluator(), getPreference(), color);
             animator.setDuration(250);
             animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                 @Override
