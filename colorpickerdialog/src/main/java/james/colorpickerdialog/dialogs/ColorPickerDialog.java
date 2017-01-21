@@ -58,13 +58,13 @@ public class ColorPickerDialog extends PreferenceDialog<Integer> implements Colo
         colorImage = (ImageView) findViewById(R.id.color);
         colorHex = (AppCompatEditText) findViewById(R.id.colorHex);
         red = (AppCompatSeekBar) findViewById(R.id.red);
-        ColorUtils.setProgressBarColor(red, Color.rgb(255, 0, 0));
+        ColorUtils.setProgressBarColor(red, ContextCompat.getColor(getContext(), R.color.red));
         redInt = (TextView) findViewById(R.id.redInt);
         green = (AppCompatSeekBar) findViewById(R.id.green);
-        ColorUtils.setProgressBarColor(green, Color.rgb(0, 255, 0));
+        ColorUtils.setProgressBarColor(green, ContextCompat.getColor(getContext(), R.color.green));
         greenInt = (TextView) findViewById(R.id.greenInt);
         blue = (AppCompatSeekBar) findViewById(R.id.blue);
-        ColorUtils.setProgressBarColor(blue, Color.rgb(0, 0, 255));
+        ColorUtils.setProgressBarColor(blue, ContextCompat.getColor(getContext(), R.color.blue));
         blueInt = (TextView) findViewById(R.id.blueInt);
         imagePicker = findViewById(R.id.image);
         reset = findViewById(R.id.reset);
@@ -226,9 +226,7 @@ public class ColorPickerDialog extends PreferenceDialog<Integer> implements Colo
             colorImage.setImageDrawable(new ColorDrawable(color));
             colorHex.removeTextChangedListener(textWatcher);
             colorHex.setText(String.format("#%06X", (0xFFFFFF & color)));
-            colorHex.setTextColor(ColorUtils.isColorDark(color)
-                    ? ContextCompat.getColor(getContext(), R.color.primaryTextDark)
-                    : ContextCompat.getColor(getContext(), R.color.primaryTextLight));
+            colorHex.setTextColor(ContextCompat.getColor(getContext(), ColorUtils.isColorDark(color) ? R.color.textColorPrimaryInverse : R.color.textColorPrimary));
             colorHex.addTextChangedListener(textWatcher);
             redInt.setText(String.valueOf(Color.red(color)));
             greenInt.setText(String.valueOf(Color.green(color)));
