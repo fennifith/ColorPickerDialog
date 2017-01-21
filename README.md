@@ -40,3 +40,24 @@ By default, the dialog will allow the user to pick a color from an image. To ena
 ### Default Colors
 
 To add a default color, use the `ColorPickerDialog.setDefaultPreference(Integer)` method. This will cause a reset button to display when the current preference isn't equal to the default one. If a current preference isn't specified, the dialog will use the default one, but if neither are specified it will cause a `NullPointerException`.
+
+### Using The Image Picker Dialog Separately
+
+The image picker function included in this library is currently limited to getting images from the gallery on the device. To use the dialog with a different image, you can create the dialog manually like below.
+
+``` java
+new ImageColorPickerDialog(getContext(), bitmap) //context, image
+  .setDefaultPreference(Color.BLACK) //default color in case the user doesn't pick a value
+  .setListener(new PreferenceDialog.OnPreferenceListener<Integer>() {
+    @Override
+    public void onPreference(PreferenceDialog dialog, Integer preference) {
+      //called when a color is chosen
+    }
+
+    @Override
+    public void onCancel(PreferenceDialog dialog) {
+      //called if the dialog is dismissed
+    }
+  })
+  .show();
+```
