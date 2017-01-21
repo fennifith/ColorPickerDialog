@@ -49,4 +49,9 @@ public class ImageColorPickerDialog extends PreferenceDialog<Integer> {
             }
         });
     }
+
+    @Override
+    public ImageColorPickerDialog setDefaultPreference(Integer preference) {
+        return (ImageColorPickerDialog) super.setDefaultPreference(preference);
+    }
 }

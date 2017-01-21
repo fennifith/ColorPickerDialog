@@ -247,8 +247,7 @@ public class ColorPickerDialog extends PreferenceDialog<Integer> implements Colo
     public ColorPickerDialog setPreference(@ColorInt Integer preference) {
         Integer defaultPreference = getDefaultPreference();
         if (reset != null)
-            reset.setVisibility(!preference.equals(defaultPreference) ? View.VISIBLE : View
-                    .GONE);
+            reset.setVisibility(!preference.equals(defaultPreference) ? View.VISIBLE : View.GONE);
 
         return (ColorPickerDialog) super.setPreference(preference);
     }
@@ -269,26 +268,24 @@ public class ColorPickerDialog extends PreferenceDialog<Integer> implements Colo
         if (requestCode == ImagePickerActivity.ACTION_PICK_IMAGE && resultCode ==
                 ImagePickerActivity.RESULT_OK) {
             try {
-                bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(),
-                        data.getData());
+                bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), data.getData());
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
 
         if (bitmap != null) {
-            new ImageColorPickerDialog(getContext(), bitmap).setDefaultPreference(Color.BLACK)
-                    .setListener(new PreferenceDialog.OnPreferenceListener<Integer>() {
-                        @Override
-                        public void onPreference(PreferenceDialog dialog, Integer preference) {
-                            setColor(preference, false);
-                            setPreference(preference);
-                        }
+            new ImageColorPickerDialog(getContext(), bitmap).setDefaultPreference(Color.BLACK).setListener(new PreferenceDialog.OnPreferenceListener<Integer>() {
+                @Override
+                public void onPreference(PreferenceDialog dialog, Integer preference) {
+                    setColor(preference, false);
+                    setPreference(preference);
+                }
 
-                        @Override
-                        public void onCancel(PreferenceDialog dialog) {
-                        }
-                    }).show();
+                @Override
+                public void onCancel(PreferenceDialog dialog) {
+                }
+            }).show();
         }
     }
 
