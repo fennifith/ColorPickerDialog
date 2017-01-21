@@ -9,7 +9,7 @@ For testing and experimentation purposes, a sample apk can be downloaded [here](
 
 The Gradle dependency is available through jCenter, which is used by default in Android Studio. To add the module to your project, copy this line into the dependencies section of your build.gradle file.
 ``` gradle
-compile 'james.colorpickerdialog:colorpickerdialog:0.0.3'
+compile 'james.colorpickerdialog:colorpickerdialog:0.0.4'
 ```
 
 ### Creating a Dialog
