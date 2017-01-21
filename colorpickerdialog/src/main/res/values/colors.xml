@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Copyright (c) 2017. Jahir Fiquitiva. Android Developer. All rights reserved.
-  -->
 
 <resources>
-    <color name="primaryTextLight">#de000000</color>
-    <color name="primaryTextDark">#fff</color>
+  
+  <color name="textColorPrimary">#DE000000</color>
+  <color name="textColorSecondary">#8A000000</color>
+  <color name="textColorTertiary">#61000000</color>
+  
+  <color name="textColorPrimaryInverse">#FFFFFF</color>
+  <color name="textColorSecondaryInverse">#B3FFFFFF</color>
+  <color name="textColorTertiaryInverse">#80FFFFFF</color>
+  
+  <color name="red">#D32F2F</color>
+  <color name="green">#388E3C</color>
+  <color name="blue">#1976D2</color>
+  
 </resources>
