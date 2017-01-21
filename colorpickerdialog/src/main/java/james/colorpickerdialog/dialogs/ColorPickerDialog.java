@@ -246,7 +246,7 @@ public class ColorPickerDialog extends PreferenceDialog<Integer> implements Colo
     @Override
     public ColorPickerDialog setPreference(@ColorInt Integer preference) {
         Integer defaultPreference = getDefaultPreference();
-        if (reset != null
+        if (reset != null)
             reset.setVisibility(!preference.equals(defaultPreference) ? View.VISIBLE : View
                     .GONE);
 
