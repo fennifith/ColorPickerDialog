@@ -13,7 +13,7 @@ ext {
     siteUrl = 'https://github.com/TheAndroidMaster/ColorPickerDialog'
     gitUrl = 'https://github.com/TheAndroidMaster/ColorPickerDialog.git'
 
-    libraryVersion = '0.0.3'
+    libraryVersion = '0.0.4'
 
     developerId = 'TheAndroidMaster'
     developerName = 'James Fenn'
@@ -31,8 +31,8 @@ android {
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 25
-        versionCode 3
-        versionName "0.0.3"
+        versionCode 4
+        versionName "0.0.4"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
