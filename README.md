@@ -3,6 +3,10 @@ A simple dialog making it quick and easy to add a color picker function.
 
 For testing and experimentation purposes, a sample apk can be downloaded [here](https://github.com/TheAndroidMaster/ColorPickerDialog/releases).
 
+|Color Picker|Image Color Picker|
+|--------|--------|
+|![img](https://theandroidmaster.github.io/images/screenshots/ColorPickerDialog-Color.png)|![img](https://theandroidmaster.github.io/images/screenshots/ColorPickerDialog-Image.png)|
+
 ## Usage
 
 ### Setup
