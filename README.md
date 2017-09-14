@@ -1,6 +1,6 @@
 ColorPickerDialog is a simple dialog making it quick and easy to add a color picker functionality to any app.
 
-For testing and experimentation purposes, a sample apk can be downloaded [here](https://github.com/TheAndroidMaster/ColorPickerDialog/releases).
+For testing and experimentation purposes, a sample apk can be downloaded [here](https://theandroidmaster.github.io/about/releases/#TheAndroidMaster/ColorPickerDialog).
 
 |Color Picker|Image Color Picker|
 |--------|--------|
