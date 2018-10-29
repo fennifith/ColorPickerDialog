@@ -2,8 +2,9 @@ package james.colorpickerdialog.utils;
 
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.support.annotation.ColorInt;
-import android.support.v7.widget.AppCompatSeekBar;
+
+import androidx.annotation.ColorInt;
+import androidx.appcompat.widget.AppCompatSeekBar;
 
 public class ColorUtils {
 

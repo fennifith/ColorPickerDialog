@@ -3,9 +3,9 @@ package james.colorpickerdialog.dialogs;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.annotation.ColorInt;
 import android.view.View;
 
+import androidx.annotation.ColorInt;
 import james.colorpickerdialog.R;
 import james.colorpickerdialog.views.ColorPickerImageView;
 

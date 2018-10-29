@@ -10,10 +10,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.annotation.ColorInt;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.AppCompatEditText;
-import android.support.v7.widget.AppCompatSeekBar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -23,6 +19,10 @@ import android.widget.TextView;
 
 import java.io.IOException;
 
+import androidx.annotation.ColorInt;
+import androidx.appcompat.widget.AppCompatEditText;
+import androidx.appcompat.widget.AppCompatSeekBar;
+import androidx.core.content.ContextCompat;
 import james.colorpickerdialog.ColorPicker;
 import james.colorpickerdialog.R;
 import james.colorpickerdialog.activities.ImagePickerActivity;

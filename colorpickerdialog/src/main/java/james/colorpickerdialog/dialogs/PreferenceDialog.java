@@ -2,8 +2,8 @@ package james.colorpickerdialog.dialogs;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.support.v7.app.AppCompatDialog;
 
+import androidx.appcompat.app.AppCompatDialog;
 import james.colorpickerdialog.R;
 
 public abstract class PreferenceDialog<T> extends AppCompatDialog {

@@ -8,12 +8,12 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.annotation.ColorInt;
-import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.ViewTreeObserver;
 
+import androidx.annotation.ColorInt;
+import androidx.appcompat.widget.AppCompatImageView;
 import james.colorpickerdialog.utils.ColorUtils;
 
 public class ColorPickerImageView extends AppCompatImageView {

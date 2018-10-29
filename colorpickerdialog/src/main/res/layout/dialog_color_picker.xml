@@ -16,7 +16,7 @@
             android:layout_height="0dp"
             android:layout_weight="1">
 
-            <android.support.v7.widget.AppCompatImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/color"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -24,7 +24,7 @@
                 android:minWidth="300dp"
                 android:src="@android:color/black" />
 
-            <android.support.v7.widget.AppCompatEditText
+            <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/colorHex"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -50,7 +50,7 @@
                 android:orientation="horizontal"
                 android:padding="8dp">
 
-                <android.support.v7.widget.AppCompatImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_margin="2dp"
@@ -78,7 +78,7 @@
                 android:orientation="horizontal"
                 android:padding="8dp">
 
-                <android.support.v7.widget.AppCompatImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_margin="2dp"
@@ -117,7 +117,7 @@
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
-            <android.support.v7.widget.AppCompatSeekBar
+            <androidx.appcompat.widget.AppCompatSeekBar
                 android:id="@+id/red"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -156,7 +156,7 @@
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
-            <android.support.v7.widget.AppCompatSeekBar
+            <androidx.appcompat.widget.AppCompatSeekBar
                 android:id="@+id/green"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -195,7 +195,7 @@
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
-            <android.support.v7.widget.AppCompatSeekBar
+            <androidx.appcompat.widget.AppCompatSeekBar
                 android:id="@+id/blue"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
