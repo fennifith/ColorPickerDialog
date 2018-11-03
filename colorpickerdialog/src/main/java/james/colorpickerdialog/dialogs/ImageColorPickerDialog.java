@@ -9,7 +9,7 @@ import androidx.annotation.ColorInt;
 import james.colorpickerdialog.R;
 import james.colorpickerdialog.views.ColorPickerImageView;
 
-public class ImageColorPickerDialog extends PreferenceDialog<Integer> {
+public class ImageColorPickerDialog extends androidx.appcompat.app.AppCompatDialog {
 
     private Bitmap bitmap;
 

@@ -7,7 +7,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import james.colorpickerdialog.dialogs.ColorPickerDialog;
-import james.colorpickerdialog.dialogs.PreferenceDialog;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, PreferenceDialog.OnPreferenceListener<Integer> {
 

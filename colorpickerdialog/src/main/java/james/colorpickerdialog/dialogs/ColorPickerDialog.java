@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -20,6 +21,7 @@ import android.widget.TextView;
 import java.io.IOException;
 
 import androidx.annotation.ColorInt;
+import androidx.appcompat.app.AppCompatDialog;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.AppCompatSeekBar;
 import androidx.core.content.ContextCompat;
@@ -28,8 +30,10 @@ import james.colorpickerdialog.R;
 import james.colorpickerdialog.activities.ImagePickerActivity;
 import james.colorpickerdialog.utils.ColorUtils;
 
-public class ColorPickerDialog extends PreferenceDialog<Integer> implements ColorPicker
-        .OnActivityResultListener {
+public class ColorPickerDialog extends AppCompatDialog implements ColorPicker.OnActivityResultListener {
+
+    private Integer preference, defaultPreference;
+    private OnColorListener listener;
 
     private ColorPicker picker;
     private TextWatcher textWatcher;
@@ -45,6 +49,13 @@ public class ColorPickerDialog extends PreferenceDialog<Integer> implements Colo
     public ColorPickerDialog(Context context) {
         super(context);
         setTitle(R.string.color_picker_name);
+
+        setOnDismissListener(new OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+                cancel();
+            }
+        });
     }
 
     @Override
@@ -55,17 +66,17 @@ public class ColorPickerDialog extends PreferenceDialog<Integer> implements Colo
         picker = (ColorPicker) getContext().getApplicationContext();
         picker.addListener(this);
 
-        colorImage = (ImageView) findViewById(R.id.color);
-        colorHex = (AppCompatEditText) findViewById(R.id.colorHex);
-        red = (AppCompatSeekBar) findViewById(R.id.red);
+        colorImage = findViewById(R.id.color);
+        colorHex = findViewById(R.id.colorHex);
+        red = findViewById(R.id.red);
         ColorUtils.setProgressBarColor(red, ContextCompat.getColor(getContext(), R.color.red));
-        redInt = (TextView) findViewById(R.id.redInt);
-        green = (AppCompatSeekBar) findViewById(R.id.green);
+        redInt = findViewById(R.id.redInt);
+        green = findViewById(R.id.green);
         ColorUtils.setProgressBarColor(green, ContextCompat.getColor(getContext(), R.color.green));
-        greenInt = (TextView) findViewById(R.id.greenInt);
-        blue = (AppCompatSeekBar) findViewById(R.id.blue);
+        greenInt = findViewById(R.id.greenInt);
+        blue = findViewById(R.id.blue);
         ColorUtils.setProgressBarColor(blue, ContextCompat.getColor(getContext(), R.color.blue));
-        blueInt = (TextView) findViewById(R.id.blueInt);
+        blueInt = findViewById(R.id.blueInt);
         imagePicker = findViewById(R.id.image);
         reset = findViewById(R.id.reset);
 
@@ -275,18 +286,75 @@ public class ColorPickerDialog extends PreferenceDialog<Integer> implements Colo
         }
 
         if (bitmap != null) {
-            new ImageColorPickerDialog(getContext(), bitmap).setDefaultPreference(Color.BLACK).setListener(new PreferenceDialog.OnPreferenceListener<Integer>() {
+            new ImageColorPickerDialog(getContext(), bitmap).setDefaultPreference(Color.BLACK).setListener(new OnColorListener() {
                 @Override
-                public void onPreference(PreferenceDialog dialog, Integer preference) {
+                public void onColorPicked(ColorPickerDialog dialog, @ColorInt int preference) {
                     setColor(preference, false);
                     setPreference(preference);
                 }
 
                 @Override
-                public void onCancel(PreferenceDialog dialog) {
+                public void onCancel(ColorPickerDialog dialog) {
                 }
             }).show();
         }
+    }
+
+    public void confirm() {
+        if (hasListener()) {
+            getListener().onColorPicked(this, getPreference());
+            setListener(null);
+        }
+
+        if (isShowing()) dismiss();
+    }
+
+    public void cancel() {
+        if (hasListener()) {
+            getListener().onCancel(this);
+            setListener(null);
+        }
+
+        if (isShowing()) dismiss();
+    }
+
+    public ColorPickerDialog setPreference(@ColorInt int preference) {
+        this.preference = preference;
+        return this;
+    }
+
+    @ColorInt
+    public int getPreference() {
+        return preference != null ? preference : getDefaultPreference();
+    }
+
+    public ColorPickerDialog setDefaultPreference(@ColorInt int preference) {
+        defaultPreference = preference;
+        return this;
+    }
+
+    @ColorInt
+    public int getDefaultPreference() {
+        return defaultPreference;
+    }
+
+    public ColorPickerDialog setListener(OnColorListener listener) {
+        this.listener = listener;
+        return this;
+    }
+
+    public boolean hasListener() {
+        return listener != null;
+    }
+
+    public OnColorListener getListener() {
+        return listener;
+    }
+
+    public interface OnColorListener {
+        void onColorPicked(ColorPickerDialog dialog, @ColorInt int color);
+
+        void onCancel(ColorPickerDialog dialog);
     }
 
     @Override
