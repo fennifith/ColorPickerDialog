@@ -1,4 +1,4 @@
-package james.colorpickerdialog.utils;
+package me.jfenn.colorpickerdialog.utils;
 
 import android.graphics.Color;
 import android.graphics.PorterDuff;

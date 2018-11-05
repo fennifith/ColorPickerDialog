@@ -1,11 +1,11 @@
-package james.colorpickerdialog.activities;
+package me.jfenn.colorpickerdialog.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.FrameLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
-import james.colorpickerdialog.ColorPicker;
+import me.jfenn.colorpickerdialog.ColorPicker;
 
 public class ImagePickerActivity extends AppCompatActivity {
 

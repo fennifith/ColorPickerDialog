@@ -1,4 +1,4 @@
-package james.colorpickerdialogsample;
+package me.jfenn.colorpickerdialogsample;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import james.colorpickerdialog.dialogs.ColorPickerDialog;
+import me.jfenn.colorpickerdialog.dialogs.ColorPickerDialog;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, PreferenceDialog.OnPreferenceListener<Integer> {
 

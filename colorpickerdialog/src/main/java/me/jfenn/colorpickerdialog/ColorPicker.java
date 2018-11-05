@@ -1,4 +1,4 @@
-package james.colorpickerdialog;
+package me.jfenn.colorpickerdialog;
 
 import android.app.Application;
 import android.content.Intent;

@@ -1,4 +1,4 @@
-package james.colorpickerdialog.dialogs;
+package me.jfenn.colorpickerdialog.dialogs;
 
 import android.animation.Animator;
 import android.animation.ArgbEvaluator;
@@ -25,10 +25,10 @@ import androidx.appcompat.app.AppCompatDialog;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.AppCompatSeekBar;
 import androidx.core.content.ContextCompat;
-import james.colorpickerdialog.ColorPicker;
-import james.colorpickerdialog.R;
-import james.colorpickerdialog.activities.ImagePickerActivity;
-import james.colorpickerdialog.utils.ColorUtils;
+import me.jfenn.colorpickerdialog.ColorPicker;
+import me.jfenn.colorpickerdialog.R;
+import me.jfenn.colorpickerdialog.activities.ImagePickerActivity;
+import me.jfenn.colorpickerdialog.utils.ColorUtils;
 
 public class ColorPickerDialog extends AppCompatDialog implements ColorPicker.OnActivityResultListener {
 
