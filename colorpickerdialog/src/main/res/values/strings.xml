@@ -9,4 +9,8 @@
     <string name="blue">Blue</string>
     <string name="green">Green</string>
     <string name="action_image">Image</string>
+    <string name="alpha">Alpha</string>
+    <string name="hue">Hue</string>
+    <string name="saturation">Saturation</string>
+    <string name="brightness">Brightness</string>
 </resources>
