@@ -185,7 +185,7 @@ public abstract class ColorPickerView extends LinearLayout {
         this.listener = listener;
     }
 
-    private interface OnColorPickedListener {
+    public interface OnColorPickedListener {
         void onColorPicked(@ColorInt int color);
     }
 }
