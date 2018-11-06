@@ -1,5 +1,7 @@
 ColorPickerDialog is a simple dialog making it quick and easy to add a color picker functionality to any app.
 
+[![](https://jitpack.io/v/me.jfenn/ColorPickerDialog.svg)](https://jitpack.io/#me.jfenn/ColorPickerDialog)
+
 For testing and experimentation purposes, a sample apk can be downloaded [here](https://jfenn.me/projects/colorpickerdialog).
 
 |Color Picker|Image Color Picker|
@@ -10,9 +12,21 @@ For testing and experimentation purposes, a sample apk can be downloaded [here](
 
 ### Setup
 
-The Gradle dependency is available through jCenter, which is used by default in Android Studio. To add the module to your project, copy this line into the dependencies section of your build.gradle file.
+This project is published on [JitPack](https://jitpack.io), which you can add to your project by copying the following to your root build.gradle at the end of "repositories".
+
+```gradle
+allprojects {
+	repositories {
+		...
+		maven { url 'https://jitpack.io' }
+	}
+}
+```
+
+To add the dependency, copy this line into your app module's build.gradle file.
+
 ``` gradle
-compile 'james.colorpickerdialog:colorpickerdialog:0.0.4'
+implementation 'me.jfenn:ColorPickerDialog:1.2.0'
 ```
 
 ### Creating a Dialog
