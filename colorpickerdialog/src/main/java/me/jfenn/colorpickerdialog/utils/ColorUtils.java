@@ -43,10 +43,10 @@ public class ColorUtils {
         seekbar.getThumb().setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_IN);
     }
 
-    public static int[] getColorWheelArr() {
+    public static int[] getColorWheelArr(float saturation, float brightness) {
         int[] arr = new int[36];
         for (int i =  0; i < 36; i++)
-            arr[i] = Color.HSVToColor(new float[]{i * 10, 0.7f, 0.9f});
+            arr[i] = Color.HSVToColor(new float[]{i * 10, saturation, brightness});
 
         return arr;
     }

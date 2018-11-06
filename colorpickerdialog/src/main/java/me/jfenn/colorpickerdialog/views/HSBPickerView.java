@@ -75,11 +75,6 @@ public class HSBPickerView extends ColorPickerView {
         hue.setOnSeekBarChangeListener(listener);
         saturation.setOnSeekBarChangeListener(listener);
         brightness.setOnSeekBarChangeListener(listener);
-
-        ColorUtils.setProgressBarDrawable(hue, new GradientDrawable(
-                GradientDrawable.Orientation.LEFT_RIGHT,
-                ColorUtils.getColorWheelArr()
-        ));
     }
 
     @Override
@@ -100,6 +95,11 @@ public class HSBPickerView extends ColorPickerView {
                 bars[i].setProgress((int) values[i]);
             }
         }
+
+        ColorUtils.setProgressBarDrawable(hue, new GradientDrawable(
+                GradientDrawable.Orientation.LEFT_RIGHT,
+                ColorUtils.getColorWheelArr(saturation.getProgress() / 255f, brightness.getProgress() / 255f)
+        ));
 
         ColorUtils.setProgressBarDrawable(saturation, new GradientDrawable(
                 GradientDrawable.Orientation.LEFT_RIGHT,
@@ -127,6 +127,11 @@ public class HSBPickerView extends ColorPickerView {
     @Override
     protected void onColorPicked() {
         super.onColorPicked();
+
+        ColorUtils.setProgressBarDrawable(hue, new GradientDrawable(
+                GradientDrawable.Orientation.LEFT_RIGHT,
+                ColorUtils.getColorWheelArr(saturation.getProgress() / 255f, brightness.getProgress() / 255f)
+        ));
 
         ColorUtils.setProgressBarDrawable(saturation, new GradientDrawable(
                 GradientDrawable.Orientation.LEFT_RIGHT,
