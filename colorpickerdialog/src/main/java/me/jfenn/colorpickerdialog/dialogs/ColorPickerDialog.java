@@ -3,13 +3,16 @@ package me.jfenn.colorpickerdialog.dialogs;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.View;
 
 import com.google.android.material.tabs.TabLayout;
 
 import java.io.IOException;
 
+import androidx.annotation.ColorInt;
 import androidx.appcompat.app.AppCompatDialog;
 import androidx.viewpager.widget.ViewPager;
 import me.jfenn.colorpickerdialog.ColorPicker;
@@ -25,9 +28,23 @@ public class ColorPickerDialog extends AppCompatDialog implements ColorPicker.On
     private TabLayout tabLayout;
     private ViewPager slidersPager;
 
+    @ColorInt
+    private int color = Color.BLACK;
+    private OnColorPickedListener listener;
+
     public ColorPickerDialog(Context context) {
         super(context);
         setTitle(R.string.color_picker_name);
+    }
+
+    public ColorPickerDialog withListener(OnColorPickedListener listener) {
+        this.listener = listener;
+        return this;
+    }
+
+    public ColorPickerDialog withColor(@ColorInt int color) {
+        this.color = color;
+        return this;
     }
 
     @Override
@@ -40,9 +57,28 @@ public class ColorPickerDialog extends AppCompatDialog implements ColorPicker.On
         slidersPager = findViewById(R.id.slidersPager);
 
         ColorPickerPagerAdapter adapter = new ColorPickerPagerAdapter(getContext(), this);
+        adapter.setColor(color);
+
         slidersPager.setAdapter(adapter);
         slidersPager.addOnPageChangeListener(adapter);
         tabLayout.setupWithViewPager(slidersPager);
+
+        findViewById(R.id.confirm).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (listener != null)
+                    listener.onColorPicked(ColorPickerDialog.this, color);
+
+                dismiss();
+            }
+        });
+
+        findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        });
     }
 
     @Override
@@ -73,7 +109,12 @@ public class ColorPickerDialog extends AppCompatDialog implements ColorPicker.On
     }
 
     @Override
-    public void onColorPicked(ColorPickerView pickerView, int color) {
+    public void onColorPicked(ColorPickerView pickerView, @ColorInt int color) {
+        this.color = color;
         colorView.setColor(color);
+    }
+
+    public interface OnColorPickedListener {
+        void onColorPicked(ColorPickerDialog dialog, @ColorInt int color);
     }
 }

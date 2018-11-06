@@ -1,9 +1,11 @@
 package me.jfenn.colorpickerdialog.adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.viewpager.widget.PagerAdapter;
@@ -17,7 +19,9 @@ public class ColorPickerPagerAdapter extends PagerAdapter implements ColorPicker
 
     private Context context;
     private ColorPickerView.OnColorPickedListener listener;
-    private int color;
+
+    @ColorInt
+    private int color = Color.BLACK;
 
     private RGBPickerView rgbPicker;
     private HSBPickerView hsbPicker;
@@ -25,6 +29,10 @@ public class ColorPickerPagerAdapter extends PagerAdapter implements ColorPicker
     public ColorPickerPagerAdapter(Context context, ColorPickerView.OnColorPickedListener listener) {
         this.context = context;
         this.listener = listener;
+    }
+
+    public void setColor(@ColorInt int color) {
+        this.color = color;
     }
 
     @NonNull
@@ -70,7 +78,7 @@ public class ColorPickerPagerAdapter extends PagerAdapter implements ColorPicker
     }
 
     @Override
-    public void onColorPicked(ColorPickerView pickerView, int color) {
+    public void onColorPicked(ColorPickerView pickerView, @ColorInt int color) {
         this.color = color;
         if (listener != null)
             listener.onColorPicked(pickerView, color);
