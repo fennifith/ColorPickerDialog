@@ -16,7 +16,9 @@ import java.util.Locale;
 import androidx.annotation.ColorInt;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatSeekBar;
+import androidx.core.content.ContextCompat;
 import me.jfenn.colorpickerdialog.R;
+import me.jfenn.colorpickerdialog.utils.ColorUtils;
 
 public abstract class ColorPickerView extends LinearLayout {
 
@@ -79,6 +81,8 @@ public abstract class ColorPickerView extends LinearLayout {
                     isTrackingTouch = false;
                 }
             });
+
+            ColorUtils.setProgressBarColor(alphaBar, ContextCompat.getColor(getContext(), R.color.neutral));
         }
     }
 

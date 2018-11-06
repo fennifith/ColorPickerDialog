@@ -9,6 +9,7 @@ import androidx.annotation.Nullable;
 import androidx.viewpager.widget.PagerAdapter;
 import me.jfenn.colorpickerdialog.R;
 import me.jfenn.colorpickerdialog.views.ColorPickerView;
+import me.jfenn.colorpickerdialog.views.HSBPickerView;
 import me.jfenn.colorpickerdialog.views.RGBPickerView;
 
 public class ColorPickerPagerAdapter extends PagerAdapter {
@@ -28,6 +29,9 @@ public class ColorPickerPagerAdapter extends PagerAdapter {
         switch (position) {
             case 0:
                 view = new RGBPickerView(context);
+                break;
+            case 1:
+                view = new HSBPickerView(context);
                 break;
             default:
                 return new View(context);
