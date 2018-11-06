@@ -3,6 +3,7 @@ package me.jfenn.colorpickerdialog.views;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.util.AttributeSet;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.SeekBar;
@@ -13,6 +14,7 @@ import java.util.Locale;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatSeekBar;
 import me.jfenn.colorpickerdialog.R;
+import me.jfenn.colorpickerdialog.utils.ColorUtils;
 
 public class HSBPickerView extends ColorPickerView {
 
@@ -73,6 +75,11 @@ public class HSBPickerView extends ColorPickerView {
         hue.setOnSeekBarChangeListener(listener);
         saturation.setOnSeekBarChangeListener(listener);
         brightness.setOnSeekBarChangeListener(listener);
+
+        ColorUtils.setProgressBarDrawable(hue, new GradientDrawable(
+                GradientDrawable.Orientation.LEFT_RIGHT,
+                ColorUtils.getColorWheelArr()
+        ));
     }
 
     @Override
@@ -94,11 +101,47 @@ public class HSBPickerView extends ColorPickerView {
             }
         }
 
+        ColorUtils.setProgressBarDrawable(saturation, new GradientDrawable(
+                GradientDrawable.Orientation.LEFT_RIGHT,
+                new int[]{
+                        Color.HSVToColor(new float[]{hue.getProgress(), 0, brightness.getProgress() / 255f}),
+                        Color.HSVToColor(new float[]{hue.getProgress(), 1, brightness.getProgress() / 255f})
+                }
+        ));
+
+        ColorUtils.setProgressBarDrawable(brightness, new GradientDrawable(
+                GradientDrawable.Orientation.LEFT_RIGHT,
+                new int[]{
+                        Color.HSVToColor(new float[]{hue.getProgress(), saturation.getProgress() / 255f, 0}),
+                        Color.HSVToColor(new float[]{hue.getProgress(), saturation.getProgress() / 255f, 1})
+                }
+        ));
     }
 
     @Override
     public int getColor() {
         int color = Color.HSVToColor(new float[]{hue.getProgress(), saturation.getProgress() / 255f, brightness.getProgress() / 255f});
         return (getColorAlpha() << 24) | (color & 0x00ffffff);
+    }
+
+    @Override
+    protected void onColorPicked() {
+        super.onColorPicked();
+
+        ColorUtils.setProgressBarDrawable(saturation, new GradientDrawable(
+                GradientDrawable.Orientation.LEFT_RIGHT,
+                new int[]{
+                        Color.HSVToColor(new float[]{hue.getProgress(), 0, brightness.getProgress() / 255f}),
+                        Color.HSVToColor(new float[]{hue.getProgress(), 1, brightness.getProgress() / 255f})
+                }
+        ));
+
+        ColorUtils.setProgressBarDrawable(brightness, new GradientDrawable(
+                GradientDrawable.Orientation.LEFT_RIGHT,
+                new int[]{
+                        Color.HSVToColor(new float[]{hue.getProgress(), saturation.getProgress() / 255f, 0}),
+                        Color.HSVToColor(new float[]{hue.getProgress(), saturation.getProgress() / 255f, 1})
+                }
+        ));
     }
 }
