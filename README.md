@@ -16,10 +16,10 @@ This project is published on [JitPack](https://jitpack.io), which you can add to
 
 ```gradle
 allprojects {
-	repositories {
-		...
-		maven { url 'https://jitpack.io' }
-	}
+  repositories {
+    ...
+    maven { url 'https://jitpack.io' }
+  }
 }
 ```
 
