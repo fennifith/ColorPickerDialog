@@ -28,7 +28,8 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="4"
-            android:max="255"
+            android:max="360"
+            android:progress="0"
             android:theme="@style/Widget.AppCompat.SeekBar" />
 
         <TextView
@@ -39,11 +40,11 @@
             android:ellipsize="none"
             android:gravity="end"
             android:singleLine="true"
+            android:text="0"
             android:textAllCaps="true"
             android:textColor="@color/textColorSecondary"
             android:textSize="14sp"
-            android:textStyle="bold"
-            tools:text="255" />
+            android:textStyle="bold" />
 
     </LinearLayout>
 
@@ -69,6 +70,7 @@
             android:layout_height="match_parent"
             android:layout_weight="4"
             android:max="255"
+            android:progress="0"
             android:theme="@style/Widget.AppCompat.SeekBar" />
 
         <TextView
@@ -79,11 +81,11 @@
             android:ellipsize="none"
             android:gravity="end"
             android:singleLine="true"
+            android:text="0"
             android:textAllCaps="true"
             android:textColor="@color/textColorSecondary"
             android:textSize="14sp"
-            android:textStyle="bold"
-            tools:text="255" />
+            android:textStyle="bold" />
 
     </LinearLayout>
 
@@ -109,6 +111,7 @@
             android:layout_height="match_parent"
             android:layout_weight="4"
             android:max="255"
+            android:progress="0"
             android:theme="@style/Widget.AppCompat.SeekBar" />
 
         <TextView
@@ -119,11 +122,11 @@
             android:ellipsize="none"
             android:gravity="end"
             android:singleLine="true"
+            android:text="0"
             android:textAllCaps="true"
             android:textColor="@color/textColorSecondary"
             android:textSize="14sp"
-            android:textStyle="bold"
-            tools:text="255" />
+            android:textStyle="bold" />
 
     </LinearLayout>
 
@@ -150,6 +153,7 @@
             android:layout_height="match_parent"
             android:layout_weight="4"
             android:max="255"
+            android:progress="255"
             android:theme="@style/Widget.AppCompat.SeekBar" />
 
         <TextView

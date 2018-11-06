@@ -67,7 +67,7 @@ public abstract class ColorPickerView extends LinearLayout {
             alphaBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                 @Override
                 public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                    alphaInt.setText(String.format(Locale.getDefault(), "%.2f", (float) i / 255));
+                    alphaInt.setText(String.format(Locale.getDefault(), "%.2f", i / 255f));
                     onColorPicked();
                 }
 

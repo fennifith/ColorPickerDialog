@@ -2,10 +2,13 @@ package me.jfenn.colorpickerdialog.views;
 
 import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.SeekBar;
 import android.widget.TextView;
+
+import java.util.Locale;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatSeekBar;
@@ -13,8 +16,8 @@ import me.jfenn.colorpickerdialog.R;
 
 public class HSBPickerView extends ColorPickerView {
 
-    private AppCompatSeekBar red, green, blue;
-    private TextView redInt, greenInt, blueInt;
+    private AppCompatSeekBar hue, saturation, brightness;
+    private TextView hueInt, saturationInt, brightnessInt;
     private boolean isTrackingTouch;
 
     public HSBPickerView(Context context) {
@@ -35,23 +38,23 @@ public class HSBPickerView extends ColorPickerView {
 
     @Override
     void init() {
-        inflate(getContext(), R.layout.layout_rgb_picker, this);
-        red = findViewById(R.id.hue);
-        redInt = findViewById(R.id.hueInt);
-        green = findViewById(R.id.brightness);
-        greenInt = findViewById(R.id.brightnessInt);
-        blue = findViewById(R.id.saturation);
-        blueInt = findViewById(R.id.saturationInt);
+        inflate(getContext(), R.layout.layout_hsb_picker, this);
+        hue = findViewById(R.id.hue);
+        hueInt = findViewById(R.id.hueInt);
+        saturation = findViewById(R.id.saturation);
+        saturationInt = findViewById(R.id.saturationInt);
+        brightness = findViewById(R.id.brightness);
+        brightnessInt = findViewById(R.id.brightnessInt);
 
         SeekBar.OnSeekBarChangeListener listener = new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                if (seekBar.getId() == R.id.red) {
-                    redInt.setText(String.format("%s", i));
-                } else if (seekBar.getId() == R.id.green) {
-                    greenInt.setText(String.format("%s", i));
-                } else if (seekBar.getId() == R.id.blue) {
-                    blueInt.setText(String.format("%s", i));
+                if (seekBar.getId() == R.id.hue) {
+                    hueInt.setText(String.format("%s", i));
+                } else if (seekBar.getId() == R.id.saturation) {
+                    saturationInt.setText(String.format(Locale.getDefault(), "%.2f", i / 255f));
+                } else if (seekBar.getId() == R.id.brightness) {
+                    brightnessInt.setText(String.format(Locale.getDefault(), "%.2f", i / 255f));
                 }
                 onColorPicked();
             }
@@ -67,33 +70,34 @@ public class HSBPickerView extends ColorPickerView {
             }
         };
 
-        red.setOnSeekBarChangeListener(listener);
-        green.setOnSeekBarChangeListener(listener);
-        blue.setOnSeekBarChangeListener(listener);
+        hue.setOnSeekBarChangeListener(listener);
+        saturation.setOnSeekBarChangeListener(listener);
+        brightness.setOnSeekBarChangeListener(listener);
     }
 
     @Override
     public void setColor(int color, boolean animate) {
         super.setColor(color, animate);
-        SeekBar[] bars = new SeekBar[]{red, green, blue};
-        int[] offsets = new int[]{16, 8, 0};
+        SeekBar[] bars = new SeekBar[]{hue, saturation, brightness};
+        float[] values = new float[3];
+        Color.colorToHSV(color, values);
+        values[1] *= 255;
+        values[2] *= 255;
+
         for (int i = 0; i < bars.length; i++) {
-            int value = (color >> offsets[i]) & 0xFF;
             if (animate && !isTrackingTouch) {
-                ObjectAnimator animator = ObjectAnimator.ofInt(bars[i], "progress", 0, value);
+                ObjectAnimator animator = ObjectAnimator.ofInt(bars[i], "progress", 0, (int) values[i]);
                 animator.setInterpolator(new DecelerateInterpolator());
                 animator.start();
             } else {
-                bars[i].setProgress(value);
+                bars[i].setProgress((int) values[i]);
             }
         }
+
     }
 
     @Override
     public int getColor() {
-        return  (32 << (0xFF & (int) (isAlphaEnabled() ? getAlpha() * 255 : 255)))
-                + (0xFF & red.getProgress()) << 16
-                + (0xFF & green.getProgress()) << 8
-                + (0xFF & blue.getProgress());
+        return Color.HSVToColor(new float[]{hue.getProgress(), saturation.getProgress() / 255f, brightness.getProgress() / 255f});
     }
 }
