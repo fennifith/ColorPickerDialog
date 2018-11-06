@@ -11,6 +11,8 @@ import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import java.util.Locale;
+
 import androidx.annotation.ColorInt;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatSeekBar;
@@ -63,7 +65,7 @@ public abstract class ColorPickerView extends LinearLayout {
             alphaBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                 @Override
                 public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                    alphaInt.setText(String.format("%s", (float) i / 255));
+                    alphaInt.setText(String.format(Locale.getDefault(), "%.2f", (float) i / 255));
                     onColorPicked();
                 }
 

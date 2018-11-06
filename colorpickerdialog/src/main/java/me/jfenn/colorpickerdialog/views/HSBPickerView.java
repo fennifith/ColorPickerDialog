@@ -9,41 +9,39 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatSeekBar;
-import androidx.core.content.ContextCompat;
 import me.jfenn.colorpickerdialog.R;
-import me.jfenn.colorpickerdialog.utils.ColorUtils;
 
-public class RGBPickerView extends ColorPickerView {
+public class HSBPickerView extends ColorPickerView {
 
     private AppCompatSeekBar red, green, blue;
     private TextView redInt, greenInt, blueInt;
     private boolean isTrackingTouch;
 
-    public RGBPickerView(Context context) {
+    public HSBPickerView(Context context) {
         super(context);
     }
 
-    public RGBPickerView(Context context, @Nullable AttributeSet attrs) {
+    public HSBPickerView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public RGBPickerView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public HSBPickerView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
-    public RGBPickerView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public HSBPickerView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
     @Override
     void init() {
         inflate(getContext(), R.layout.layout_rgb_picker, this);
-        red = findViewById(R.id.red);
-        redInt = findViewById(R.id.redInt);
-        green = findViewById(R.id.green);
-        greenInt = findViewById(R.id.greenInt);
-        blue = findViewById(R.id.blue);
-        blueInt = findViewById(R.id.blueInt);
+        red = findViewById(R.id.hue);
+        redInt = findViewById(R.id.hueInt);
+        green = findViewById(R.id.brightness);
+        greenInt = findViewById(R.id.brightnessInt);
+        blue = findViewById(R.id.saturation);
+        blueInt = findViewById(R.id.saturationInt);
 
         SeekBar.OnSeekBarChangeListener listener = new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -72,10 +70,6 @@ public class RGBPickerView extends ColorPickerView {
         red.setOnSeekBarChangeListener(listener);
         green.setOnSeekBarChangeListener(listener);
         blue.setOnSeekBarChangeListener(listener);
-
-        ColorUtils.setProgressBarColor(red, ContextCompat.getColor(getContext(), R.color.red));
-        ColorUtils.setProgressBarColor(green, ContextCompat.getColor(getContext(), R.color.green));
-        ColorUtils.setProgressBarColor(blue, ContextCompat.getColor(getContext(), R.color.blue));
     }
 
     @Override

@@ -3,12 +3,9 @@ package me.jfenn.colorpickerdialog.dialogs;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.view.View;
 
-import androidx.annotation.ColorInt;
 import androidx.appcompat.app.AppCompatDialog;
 import me.jfenn.colorpickerdialog.R;
-import me.jfenn.colorpickerdialog.views.ColorPickerImageView;
 
 public class ImageColorPickerDialog extends AppCompatDialog {
 
@@ -26,7 +23,7 @@ public class ImageColorPickerDialog extends AppCompatDialog {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_image_color_picker);
 
-        ColorPickerImageView imageView = (ColorPickerImageView) findViewById(R.id.image);
+        /*ColorPickerImageView imageView = (ColorPickerImageView) findViewById(R.id.image);
         imageView.setOnColorChangedListener(new ColorPickerImageView.OnColorChangedListener() {
             @Override
             public void onColorChanged(@ColorInt int color) {
@@ -48,11 +45,11 @@ public class ImageColorPickerDialog extends AppCompatDialog {
             public void onClick(View view) {
                 confirm();
             }
-        });
+        });*/
     }
 
-    @Override
+    /*@Override
     public ImageColorPickerDialog setDefaultPreference(Integer preference) {
         return (ImageColorPickerDialog) super.setDefaultPreference(preference);
-    }
+    }*/
 }

@@ -1,61 +1,31 @@
 package me.jfenn.colorpickerdialog.dialogs;
 
-import android.animation.Animator;
-import android.animation.ArgbEvaluator;
-import android.animation.ValueAnimator;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.SeekBar;
-import android.widget.TextView;
+
+import com.google.android.material.tabs.TabLayout;
 
 import java.io.IOException;
 
-import androidx.annotation.ColorInt;
 import androidx.appcompat.app.AppCompatDialog;
-import androidx.appcompat.widget.AppCompatEditText;
-import androidx.appcompat.widget.AppCompatSeekBar;
-import androidx.core.content.ContextCompat;
+import androidx.viewpager.widget.ViewPager;
 import me.jfenn.colorpickerdialog.ColorPicker;
 import me.jfenn.colorpickerdialog.R;
 import me.jfenn.colorpickerdialog.activities.ImagePickerActivity;
-import me.jfenn.colorpickerdialog.utils.ColorUtils;
+import me.jfenn.colorpickerdialog.adapters.ColorPickerPagerAdapter;
+import me.jfenn.colorpickerdialog.views.ColorPickerView;
 
-public class ColorPickerDialog extends AppCompatDialog implements ColorPicker.OnActivityResultListener {
+public class ColorPickerDialog extends AppCompatDialog implements ColorPicker.OnActivityResultListener, ColorPickerView.OnColorPickedListener {
 
-    private Integer preference, defaultPreference;
-    private OnColorListener listener;
-
-    private ColorPicker picker;
-    private TextWatcher textWatcher;
-
-    private ImageView colorImage;
-    private AppCompatEditText colorHex;
-    private TextView redInt, greenInt, blueInt;
-    private AppCompatSeekBar red, green, blue;
-    private View reset, imagePicker;
-
-    private boolean isTrackingTouch, isImagePickerEnabled = true;
+    private TabLayout tabLayout;
+    private ViewPager slidersPager;
 
     public ColorPickerDialog(Context context) {
         super(context);
         setTitle(R.string.color_picker_name);
-
-        setOnDismissListener(new OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialogInterface) {
-                cancel();
-            }
-        });
     }
 
     @Override
@@ -63,213 +33,11 @@ public class ColorPickerDialog extends AppCompatDialog implements ColorPicker.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_color_picker);
 
-        picker = (ColorPicker) getContext().getApplicationContext();
-        picker.addListener(this);
+        tabLayout = findViewById(R.id.tabLayout);
+        slidersPager = findViewById(R.id.slidersPager);
 
-        colorImage = findViewById(R.id.color);
-        colorHex = findViewById(R.id.colorHex);
-        red = findViewById(R.id.red);
-        ColorUtils.setProgressBarColor(red, ContextCompat.getColor(getContext(), R.color.red));
-        redInt = findViewById(R.id.redInt);
-        green = findViewById(R.id.green);
-        ColorUtils.setProgressBarColor(green, ContextCompat.getColor(getContext(), R.color.green));
-        greenInt = findViewById(R.id.greenInt);
-        blue = findViewById(R.id.blue);
-        ColorUtils.setProgressBarColor(blue, ContextCompat.getColor(getContext(), R.color.blue));
-        blueInt = findViewById(R.id.blueInt);
-        imagePicker = findViewById(R.id.image);
-        reset = findViewById(R.id.reset);
-
-        textWatcher = new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                try {
-                    int color = Color.parseColor(colorHex.getText().toString());
-                    setColor(color, true);
-                    setPreference(color);
-                } catch (Exception ignored) {
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
-        };
-
-        colorHex.addTextChangedListener(textWatcher);
-
-        red.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                int color = getPreference();
-                color = Color.rgb(i, Color.green(color), Color.blue(color));
-                setColor(color, false);
-                setPreference(color);
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-                isTrackingTouch = true;
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                isTrackingTouch = false;
-            }
-        });
-
-        green.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                int color = getPreference();
-                color = Color.rgb(Color.red(color), i, Color.blue(color));
-                setColor(color, false);
-                setPreference(color);
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-                isTrackingTouch = true;
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                isTrackingTouch = false;
-            }
-        });
-
-        blue.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                int color = getPreference();
-                color = Color.rgb(Color.red(color), Color.green(color), i);
-                setColor(color, false);
-                setPreference(color);
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-                isTrackingTouch = true;
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                isTrackingTouch = false;
-            }
-        });
-
-        setColor(getPreference(), false);
-
-        imagePicker.setVisibility(isImagePickerEnabled ? View.VISIBLE : View.GONE);
-        imagePicker.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getContext().startActivity(new Intent(getContext(), ImagePickerActivity.class));
-            }
-        });
-
-        Integer preference = getPreference();
-        Integer defaultPreference = getDefaultPreference();
-        reset.setVisibility(defaultPreference != null && !preference.equals(defaultPreference) ? View.VISIBLE : View.GONE);
-
-        reset.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int color = getDefaultPreference();
-                setColor(color, true);
-                setPreference(color);
-            }
-        });
-
-        findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                cancel();
-            }
-        });
-
-        findViewById(R.id.confirm).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                confirm();
-            }
-        });
-    }
-
-    private void setColor(@ColorInt int color, boolean animate) {
-        if (!isTrackingTouch && animate) {
-            ValueAnimator animator = ValueAnimator.ofObject(new ArgbEvaluator(), getPreference(), color);
-            animator.setDuration(250);
-            animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                @Override
-                public void onAnimationUpdate(ValueAnimator animation) {
-                    int color = (int) animation.getAnimatedValue();
-                    red.setProgress(Color.red(color));
-                    green.setProgress(Color.green(color));
-                    blue.setProgress(Color.blue(color));
-                }
-            });
-            animator.addListener(new Animator.AnimatorListener() {
-                @Override
-                public void onAnimationStart(Animator animation) {
-                    isTrackingTouch = true;
-                }
-
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    isTrackingTouch = false;
-                }
-
-                @Override
-                public void onAnimationCancel(Animator animation) {
-                }
-
-                @Override
-                public void onAnimationRepeat(Animator animation) {
-                }
-            });
-            animator.start();
-        } else {
-            colorImage.setImageDrawable(new ColorDrawable(color));
-            colorHex.removeTextChangedListener(textWatcher);
-            colorHex.setText(String.format("#%06X", (0xFFFFFF & color)));
-            colorHex.setTextColor(ContextCompat.getColor(getContext(), ColorUtils.isColorDark(color) ? R.color.textColorPrimaryInverse : R.color.textColorPrimary));
-            colorHex.addTextChangedListener(textWatcher);
-            redInt.setText(String.valueOf(Color.red(color)));
-            greenInt.setText(String.valueOf(Color.green(color)));
-            blueInt.setText(String.valueOf(Color.blue(color)));
-
-            if (red.getProgress() != Color.red(color)) red.setProgress(Color.red(color));
-            if (green.getProgress() != Color.green(color)) green.setProgress(Color.green(color));
-            if (blue.getProgress() != Color.blue(color)) blue.setProgress(Color.blue(color));
-        }
-    }
-
-    @Override
-    public ColorPickerDialog setDefaultPreference(Integer preference) {
-        return (ColorPickerDialog) super.setDefaultPreference(preference);
-    }
-
-    @Override
-    public ColorPickerDialog setPreference(@ColorInt Integer preference) {
-        Integer defaultPreference = getDefaultPreference();
-        if (reset != null)
-            reset.setVisibility(!preference.equals(defaultPreference) ? View.VISIBLE : View.GONE);
-
-        return (ColorPickerDialog) super.setPreference(preference);
-    }
-
-    public ColorPickerDialog setImagePickerEnabled(boolean isImagePickerEnabled) {
-        this.isImagePickerEnabled = isImagePickerEnabled;
-
-        if (imagePicker != null)
-            imagePicker.setVisibility(isImagePickerEnabled ? View.VISIBLE : View.GONE);
-
-        return this;
+        slidersPager.setAdapter(new ColorPickerPagerAdapter(getContext(), this));
+        tabLayout.setupWithViewPager(slidersPager);
     }
 
     @Override
@@ -286,80 +54,21 @@ public class ColorPickerDialog extends AppCompatDialog implements ColorPicker.On
         }
 
         if (bitmap != null) {
-            new ImageColorPickerDialog(getContext(), bitmap).setDefaultPreference(Color.BLACK).setListener(new OnColorListener() {
+            /*new ImageColorPickerDialog(getContext(), bitmap).setDefaultPreference(Color.BLACK).setListener(new OnColorListener() {
                 @Override
                 public void onColorPicked(ColorPickerDialog dialog, @ColorInt int preference) {
-                    setColor(preference, false);
-                    setPreference(preference);
+                    //TODO: set color
                 }
 
                 @Override
                 public void onCancel(ColorPickerDialog dialog) {
                 }
-            }).show();
+            }).show();*/
         }
-    }
-
-    public void confirm() {
-        if (hasListener()) {
-            getListener().onColorPicked(this, getPreference());
-            setListener(null);
-        }
-
-        if (isShowing()) dismiss();
-    }
-
-    public void cancel() {
-        if (hasListener()) {
-            getListener().onCancel(this);
-            setListener(null);
-        }
-
-        if (isShowing()) dismiss();
-    }
-
-    public ColorPickerDialog setPreference(@ColorInt int preference) {
-        this.preference = preference;
-        return this;
-    }
-
-    @ColorInt
-    public int getPreference() {
-        return preference != null ? preference : getDefaultPreference();
-    }
-
-    public ColorPickerDialog setDefaultPreference(@ColorInt int preference) {
-        defaultPreference = preference;
-        return this;
-    }
-
-    @ColorInt
-    public int getDefaultPreference() {
-        return defaultPreference;
-    }
-
-    public ColorPickerDialog setListener(OnColorListener listener) {
-        this.listener = listener;
-        return this;
-    }
-
-    public boolean hasListener() {
-        return listener != null;
-    }
-
-    public OnColorListener getListener() {
-        return listener;
-    }
-
-    public interface OnColorListener {
-        void onColorPicked(ColorPickerDialog dialog, @ColorInt int color);
-
-        void onCancel(ColorPickerDialog dialog);
     }
 
     @Override
-    public void dismiss() {
-        picker.removeListener(this);
-        super.dismiss();
+    public void onColorPicked(int color) {
+
     }
 }

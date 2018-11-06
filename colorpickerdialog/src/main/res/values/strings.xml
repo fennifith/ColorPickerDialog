@@ -5,14 +5,14 @@
     <string name="action_reset">Reset</string>
     <string name="action_pick_image_color">Pick Color from Image</string>
 
-    <string name="red">Red</string>
-    <string name="blue">Blue</string>
-    <string name="green">Green</string>
+    <string name="red">R</string>
+    <string name="blue">B</string>
+    <string name="green">G</string>
     <string name="action_image">Image</string>
-    <string name="alpha">Alpha</string>
-    <string name="hue">Hue</string>
-    <string name="saturation">Saturation</string>
-    <string name="brightness">Brightness</string>
+    <string name="alpha">A</string>
+    <string name="hue">H</string>
+    <string name="saturation">S</string>
+    <string name="brightness">B</string>
     <string name="rgb">RGB</string>
     <string name="hsb">HSB</string>
 </resources>

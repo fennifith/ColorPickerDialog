@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingLeft="26dp"
+    android:paddingRight="26dp"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp">
+        android:orientation="horizontal">
 
         <TextView
             android:layout_width="0dp"
@@ -36,10 +37,13 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="end"
+            android:singleLine="true"
+            android:ellipsize="none"
             android:textAllCaps="true"
             android:textColor="@color/textColorSecondary"
             android:textSize="14sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:text="255" />
 
     </LinearLayout>
 
@@ -47,9 +51,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp">
+        android:orientation="horizontal">
 
         <TextView
             android:layout_width="0dp"
@@ -76,9 +78,12 @@
             android:layout_weight="1"
             android:gravity="end"
             android:textAllCaps="true"
+            android:singleLine="true"
+            android:ellipsize="none"
             android:textColor="@color/textColorSecondary"
             android:textSize="14sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:text="255" />
 
     </LinearLayout>
 
@@ -86,9 +91,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp">
+        android:orientation="horizontal">
 
         <TextView
             android:layout_width="0dp"
@@ -114,10 +117,13 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="end"
+            android:singleLine="true"
+            android:ellipsize="none"
             android:textAllCaps="true"
             android:textColor="@color/textColorSecondary"
             android:textSize="14sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:text="255" />
 
     </LinearLayout>
 
@@ -126,9 +132,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp">
+        android:orientation="horizontal">
 
         <TextView
             android:layout_width="0dp"
@@ -154,10 +158,13 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="end"
+            android:singleLine="true"
+            android:ellipsize="none"
             android:textAllCaps="true"
             android:textColor="@color/textColorSecondary"
             android:textSize="14sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:text="1.0" />
 
     </LinearLayout>
 
