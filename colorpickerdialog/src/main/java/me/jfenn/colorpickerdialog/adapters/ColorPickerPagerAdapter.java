@@ -12,7 +12,7 @@ import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import me.jfenn.colorpickerdialog.R;
 import me.jfenn.colorpickerdialog.views.ColorPickerView;
-import me.jfenn.colorpickerdialog.views.HSBPickerView;
+import me.jfenn.colorpickerdialog.views.HSVPickerView;
 import me.jfenn.colorpickerdialog.views.RGBPickerView;
 
 public class ColorPickerPagerAdapter extends PagerAdapter implements ColorPickerView.OnColorPickedListener, ViewPager.OnPageChangeListener {
@@ -24,7 +24,7 @@ public class ColorPickerPagerAdapter extends PagerAdapter implements ColorPicker
     private int color = Color.BLACK;
 
     private RGBPickerView rgbPicker;
-    private HSBPickerView hsbPicker;
+    private HSVPickerView hsbPicker;
 
     public ColorPickerPagerAdapter(Context context, ColorPickerView.OnColorPickedListener listener) {
         this.context = context;
@@ -44,7 +44,7 @@ public class ColorPickerPagerAdapter extends PagerAdapter implements ColorPicker
                 view = rgbPicker = new RGBPickerView(context);
                 break;
             case 1:
-                view = hsbPicker = new HSBPickerView(context);
+                view = hsbPicker = new HSVPickerView(context);
                 break;
             default:
                 return new View(context);
@@ -74,7 +74,7 @@ public class ColorPickerPagerAdapter extends PagerAdapter implements ColorPicker
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
-        return context.getString(new int[]{R.string.rgb, R.string.hsb}[position]);
+        return context.getString(new int[]{R.string.rgb, R.string.hsv}[position]);
     }
 
     @Override

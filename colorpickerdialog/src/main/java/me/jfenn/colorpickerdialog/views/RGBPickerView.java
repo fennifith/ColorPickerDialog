@@ -98,6 +98,6 @@ public class RGBPickerView extends ColorPickerView {
 
     @Override
     public int getColor() {
-        return  Color.argb(getColorAlpha(), red.getProgress(), green.getProgress(), blue.getProgress());
+        return Color.argb(getColorAlpha(), red.getProgress(), green.getProgress(), blue.getProgress());
     }
 }

@@ -16,31 +16,31 @@ import androidx.appcompat.widget.AppCompatSeekBar;
 import me.jfenn.colorpickerdialog.R;
 import me.jfenn.colorpickerdialog.utils.ColorUtils;
 
-public class HSBPickerView extends ColorPickerView {
+public class HSVPickerView extends ColorPickerView {
 
     private AppCompatSeekBar hue, saturation, brightness;
     private TextView hueInt, saturationInt, brightnessInt;
     private boolean isTrackingTouch;
 
-    public HSBPickerView(Context context) {
+    public HSVPickerView(Context context) {
         super(context);
     }
 
-    public HSBPickerView(Context context, @Nullable AttributeSet attrs) {
+    public HSVPickerView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public HSBPickerView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public HSVPickerView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
-    public HSBPickerView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public HSVPickerView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
     @Override
     void init() {
-        inflate(getContext(), R.layout.layout_hsb_picker, this);
+        inflate(getContext(), R.layout.layout_hsv_picker, this);
         hue = findViewById(R.id.hue);
         hueInt = findViewById(R.id.hueInt);
         saturation = findViewById(R.id.saturation);
@@ -96,26 +96,7 @@ public class HSBPickerView extends ColorPickerView {
             }
         }
 
-        ColorUtils.setProgressBarDrawable(hue, new GradientDrawable(
-                GradientDrawable.Orientation.LEFT_RIGHT,
-                ColorUtils.getColorWheelArr(saturation.getProgress() / 255f, brightness.getProgress() / 255f)
-        ));
-
-        ColorUtils.setProgressBarDrawable(saturation, new GradientDrawable(
-                GradientDrawable.Orientation.LEFT_RIGHT,
-                new int[]{
-                        Color.HSVToColor(new float[]{hue.getProgress(), 0, brightness.getProgress() / 255f}),
-                        Color.HSVToColor(new float[]{hue.getProgress(), 1, brightness.getProgress() / 255f})
-                }
-        ));
-
-        ColorUtils.setProgressBarDrawable(brightness, new GradientDrawable(
-                GradientDrawable.Orientation.LEFT_RIGHT,
-                new int[]{
-                        Color.HSVToColor(new float[]{hue.getProgress(), saturation.getProgress() / 255f, 0}),
-                        Color.HSVToColor(new float[]{hue.getProgress(), saturation.getProgress() / 255f, 1})
-                }
-        ));
+        updateProgressBars();
     }
 
     @Override
@@ -127,7 +108,10 @@ public class HSBPickerView extends ColorPickerView {
     @Override
     protected void onColorPicked() {
         super.onColorPicked();
+        updateProgressBars();
+    }
 
+    private void updateProgressBars() {
         ColorUtils.setProgressBarDrawable(hue, new GradientDrawable(
                 GradientDrawable.Orientation.LEFT_RIGHT,
                 ColorUtils.getColorWheelArr(saturation.getProgress() / 255f, brightness.getProgress() / 255f)

@@ -12,7 +12,7 @@
     <string name="alpha">A</string>
     <string name="hue">H</string>
     <string name="saturation">S</string>
-    <string name="brightness">B</string>
+    <string name="brightness">V</string>
     <string name="rgb">RGB</string>
-    <string name="hsb">HSB</string>
+    <string name="hsv">HSV</string>
 </resources>
