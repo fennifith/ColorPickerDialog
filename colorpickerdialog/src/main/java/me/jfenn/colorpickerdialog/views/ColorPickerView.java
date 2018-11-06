@@ -174,7 +174,7 @@ public abstract class ColorPickerView extends LinearLayout {
 
     protected void onColorPicked() {
         if (listener != null)
-            listener.onColorPicked(getColor());
+            listener.onColorPicked(this, getColor());
     }
 
     /**
@@ -189,6 +189,6 @@ public abstract class ColorPickerView extends LinearLayout {
     }
 
     public interface OnColorPickedListener {
-        void onColorPicked(@ColorInt int color);
+        void onColorPicked(ColorPickerView pickerView, @ColorInt int color);
     }
 }

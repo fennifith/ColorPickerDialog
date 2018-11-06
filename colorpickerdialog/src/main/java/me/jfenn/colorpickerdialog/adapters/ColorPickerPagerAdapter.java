@@ -7,15 +7,20 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 import me.jfenn.colorpickerdialog.R;
 import me.jfenn.colorpickerdialog.views.ColorPickerView;
 import me.jfenn.colorpickerdialog.views.HSBPickerView;
 import me.jfenn.colorpickerdialog.views.RGBPickerView;
 
-public class ColorPickerPagerAdapter extends PagerAdapter {
+public class ColorPickerPagerAdapter extends PagerAdapter implements ColorPickerView.OnColorPickedListener, ViewPager.OnPageChangeListener {
 
     private Context context;
     private ColorPickerView.OnColorPickedListener listener;
+    private int color;
+
+    private RGBPickerView rgbPicker;
+    private HSBPickerView hsbPicker;
 
     public ColorPickerPagerAdapter(Context context, ColorPickerView.OnColorPickedListener listener) {
         this.context = context;
@@ -28,16 +33,17 @@ public class ColorPickerPagerAdapter extends PagerAdapter {
         ColorPickerView view;
         switch (position) {
             case 0:
-                view = new RGBPickerView(context);
+                view = rgbPicker = new RGBPickerView(context);
                 break;
             case 1:
-                view = new HSBPickerView(context);
+                view = hsbPicker = new HSBPickerView(context);
                 break;
             default:
                 return new View(context);
         }
 
-        view.setListener(listener);
+        view.setListener(this);
+        view.setColor(color);
         container.addView(view);
         return view;
     }
@@ -63,4 +69,26 @@ public class ColorPickerPagerAdapter extends PagerAdapter {
         return context.getString(new int[]{R.string.rgb, R.string.hsb}[position]);
     }
 
+    @Override
+    public void onColorPicked(ColorPickerView pickerView, int color) {
+        this.color = color;
+        if (listener != null)
+            listener.onColorPicked(pickerView, color);
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        if (position == 0 && rgbPicker != null)
+            rgbPicker.setColor(color);
+        if (position == 1 && hsbPicker != null)
+            hsbPicker.setColor(color);
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+    }
 }

@@ -39,7 +39,9 @@ public class ColorPickerDialog extends AppCompatDialog implements ColorPicker.On
         tabLayout = findViewById(R.id.tabLayout);
         slidersPager = findViewById(R.id.slidersPager);
 
-        slidersPager.setAdapter(new ColorPickerPagerAdapter(getContext(), this));
+        ColorPickerPagerAdapter adapter = new ColorPickerPagerAdapter(getContext(), this);
+        slidersPager.setAdapter(adapter);
+        slidersPager.addOnPageChangeListener(adapter);
         tabLayout.setupWithViewPager(slidersPager);
     }
 
@@ -71,7 +73,7 @@ public class ColorPickerDialog extends AppCompatDialog implements ColorPicker.On
     }
 
     @Override
-    public void onColorPicked(int color) {
+    public void onColorPicked(ColorPickerView pickerView, int color) {
         colorView.setColor(color);
     }
 }
