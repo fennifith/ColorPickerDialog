@@ -24,9 +24,8 @@ public abstract class ColorPickerView extends LinearLayout {
 
     private OnColorPickedListener listener;
 
-    private float alpha;
     private TextView alphaInt;
-    private AppCompatSeekBar alphaBar;
+    private AppCompatSeekBar alpha;
     private View alphaLayout;
 
     private boolean isTrackingTouch;
@@ -60,11 +59,11 @@ public abstract class ColorPickerView extends LinearLayout {
 
     private void postInit() {
         alphaInt = findViewById(R.id.alphaInt);
-        alphaBar = findViewById(R.id.alpha);
+        alpha = findViewById(R.id.alpha);
         alphaLayout = findViewById(R.id.alphaLayout);
 
-        if (alphaBar != null) {
-            alphaBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        if (alpha != null) {
+            alpha.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                 @Override
                 public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
                     alphaInt.setText(String.format(Locale.getDefault(), "%.2f", i / 255f));
@@ -82,7 +81,7 @@ public abstract class ColorPickerView extends LinearLayout {
                 }
             });
 
-            ColorUtils.setProgressBarColor(alphaBar, ContextCompat.getColor(getContext(), R.color.neutral));
+            ColorUtils.setProgressBarColor(alpha, ContextCompat.getColor(getContext(), R.color.neutral));
         }
     }
 
@@ -102,7 +101,7 @@ public abstract class ColorPickerView extends LinearLayout {
      * @param animate       Whether to animate changes in values.
      */
     public void setColor(@ColorInt int color, boolean animate) {
-        setAlpha(((float) (int) Color.alpha(color) / 255), animate);
+        setColorAlpha(Color.alpha(color), animate);
     }
 
     /**
@@ -139,13 +138,13 @@ public abstract class ColorPickerView extends LinearLayout {
     }
 
     /**
-     * Set the color's alpha, between 0-1 (inclusive). Change in values
+     * Set the color's alpha, from 0-255. Change in values
      * will not be animated.
      *
-     * @param alpha         The color's alpha, between 0-1 (inclusive).
+     * @param alpha         The color's alpha, from 0-255.
      */
-    public void setAlpha(float alpha) {
-        setAlpha(alpha, false);
+    public void setColorAlpha(int alpha) {
+        setColorAlpha(alpha, false);
     }
 
     /**
@@ -154,25 +153,23 @@ public abstract class ColorPickerView extends LinearLayout {
      * @param alpha         The color's alpha, between 0-1 (inclusive).
      * @param animate       Whether to animate the change in values.
      */
-    public void setAlpha(float alpha, boolean animate) {
-        this.alpha = alpha;
-
+    public void setColorAlpha(int alpha, boolean animate) {
         if (animate && !isTrackingTouch) {
-            ObjectAnimator animator = ObjectAnimator.ofInt(alphaBar, "progress", 0, (int) (alpha * 255));
+            ObjectAnimator animator = ObjectAnimator.ofInt(this.alpha, "progress", 0, alpha);
             animator.setInterpolator(new DecelerateInterpolator());
             animator.start();
         } else {
-            alphaBar.setProgress((int) (alpha * 255));
+            this.alpha.setProgress(alpha);
         }
     }
 
     /**
-     * Gets the color's alpha, between 0-1 (inclusive).
+     * Gets the color's alpha, from 0-255.
      *
-     * @return The color's alpha, between 0-1 (inclusive).
+     * @return The color's alpha, from 0-255.
      */
-    public float getAlpha() {
-        return alpha;
+    public int getColorAlpha() {
+        return alpha.getProgress();
     }
 
     protected void onColorPicked() {

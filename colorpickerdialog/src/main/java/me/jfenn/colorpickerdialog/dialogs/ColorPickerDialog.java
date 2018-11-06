@@ -17,9 +17,11 @@ import me.jfenn.colorpickerdialog.R;
 import me.jfenn.colorpickerdialog.activities.ImagePickerActivity;
 import me.jfenn.colorpickerdialog.adapters.ColorPickerPagerAdapter;
 import me.jfenn.colorpickerdialog.views.ColorPickerView;
+import me.jfenn.colorpickerdialog.views.ColorView;
 
 public class ColorPickerDialog extends AppCompatDialog implements ColorPicker.OnActivityResultListener, ColorPickerView.OnColorPickedListener {
 
+    private ColorView colorView;
     private TabLayout tabLayout;
     private ViewPager slidersPager;
 
@@ -33,6 +35,7 @@ public class ColorPickerDialog extends AppCompatDialog implements ColorPicker.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_color_picker);
 
+        colorView = findViewById(R.id.color);
         tabLayout = findViewById(R.id.tabLayout);
         slidersPager = findViewById(R.id.slidersPager);
 
@@ -69,6 +72,6 @@ public class ColorPickerDialog extends AppCompatDialog implements ColorPicker.On
 
     @Override
     public void onColorPicked(int color) {
-
+        colorView.setColor(color);
     }
 }

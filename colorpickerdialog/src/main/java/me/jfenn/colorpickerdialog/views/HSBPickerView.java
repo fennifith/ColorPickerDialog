@@ -98,6 +98,7 @@ public class HSBPickerView extends ColorPickerView {
 
     @Override
     public int getColor() {
-        return Color.HSVToColor(new float[]{hue.getProgress(), saturation.getProgress() / 255f, brightness.getProgress() / 255f});
+        int color = Color.HSVToColor(new float[]{hue.getProgress(), saturation.getProgress() / 255f, brightness.getProgress() / 255f});
+        return (getColorAlpha() << 24) | (color & 0x00ffffff);
     }
 }
