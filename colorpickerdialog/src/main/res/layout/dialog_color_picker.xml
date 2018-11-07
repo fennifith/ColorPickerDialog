@@ -14,16 +14,12 @@
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1">
+            android:layout_height="wrap_content">
 
-            <me.jfenn.colorpickerdialog.views.ColorView
+            <me.jfenn.colorpickerdialog.views.SmoothColorView
                 android:id="@+id/color"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:minHeight="200dp"
-                android:minWidth="300dp"
-                android:src="@android:color/black" />
+                android:layout_height="wrap_content" />
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/colorHex"

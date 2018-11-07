@@ -20,11 +20,11 @@ import me.jfenn.colorpickerdialog.R;
 import me.jfenn.colorpickerdialog.activities.ImagePickerActivity;
 import me.jfenn.colorpickerdialog.adapters.ColorPickerPagerAdapter;
 import me.jfenn.colorpickerdialog.views.ColorPickerView;
-import me.jfenn.colorpickerdialog.views.ColorView;
+import me.jfenn.colorpickerdialog.views.SmoothColorView;
 
 public class ColorPickerDialog extends AppCompatDialog implements ColorPicker.OnActivityResultListener, ColorPickerView.OnColorPickedListener {
 
-    private ColorView colorView;
+    private SmoothColorView colorView;
     private TabLayout tabLayout;
     private ViewPager slidersPager;
 
