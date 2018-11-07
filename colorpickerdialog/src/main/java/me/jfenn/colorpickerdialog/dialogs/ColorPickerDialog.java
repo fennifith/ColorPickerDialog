@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
+import android.widget.EditText;
 
 import com.google.android.material.tabs.TabLayout;
 
@@ -19,17 +20,21 @@ import me.jfenn.colorpickerdialog.ColorPicker;
 import me.jfenn.colorpickerdialog.R;
 import me.jfenn.colorpickerdialog.activities.ImagePickerActivity;
 import me.jfenn.colorpickerdialog.adapters.ColorPickerPagerAdapter;
+import me.jfenn.colorpickerdialog.utils.ColorUtils;
 import me.jfenn.colorpickerdialog.views.ColorPickerView;
 import me.jfenn.colorpickerdialog.views.SmoothColorView;
 
 public class ColorPickerDialog extends AppCompatDialog implements ColorPicker.OnActivityResultListener, ColorPickerView.OnColorPickedListener {
 
     private SmoothColorView colorView;
+    private EditText colorHex;
     private TabLayout tabLayout;
     private ViewPager slidersPager;
 
     @ColorInt
     private int color = Color.BLACK;
+    private boolean isAlphaEnabled = true;
+
     private OnColorPickedListener listener;
 
     public ColorPickerDialog(Context context) {
@@ -53,6 +58,7 @@ public class ColorPickerDialog extends AppCompatDialog implements ColorPicker.On
         setContentView(R.layout.dialog_color_picker);
 
         colorView = findViewById(R.id.color);
+        colorHex = findViewById(R.id.colorHex);
         tabLayout = findViewById(R.id.tabLayout);
         slidersPager = findViewById(R.id.slidersPager);
 
@@ -79,6 +85,8 @@ public class ColorPickerDialog extends AppCompatDialog implements ColorPicker.On
                 dismiss();
             }
         });
+
+        onColorPicked(null, color);
     }
 
     @Override
@@ -112,6 +120,8 @@ public class ColorPickerDialog extends AppCompatDialog implements ColorPicker.On
     public void onColorPicked(ColorPickerView pickerView, @ColorInt int color) {
         this.color = color;
         colorView.setColor(color);
+        colorHex.setText(String.format(isAlphaEnabled ? "#%08X" : "#%06X", isAlphaEnabled ? color : (0xFFFFFF & color)));
+        colorHex.setTextColor(ColorUtils.isColorDark(ColorUtils.withBackground(color, Color.WHITE)) ? Color.WHITE : Color.BLACK);
     }
 
     public interface OnColorPickedListener {

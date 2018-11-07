@@ -22,6 +22,16 @@ public class ColorUtils {
                 (color)) / 255);
     }
 
+    @ColorInt
+    public static int withBackground(@ColorInt int color, @ColorInt int background) {
+        float alpha = Color.alpha(color) / 255f;
+        return Color.rgb(
+                (int) ((Color.red(color) * alpha) + (Color.red(background) * (1 - alpha))),
+                (int) ((Color.green(color) * alpha) + (Color.green(background) * (1 - alpha))),
+                (int) ((Color.blue(color) * alpha) + (Color.blue(background) * (1 - alpha)))
+        );
+    }
+
     public static void setProgressBarColor(AppCompatSeekBar seekbar, @ColorInt int color) {
         seekbar.getProgressDrawable().setColorFilter(color, PorterDuff.Mode.SRC_IN);
         seekbar.getThumb().setColorFilter(color, PorterDuff.Mode.SRC_IN);
