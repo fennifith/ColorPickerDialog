@@ -1,38 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center">
 
-    <android.support.v7.widget.AppCompatButton
-        android:text="@string/default_amp_no_image_picker"
+    <androidx.appcompat.widget.AppCompatButton
+        android:text="Normal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/noDefaultAndImage"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/defaultAndNoImage" />
+        android:id="@+id/normal" />
 
-    <android.support.v7.widget.AppCompatButton
-        android:text="@string/no_default_amp_no_image_picker"
+    <androidx.appcompat.widget.AppCompatButton
+        android:text="Normal + Alpha"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/defaultAndNoImage"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/noDefaultAndNoImage" />
+        android:id="@+id/normalAlpha" />
 
-    <android.support.v7.widget.AppCompatButton
-        android:text="@string/no_default_amp_image_picker"
+    <androidx.appcompat.widget.AppCompatButton
+        android:text="Dark Theme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/noDefaultAndImage"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:id="@+id/dark" />
 
-    <android.support.v7.widget.AppCompatButton
-        android:text="@string/default_amp_image_picker"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/defaultAndImage"
-        android:layout_above="@+id/noDefaultAndImage"
-        android:layout_centerHorizontal="true" />
-
-</RelativeLayout>
+</LinearLayout>

@@ -1,15 +1,13 @@
-package james.colorpickerdialog.dialogs;
+package me.jfenn.colorpickerdialog.dialogs;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.annotation.ColorInt;
-import android.view.View;
 
-import james.colorpickerdialog.R;
-import james.colorpickerdialog.views.ColorPickerImageView;
+import androidx.appcompat.app.AppCompatDialog;
+import me.jfenn.colorpickerdialog.R;
 
-public class ImageColorPickerDialog extends PreferenceDialog<Integer> {
+public class ImageColorPickerDialog extends AppCompatDialog {
 
     private Bitmap bitmap;
 
@@ -17,7 +15,7 @@ public class ImageColorPickerDialog extends PreferenceDialog<Integer> {
         super(context);
         this.bitmap = bitmap;
 
-        setTitle(R.string.action_pick_image_color);
+        setTitle(R.string.colorPickerDialog_imageColorPicker);
     }
 
     @Override
@@ -25,7 +23,7 @@ public class ImageColorPickerDialog extends PreferenceDialog<Integer> {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_image_color_picker);
 
-        ColorPickerImageView imageView = (ColorPickerImageView) findViewById(R.id.image);
+        /*ColorPickerImageView imageView = (ColorPickerImageView) findViewById(R.id.image);
         imageView.setOnColorChangedListener(new ColorPickerImageView.OnColorChangedListener() {
             @Override
             public void onColorChanged(@ColorInt int color) {
@@ -47,11 +45,11 @@ public class ImageColorPickerDialog extends PreferenceDialog<Integer> {
             public void onClick(View view) {
                 confirm();
             }
-        });
+        });*/
     }
 
-    @Override
+    /*@Override
     public ImageColorPickerDialog setDefaultPreference(Integer preference) {
         return (ImageColorPickerDialog) super.setDefaultPreference(preference);
-    }
+    }*/
 }

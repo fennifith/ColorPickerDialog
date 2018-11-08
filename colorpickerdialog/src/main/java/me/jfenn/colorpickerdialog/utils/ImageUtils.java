@@ -1,4 +1,4 @@
-package james.colorpickerdialog.utils;
+package me.jfenn.colorpickerdialog.utils;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -6,7 +6,8 @@ import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.support.graphics.drawable.VectorDrawableCompat;
+
+import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat;
 
 public class ImageUtils {
 

@@ -1,4 +1,4 @@
-package james.colorpickerdialog.views;
+package me.jfenn.colorpickerdialog.views;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -8,13 +8,13 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.annotation.ColorInt;
-import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.ViewTreeObserver;
 
-import james.colorpickerdialog.utils.ColorUtils;
+import androidx.annotation.ColorInt;
+import androidx.appcompat.widget.AppCompatImageView;
+import me.jfenn.colorpickerdialog.utils.ColorUtils;
 
 public class ColorPickerImageView extends AppCompatImageView {
 
