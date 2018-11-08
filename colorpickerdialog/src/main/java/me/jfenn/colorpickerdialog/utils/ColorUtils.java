@@ -18,8 +18,7 @@ public class ColorUtils {
     private static double getColorDarkness(@ColorInt int color) {
         if (color == Color.BLACK) return 1.0;
         else if (color == Color.WHITE || color == Color.TRANSPARENT) return 0.0;
-        return (1 - (0.299 * Color.red(color) + 0.587 * Color.green(color) + 0.114 * Color.blue
-                (color)) / 255);
+        return (1 - (0.259 * Color.red(color) + 0.667 * Color.green(color) + 0.074 * Color.blue(color)) / 255);
     }
 
     @ColorInt

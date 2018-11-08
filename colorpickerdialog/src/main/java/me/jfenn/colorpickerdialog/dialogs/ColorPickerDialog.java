@@ -2,12 +2,13 @@ package me.jfenn.colorpickerdialog.dialogs;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
-import android.widget.EditText;
 
 import com.google.android.material.tabs.TabLayout;
 
@@ -15,6 +16,7 @@ import java.io.IOException;
 
 import androidx.annotation.ColorInt;
 import androidx.appcompat.app.AppCompatDialog;
+import androidx.appcompat.widget.AppCompatEditText;
 import androidx.viewpager.widget.ViewPager;
 import me.jfenn.colorpickerdialog.ColorPicker;
 import me.jfenn.colorpickerdialog.R;
@@ -27,7 +29,7 @@ import me.jfenn.colorpickerdialog.views.SmoothColorView;
 public class ColorPickerDialog extends AppCompatDialog implements ColorPicker.OnActivityResultListener, ColorPickerView.OnColorPickedListener {
 
     private SmoothColorView colorView;
-    private EditText colorHex;
+    private AppCompatEditText colorHex;
     private TabLayout tabLayout;
     private ViewPager slidersPager;
 
@@ -121,7 +123,11 @@ public class ColorPickerDialog extends AppCompatDialog implements ColorPicker.On
         this.color = color;
         colorView.setColor(color);
         colorHex.setText(String.format(isAlphaEnabled ? "#%08X" : "#%06X", isAlphaEnabled ? color : (0xFFFFFF & color)));
-        colorHex.setTextColor(ColorUtils.isColorDark(ColorUtils.withBackground(color, Color.WHITE)) ? Color.WHITE : Color.BLACK);
+
+        int textColor = ColorUtils.isColorDark(ColorUtils.withBackground(color, Color.WHITE)) ? Color.WHITE : Color.BLACK;
+        colorHex.setTextColor(textColor);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            colorHex.setBackgroundTintList(ColorStateList.valueOf(textColor));
     }
 
     public interface OnColorPickedListener {
