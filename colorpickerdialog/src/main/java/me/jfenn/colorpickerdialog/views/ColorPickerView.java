@@ -155,7 +155,7 @@ public abstract class ColorPickerView extends LinearLayout {
      */
     public void setColorAlpha(int alpha, boolean animate) {
         if (animate && !isTrackingTouch) {
-            ObjectAnimator animator = ObjectAnimator.ofInt(this.alpha, "progress", 0, alpha);
+            ObjectAnimator animator = ObjectAnimator.ofInt(this.alpha, "progress", alpha);
             animator.setInterpolator(new DecelerateInterpolator());
             animator.start();
         } else {

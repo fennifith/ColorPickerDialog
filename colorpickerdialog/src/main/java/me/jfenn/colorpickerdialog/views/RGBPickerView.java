@@ -87,7 +87,7 @@ public class RGBPickerView extends ColorPickerView {
         for (int i = 0; i < bars.length; i++) {
             int value = (color >> offsets[i]) & 0xFF;
             if (animate && !isTrackingTouch) {
-                ObjectAnimator animator = ObjectAnimator.ofInt(bars[i], "progress", 0, value);
+                ObjectAnimator animator = ObjectAnimator.ofInt(bars[i], "progress", value);
                 animator.setInterpolator(new DecelerateInterpolator());
                 animator.start();
             } else {

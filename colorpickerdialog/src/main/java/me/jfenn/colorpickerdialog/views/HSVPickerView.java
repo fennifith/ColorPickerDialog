@@ -88,7 +88,7 @@ public class HSVPickerView extends ColorPickerView {
 
         for (int i = 0; i < bars.length; i++) {
             if (animate && !isTrackingTouch) {
-                ObjectAnimator animator = ObjectAnimator.ofInt(bars[i], "progress", 0, (int) values[i]);
+                ObjectAnimator animator = ObjectAnimator.ofInt(bars[i], "progress", (int) values[i]);
                 animator.setInterpolator(new DecelerateInterpolator());
                 animator.start();
             } else {

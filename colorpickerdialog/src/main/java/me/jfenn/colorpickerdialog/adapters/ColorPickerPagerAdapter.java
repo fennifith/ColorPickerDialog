@@ -22,6 +22,7 @@ public class ColorPickerPagerAdapter extends PagerAdapter implements ColorPicker
 
     @ColorInt
     private int color = Color.BLACK;
+    private int position;
 
     private RGBPickerView rgbPicker;
     private HSVPickerView hsbPicker;
@@ -33,6 +34,13 @@ public class ColorPickerPagerAdapter extends PagerAdapter implements ColorPicker
 
     public void setColor(@ColorInt int color) {
         this.color = color;
+    }
+
+    public void updateColor(@ColorInt int color, boolean animate) {
+        if (position == 0 && rgbPicker != null)
+            rgbPicker.setColor(color, animate);
+        if (position == 1 && hsbPicker != null)
+            hsbPicker.setColor(color, animate);
     }
 
     @NonNull
@@ -90,6 +98,7 @@ public class ColorPickerPagerAdapter extends PagerAdapter implements ColorPicker
 
     @Override
     public void onPageSelected(int position) {
+        this.position = position;
         if (position == 0 && rgbPicker != null)
             rgbPicker.setColor(color);
         if (position == 1 && hsbPicker != null)

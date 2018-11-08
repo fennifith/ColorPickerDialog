@@ -8,6 +8,9 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 
 import com.google.android.material.tabs.TabLayout;
@@ -32,10 +35,12 @@ public class ColorPickerDialog extends AppCompatDialog implements ColorPicker.On
     private AppCompatEditText colorHex;
     private TabLayout tabLayout;
     private ViewPager slidersPager;
+    private ColorPickerPagerAdapter slidersAdapter;
 
     @ColorInt
     private int color = Color.BLACK;
     private boolean isAlphaEnabled = true;
+    private boolean shouldIgnoreNextHex = false;
 
     private OnColorPickedListener listener;
 
@@ -64,12 +69,37 @@ public class ColorPickerDialog extends AppCompatDialog implements ColorPicker.On
         tabLayout = findViewById(R.id.tabLayout);
         slidersPager = findViewById(R.id.slidersPager);
 
-        ColorPickerPagerAdapter adapter = new ColorPickerPagerAdapter(getContext(), this);
-        adapter.setColor(color);
+        slidersAdapter = new ColorPickerPagerAdapter(getContext(), this);
+        slidersAdapter.setColor(color);
 
-        slidersPager.setAdapter(adapter);
-        slidersPager.addOnPageChangeListener(adapter);
+        slidersPager.setAdapter(slidersAdapter);
+        slidersPager.addOnPageChangeListener(slidersAdapter);
         tabLayout.setupWithViewPager(slidersPager);
+
+        colorHex.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                Editable editable = colorHex.getText();
+                if (editable != null && !shouldIgnoreNextHex) {
+                    String str = editable.toString();
+                    Log.d("TextChange", str);
+                    if (str.length() == (isAlphaEnabled ? 9 : 7)) {
+                        try {
+                            slidersAdapter.updateColor(Color.parseColor(str), true);
+                        } catch (Exception ignored) {
+                        }
+                    }
+                } else shouldIgnoreNextHex = false;
+            }
+        });
 
         findViewById(R.id.confirm).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,6 +152,8 @@ public class ColorPickerDialog extends AppCompatDialog implements ColorPicker.On
     public void onColorPicked(ColorPickerView pickerView, @ColorInt int color) {
         this.color = color;
         colorView.setColor(color);
+
+        shouldIgnoreNextHex = true;
         colorHex.setText(String.format(isAlphaEnabled ? "#%08X" : "#%06X", isAlphaEnabled ? color : (0xFFFFFF & color)));
 
         int textColor = ColorUtils.isColorDark(ColorUtils.withBackground(color, Color.WHITE)) ? Color.WHITE : Color.BLACK;
