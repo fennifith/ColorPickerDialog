@@ -25,6 +25,7 @@ import me.jfenn.colorpickerdialog.ColorPicker;
 import me.jfenn.colorpickerdialog.R;
 import me.jfenn.colorpickerdialog.activities.ImagePickerActivity;
 import me.jfenn.colorpickerdialog.adapters.ColorPickerPagerAdapter;
+import me.jfenn.colorpickerdialog.utils.AlphaColorDrawable;
 import me.jfenn.colorpickerdialog.utils.ColorUtils;
 import me.jfenn.colorpickerdialog.views.ColorPickerView;
 import me.jfenn.colorpickerdialog.views.SmoothColorView;
@@ -124,6 +125,12 @@ public class ColorPickerDialog extends AppCompatDialog implements ColorPicker.On
         });
 
         onColorPicked(null, color);
+    }
+
+    @Override
+    public void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        AlphaColorDrawable.tile.recycle();
     }
 
     @Override

@@ -47,7 +47,7 @@ public class SmoothColorView extends View {
     }
 
     public void setColor(@ColorInt int color, boolean animate) {
-        AlphaColorDrawable current = new AlphaColorDrawable(color, previous);
+        AlphaColorDrawable current = new AlphaColorDrawable(color);
 
         if (previous != null && animate) {
             TransitionDrawable transition = new TransitionDrawable(new Drawable[]{previous, current});

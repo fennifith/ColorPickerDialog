@@ -18,20 +18,14 @@ public class AlphaColorDrawable extends Drawable {
 
     private Paint bitmapPaint;
     private Paint paint;
-    private Bitmap tile;
+    public static Bitmap tile;
 
     public AlphaColorDrawable(@ColorInt int color) {
-        this(color, null);
-    }
-
-    public AlphaColorDrawable(@ColorInt int color, @Nullable AlphaColorDrawable drawable) {
         int size = (int) ConversionUtils.getPixelsFromDp(8);
         bitmapPaint = new Paint();
         bitmapPaint.setColor(Color.LTGRAY);
 
-        if (drawable != null)
-            tile = drawable.tile;
-        else {
+        if (tile == null || tile.isRecycled()) {
             tile = Bitmap.createBitmap(size * 4, size * 4, Bitmap.Config.RGB_565);
             Canvas canvas = new Canvas(tile);
             canvas.drawColor(Color.WHITE);

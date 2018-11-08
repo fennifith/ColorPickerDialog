@@ -53,9 +53,9 @@ public class ColorUtils {
     }
 
     public static int[] getColorWheelArr(float saturation, float brightness) {
-        int[] arr = new int[36];
-        for (int i =  0; i < 36; i++)
-            arr[i] = Color.HSVToColor(new float[]{i * 10, saturation, brightness});
+        int[] arr = new int[13];
+        for (int i =  0; i <= 12; i++)
+            arr[i] = Color.HSVToColor(new float[]{i * 30, saturation, brightness});
 
         return arr;
     }

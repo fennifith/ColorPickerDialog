@@ -3,6 +3,7 @@ package me.jfenn.colorpickerdialogsample;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import me.jfenn.colorpickerdialog.dialogs.ColorPickerDialog;
@@ -29,6 +30,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     @Override
                     public void onColorPicked(ColorPickerDialog dialog, int color) {
                         MainActivity.this.color = color;
+                        Toast.makeText(MainActivity.this, String.format("#%08X", color), Toast.LENGTH_SHORT).show();
                     }
                 })
                 .show();
