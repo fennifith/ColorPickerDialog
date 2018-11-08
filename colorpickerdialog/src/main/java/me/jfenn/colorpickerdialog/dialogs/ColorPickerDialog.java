@@ -59,6 +59,11 @@ public class ColorPickerDialog extends AppCompatDialog implements ColorPicker.On
         return this;
     }
 
+    public ColorPickerDialog withAlphaEnabled(boolean isAlphaEnabled) {
+        this.isAlphaEnabled = isAlphaEnabled;
+        return this;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -155,6 +160,7 @@ public class ColorPickerDialog extends AppCompatDialog implements ColorPicker.On
 
         shouldIgnoreNextHex = true;
         colorHex.setText(String.format(isAlphaEnabled ? "#%08X" : "#%06X", isAlphaEnabled ? color : (0xFFFFFF & color)));
+        colorHex.clearFocus();
 
         int textColor = ColorUtils.isColorDark(ColorUtils.withBackground(color, Color.WHITE)) ? Color.WHITE : Color.BLACK;
         colorHex.setTextColor(textColor);

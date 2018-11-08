@@ -9,22 +9,28 @@ import me.jfenn.colorpickerdialog.dialogs.ColorPickerDialog;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private int preference = Color.BLUE;
+    private int color = Color.BLUE;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        findViewById(R.id.defaultAndImage).setOnClickListener(this);
-        findViewById(R.id.noDefaultAndImage).setOnClickListener(this);
-        findViewById(R.id.defaultAndNoImage).setOnClickListener(this);
-        findViewById(R.id.noDefaultAndNoImage).setOnClickListener(this);
+        findViewById(R.id.normal).setOnClickListener(this);
+        findViewById(R.id.normalAlpha).setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-        ColorPickerDialog dialog = new ColorPickerDialog(this);
-        dialog.show();
+        new ColorPickerDialog(this)
+                .withColor(color)
+                .withAlphaEnabled(v.getId() == R.id.normalAlpha)
+                .withListener(new ColorPickerDialog.OnColorPickedListener() {
+                    @Override
+                    public void onColorPicked(ColorPickerDialog dialog, int color) {
+                        MainActivity.this.color = color;
+                    }
+                })
+                .show();
     }
 }

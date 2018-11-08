@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:minWidth="350dp">
@@ -8,8 +9,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="64dp"
         android:layout_marginTop="16dp"
+        android:layout_marginBottom="64dp"
         android:orientation="vertical">
 
         <FrameLayout
@@ -26,9 +27,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:digits="#0123456789ABCDEF"
+                android:imeOptions="actionDone"
+                android:inputType="text|textNoSuggestions|textCapCharacters"
+                android:lines="1"
+                android:maxLength="9"
+                android:maxLines="1"
+                android:singleLine="true"
                 android:textColor="@android:color/white"
                 android:textCursorDrawable="@null"
-                android:textSize="24sp" />
+                android:textSize="24sp"
+                tools:text="#000000" />
 
         </FrameLayout>
 
@@ -38,7 +47,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             app:tabIndicatorHeight="0dp"
-            app:tabMode="scrollable"/>
+            app:tabMode="scrollable" />
 
         <me.jfenn.colorpickerdialog.views.HeightableViewPager
             android:id="@+id/slidersPager"
@@ -60,30 +69,30 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
-            android:paddingBottom="8dp"
             android:paddingLeft="12dp"
-            android:paddingRight="12dp"
             android:paddingTop="8dp"
+            android:paddingRight="12dp"
+            android:paddingBottom="8dp"
             android:text="@android:string/cancel"
-            android:textColor="@color/textColorPrimary"
             android:textAllCaps="true"
+            android:textColor="@color/textColorPrimary"
             android:textSize="14sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/confirm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
-            android:paddingBottom="8dp"
             android:paddingLeft="12dp"
-            android:paddingRight="12dp"
             android:paddingTop="8dp"
+            android:paddingRight="12dp"
+            android:paddingBottom="8dp"
             android:text="@android:string/ok"
-            android:textColor="@color/textColorPrimary"
             android:textAllCaps="true"
+            android:textColor="@color/textColorPrimary"
             android:textSize="14sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
     </LinearLayout>
 
