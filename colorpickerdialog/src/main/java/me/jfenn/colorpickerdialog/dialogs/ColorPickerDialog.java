@@ -82,6 +82,7 @@ public class ColorPickerDialog extends AppCompatDialog implements ColorPicker.On
         slidersPager = findViewById(R.id.slidersPager);
 
         slidersAdapter = new ColorPickerPagerAdapter(getContext(), this);
+        slidersAdapter.setAlphaEnabled(isAlphaEnabled);
         slidersAdapter.setColor(color);
 
         slidersPager.setAdapter(slidersAdapter);

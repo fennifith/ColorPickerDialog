@@ -22,6 +22,7 @@ public class ColorPickerPagerAdapter extends PagerAdapter implements ColorPicker
 
     @ColorInt
     private int color = Color.BLACK;
+    private boolean isAlphaEnabled = true;
     private int position;
 
     private RGBPickerView rgbPicker;
@@ -34,6 +35,10 @@ public class ColorPickerPagerAdapter extends PagerAdapter implements ColorPicker
 
     public void setColor(@ColorInt int color) {
         this.color = color;
+    }
+
+    public void setAlphaEnabled(boolean isAlphaEnabled) {
+        this.isAlphaEnabled = isAlphaEnabled;
     }
 
     public void updateColor(@ColorInt int color, boolean animate) {
@@ -59,6 +64,7 @@ public class ColorPickerPagerAdapter extends PagerAdapter implements ColorPicker
         }
 
         view.setListener(this);
+        view.setAlphaEnabled(isAlphaEnabled);
         view.setColor(color);
         container.addView(view);
         return view;
