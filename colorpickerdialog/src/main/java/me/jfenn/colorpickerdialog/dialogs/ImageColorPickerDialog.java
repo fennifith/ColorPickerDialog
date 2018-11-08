@@ -15,7 +15,7 @@ public class ImageColorPickerDialog extends AppCompatDialog {
         super(context);
         this.bitmap = bitmap;
 
-        setTitle(R.string.action_pick_image_color);
+        setTitle(R.string.colorPickerDialog_imageColorPicker);
     }
 
     @Override

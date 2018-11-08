@@ -16,9 +16,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/red"
+            android:text="@string/colorPickerDialog_red"
             android:textAllCaps="true"
-            android:textColor="@color/textColorSecondary"
+            android:textColor="?android:attr/textColorSecondary"
             android:textSize="14sp"
             android:textStyle="bold" />
 
@@ -41,7 +41,7 @@
             android:singleLine="true"
             android:text="0"
             android:textAllCaps="true"
-            android:textColor="@color/textColorSecondary"
+            android:textColor="?android:attr/textColorSecondary"
             android:textSize="14sp"
             android:textStyle="bold" />
 
@@ -57,9 +57,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/green"
+            android:text="@string/colorPickerDialog_green"
             android:textAllCaps="true"
-            android:textColor="@color/textColorSecondary"
+            android:textColor="?android:attr/textColorSecondary"
             android:textSize="14sp"
             android:textStyle="bold" />
 
@@ -82,7 +82,7 @@
             android:singleLine="true"
             android:text="0"
             android:textAllCaps="true"
-            android:textColor="@color/textColorSecondary"
+            android:textColor="?android:attr/textColorSecondary"
             android:textSize="14sp"
             android:textStyle="bold" />
 
@@ -98,9 +98,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/blue"
+            android:text="@string/colorPickerDialog_blue"
             android:textAllCaps="true"
-            android:textColor="@color/textColorSecondary"
+            android:textColor="?android:attr/textColorSecondary"
             android:textSize="14sp"
             android:textStyle="bold" />
 
@@ -123,7 +123,7 @@
             android:singleLine="true"
             android:text="0"
             android:textAllCaps="true"
-            android:textColor="@color/textColorSecondary"
+            android:textColor="?android:attr/textColorSecondary"
             android:textSize="14sp"
             android:textStyle="bold" />
 
@@ -140,9 +140,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/alpha"
+            android:text="@string/colorPickerDialog_alpha"
             android:textAllCaps="true"
-            android:textColor="@color/textColorSecondary"
+            android:textColor="?android:attr/textColorSecondary"
             android:textSize="14sp"
             android:textStyle="bold" />
 
@@ -165,7 +165,7 @@
             android:singleLine="true"
             android:text="1.00"
             android:textAllCaps="true"
-            android:textColor="@color/textColorSecondary"
+            android:textColor="?android:attr/textColorSecondary"
             android:textSize="14sp"
             android:textStyle="bold" />
 

@@ -81,7 +81,7 @@ public abstract class ColorPickerView extends LinearLayout {
                 }
             });
 
-            ColorUtils.setProgressBarColor(alpha, ContextCompat.getColor(getContext(), R.color.neutral));
+            ColorUtils.setProgressBarColor(alpha, ContextCompat.getColor(getContext(), R.color.colorPickerDialog_neutral));
         }
     }
 

@@ -18,6 +18,7 @@ import com.google.android.material.tabs.TabLayout;
 import java.io.IOException;
 
 import androidx.annotation.ColorInt;
+import androidx.annotation.StyleRes;
 import androidx.appcompat.app.AppCompatDialog;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.viewpager.widget.ViewPager;
@@ -47,7 +48,12 @@ public class ColorPickerDialog extends AppCompatDialog implements ColorPicker.On
 
     public ColorPickerDialog(Context context) {
         super(context);
-        setTitle(R.string.color_picker_name);
+        setTitle(R.string.colorPickerDialog_dialogName);
+    }
+
+    public ColorPickerDialog(Context context, @StyleRes int style) {
+        super(context, style);
+        setTitle(R.string.colorPickerDialog_dialogName);
     }
 
     public ColorPickerDialog withListener(OnColorPickedListener listener) {

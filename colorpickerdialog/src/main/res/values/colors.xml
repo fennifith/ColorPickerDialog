@@ -2,17 +2,9 @@
 
 <resources>
   
-  <color name="textColorPrimary">#DE000000</color>
-  <color name="textColorSecondary">#8A000000</color>
-  <color name="textColorTertiary">#61000000</color>
-  
-  <color name="textColorPrimaryInverse">#FFFFFF</color>
-  <color name="textColorSecondaryInverse">#B3FFFFFF</color>
-  <color name="textColorTertiaryInverse">#80FFFFFF</color>
-  
-  <color name="red">#D32F2F</color>
-  <color name="green">#388E3C</color>
-  <color name="blue">#1976D2</color>
-  <color name="neutral">#000000</color>
+  <color name="colorPickerDialog_red">#D32F2F</color>
+  <color name="colorPickerDialog_green">#388E3C</color>
+  <color name="colorPickerDialog_blue">#1976D2</color>
+  <color name="colorPickerDialog_neutral">#000000</color>
   
 </resources>

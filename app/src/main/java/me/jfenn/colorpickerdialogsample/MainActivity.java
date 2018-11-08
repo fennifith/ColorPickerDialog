@@ -19,13 +19,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         findViewById(R.id.normal).setOnClickListener(this);
         findViewById(R.id.normalAlpha).setOnClickListener(this);
+        findViewById(R.id.dark).setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-        new ColorPickerDialog(this)
+        new ColorPickerDialog(this, v.getId() == R.id.dark ? R.style.ColorDialog_Dark : 0)
                 .withColor(color)
-                .withAlphaEnabled(v.getId() == R.id.normalAlpha)
+                .withAlphaEnabled(v.getId() != R.id.normal)
                 .withListener(new ColorPickerDialog.OnColorPickedListener() {
                     @Override
                     public void onColorPicked(ColorPickerDialog dialog, int color) {

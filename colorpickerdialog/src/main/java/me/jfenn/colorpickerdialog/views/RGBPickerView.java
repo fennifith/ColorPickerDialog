@@ -74,9 +74,9 @@ public class RGBPickerView extends ColorPickerView {
         green.setOnSeekBarChangeListener(listener);
         blue.setOnSeekBarChangeListener(listener);
 
-        ColorUtils.setProgressBarColor(red, ContextCompat.getColor(getContext(), R.color.red));
-        ColorUtils.setProgressBarColor(green, ContextCompat.getColor(getContext(), R.color.green));
-        ColorUtils.setProgressBarColor(blue, ContextCompat.getColor(getContext(), R.color.blue));
+        ColorUtils.setProgressBarColor(red, ContextCompat.getColor(getContext(), R.color.colorPickerDialog_red));
+        ColorUtils.setProgressBarColor(green, ContextCompat.getColor(getContext(), R.color.colorPickerDialog_green));
+        ColorUtils.setProgressBarColor(blue, ContextCompat.getColor(getContext(), R.color.colorPickerDialog_blue));
     }
 
     @Override

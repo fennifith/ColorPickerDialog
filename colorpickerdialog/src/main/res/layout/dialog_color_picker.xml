@@ -75,7 +75,7 @@
             android:paddingBottom="8dp"
             android:text="@android:string/cancel"
             android:textAllCaps="true"
-            android:textColor="@color/textColorPrimary"
+            android:textColor="?android:attr/textColorPrimary"
             android:textSize="14sp"
             android:textStyle="bold" />
 
@@ -90,7 +90,7 @@
             android:paddingBottom="8dp"
             android:text="@android:string/ok"
             android:textAllCaps="true"
-            android:textColor="@color/textColorPrimary"
+            android:textColor="?android:attr/textColorPrimary"
             android:textSize="14sp"
             android:textStyle="bold" />
 

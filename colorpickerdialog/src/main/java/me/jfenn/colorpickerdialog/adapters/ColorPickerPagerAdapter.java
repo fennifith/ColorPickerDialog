@@ -82,7 +82,7 @@ public class ColorPickerPagerAdapter extends PagerAdapter implements ColorPicker
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
-        return context.getString(new int[]{R.string.rgb, R.string.hsv}[position]);
+        return context.getString(new int[]{R.string.colorPickerDialog_rgb, R.string.colorPickerDialog_hsv}[position]);
     }
 
     @Override
