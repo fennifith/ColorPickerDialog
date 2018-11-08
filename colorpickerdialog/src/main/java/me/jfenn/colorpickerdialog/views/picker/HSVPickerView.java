@@ -1,4 +1,4 @@
-package me.jfenn.colorpickerdialog.views;
+package me.jfenn.colorpickerdialog.views.picker;
 
 import android.animation.ObjectAnimator;
 import android.content.Context;
@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import java.util.Locale;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatSeekBar;
 import me.jfenn.colorpickerdialog.R;
@@ -103,6 +104,12 @@ public class HSVPickerView extends ColorPickerView {
     public int getColor() {
         int color = Color.HSVToColor(new float[]{hue.getProgress(), saturation.getProgress() / 255f, brightness.getProgress() / 255f});
         return (getColorAlpha() << 24) | (color & 0x00ffffff);
+    }
+
+    @NonNull
+    @Override
+    public String getName() {
+        return getContext().getString(R.string.colorPickerDialog_hsv);
     }
 
     @Override

@@ -28,8 +28,10 @@ import me.jfenn.colorpickerdialog.activities.ImagePickerActivity;
 import me.jfenn.colorpickerdialog.adapters.ColorPickerPagerAdapter;
 import me.jfenn.colorpickerdialog.utils.AlphaColorDrawable;
 import me.jfenn.colorpickerdialog.utils.ColorUtils;
-import me.jfenn.colorpickerdialog.views.ColorPickerView;
 import me.jfenn.colorpickerdialog.views.SmoothColorView;
+import me.jfenn.colorpickerdialog.views.picker.ColorPickerView;
+import me.jfenn.colorpickerdialog.views.picker.HSVPickerView;
+import me.jfenn.colorpickerdialog.views.picker.RGBPickerView;
 
 public class ColorPickerDialog extends AppCompatDialog implements ColorPicker.OnActivityResultListener, ColorPickerView.OnColorPickedListener {
 
@@ -81,7 +83,8 @@ public class ColorPickerDialog extends AppCompatDialog implements ColorPicker.On
         tabLayout = findViewById(R.id.tabLayout);
         slidersPager = findViewById(R.id.slidersPager);
 
-        slidersAdapter = new ColorPickerPagerAdapter(getContext(), this);
+        slidersAdapter = new ColorPickerPagerAdapter(getContext(), new RGBPickerView(getContext()), new HSVPickerView(getContext()));
+        slidersAdapter.setListener(this);
         slidersAdapter.setAlphaEnabled(isAlphaEnabled);
         slidersAdapter.setColor(color);
 

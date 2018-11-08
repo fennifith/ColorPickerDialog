@@ -1,4 +1,4 @@
-package me.jfenn.colorpickerdialog.views;
+package me.jfenn.colorpickerdialog.views.picker;
 
 import android.animation.ObjectAnimator;
 import android.annotation.TargetApi;
@@ -14,6 +14,7 @@ import android.widget.TextView;
 import java.util.Locale;
 
 import androidx.annotation.ColorInt;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatSeekBar;
 import me.jfenn.colorpickerdialog.R;
@@ -114,6 +115,9 @@ public abstract class ColorPickerView extends LinearLayout {
      */
     @ColorInt
     public abstract int getColor();
+
+    @NonNull
+    public abstract String getName();
 
     /**
      * Set whether the color's alpha value can be changed.

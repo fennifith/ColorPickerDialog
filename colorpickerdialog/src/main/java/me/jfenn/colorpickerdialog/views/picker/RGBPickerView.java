@@ -1,4 +1,4 @@
-package me.jfenn.colorpickerdialog.views;
+package me.jfenn.colorpickerdialog.views.picker;
 
 import android.animation.ObjectAnimator;
 import android.content.Context;
@@ -8,6 +8,7 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatSeekBar;
 import me.jfenn.colorpickerdialog.R;
@@ -109,5 +110,11 @@ public class RGBPickerView extends ColorPickerView {
     @Override
     public int getColor() {
         return Color.argb(getColorAlpha(), red.getProgress(), green.getProgress(), blue.getProgress());
+    }
+
+    @NonNull
+    @Override
+    public String getName() {
+        return getContext().getString(R.string.colorPickerDialog_rgb);
     }
 }
