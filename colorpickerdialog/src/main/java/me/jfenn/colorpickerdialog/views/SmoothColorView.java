@@ -42,10 +42,21 @@ public class SmoothColorView extends View {
         setBackground(previous);
     }
 
+    /**
+     * Update the displayed color. The change in values will not be animated.
+     *
+     * @param color The new color to display.
+     */
     public void setColor(@ColorInt int color) {
         setColor(color, false);
     }
 
+    /**
+     * Update the displayed color.
+     *
+     * @param color         The new color to display.
+     * @param animate       Whether to animate the change in values.
+     */
     public void setColor(@ColorInt int color, boolean animate) {
         AlphaColorDrawable current = new AlphaColorDrawable(color);
 

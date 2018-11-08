@@ -29,20 +29,42 @@ public class ColorPickerPagerAdapter extends PagerAdapter implements PickerView.
         this.pickers = pickers;
     }
 
+    /**
+     * Specify a listener to receive updates when a new color is selected.
+     *
+     * @param listener         The listener to receive updates.
+     */
     public void setListener(PickerView.OnColorPickedListener listener) {
         this.listener = listener;
     }
 
+    /**
+     * Specify an initial color for the picker(s) to use.
+     *
+     * @param color             The initial color int.
+     */
     public void setColor(@ColorInt int color) {
         this.color = color;
         if (pickers[position] != null)
             pickers[position].setColor(color);
     }
 
+    /**
+     * Specify whether alpha values should be enabled. This parameter
+     * defaults to true.
+     *
+     * @param isAlphaEnabled    Whether alpha values are enabled.
+     */
     public void setAlphaEnabled(boolean isAlphaEnabled) {
         this.isAlphaEnabled = isAlphaEnabled;
     }
 
+    /**
+     * Update the color value used by the picker(s).
+     *
+     * @param color             The new color int.
+     * @param animate           Whether to animate the change in values.
+     */
     public void updateColor(@ColorInt int color, boolean animate) {
         if (pickers[position] != null)
             pickers[position].setColor(color, animate);

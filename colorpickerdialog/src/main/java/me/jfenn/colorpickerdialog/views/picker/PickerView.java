@@ -116,9 +116,22 @@ public abstract class PickerView extends LinearLayout {
     @ColorInt
     public abstract int getColor();
 
+    /**
+     * Get the "name" of the type of picker view. For example, an RGBPickerView
+     * would return the string "RGB".
+     *
+     * @return The "name" of the type of picker.
+     */
     @NonNull
     public abstract String getName();
 
+    /**
+     * Determine whether the view is currently tracking a touch interaction.
+     * This is useful for determining when the next color update will occur
+     * and deciding whether to animate a value change.
+     *
+     * @return Whether the view is currently tracking a touch interaction.
+     */
     public boolean isTrackingTouch() {
         return isTrackingTouch;
     }

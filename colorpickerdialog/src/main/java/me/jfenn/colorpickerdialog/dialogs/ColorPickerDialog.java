@@ -59,16 +59,35 @@ public class ColorPickerDialog extends AppCompatDialog implements ColorPicker.On
         setTitle(R.string.colorPickerDialog_dialogName);
     }
 
+    /**
+     * Specify a listener to receive updates when a new color is selected.
+     *
+     * @param listener         The listener to receive updates.
+     * @return                "This" dialog instance, for method chaining.
+     */
     public ColorPickerDialog withListener(OnColorPickedListener listener) {
         this.listener = listener;
         return this;
     }
 
+    /**
+     * Specify an initial color for the picker to use.
+     *
+     * @param color             The initial color int.
+     * @return                 "This" dialog instance, for method chaining.
+     */
     public ColorPickerDialog withColor(@ColorInt int color) {
         this.color = color;
         return this;
     }
 
+    /**
+     * Specify whether alpha values should be enabled. This parameter
+     * defaults to true.
+     *
+     * @param isAlphaEnabled    Whether alpha values are enabled.
+     * @return                  "This" dialog instance, for method chaining.
+     */
     public ColorPickerDialog withAlphaEnabled(boolean isAlphaEnabled) {
         this.isAlphaEnabled = isAlphaEnabled;
         return this;
