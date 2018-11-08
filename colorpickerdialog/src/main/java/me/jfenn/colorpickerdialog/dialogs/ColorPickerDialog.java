@@ -18,6 +18,7 @@ import com.google.android.material.tabs.TabLayout;
 import java.io.IOException;
 
 import androidx.annotation.ColorInt;
+import androidx.annotation.Nullable;
 import androidx.annotation.StyleRes;
 import androidx.appcompat.app.AppCompatDialog;
 import androidx.appcompat.widget.AppCompatEditText;
@@ -29,11 +30,11 @@ import me.jfenn.colorpickerdialog.adapters.ColorPickerPagerAdapter;
 import me.jfenn.colorpickerdialog.utils.AlphaColorDrawable;
 import me.jfenn.colorpickerdialog.utils.ColorUtils;
 import me.jfenn.colorpickerdialog.views.SmoothColorView;
-import me.jfenn.colorpickerdialog.views.picker.ColorPickerView;
 import me.jfenn.colorpickerdialog.views.picker.HSVPickerView;
+import me.jfenn.colorpickerdialog.views.picker.PickerView;
 import me.jfenn.colorpickerdialog.views.picker.RGBPickerView;
 
-public class ColorPickerDialog extends AppCompatDialog implements ColorPicker.OnActivityResultListener, ColorPickerView.OnColorPickedListener {
+public class ColorPickerDialog extends AppCompatDialog implements ColorPicker.OnActivityResultListener, PickerView.OnColorPickedListener {
 
     private SmoothColorView colorView;
     private AppCompatEditText colorHex;
@@ -171,9 +172,9 @@ public class ColorPickerDialog extends AppCompatDialog implements ColorPicker.On
     }
 
     @Override
-    public void onColorPicked(ColorPickerView pickerView, @ColorInt int color) {
+    public void onColorPicked(@Nullable PickerView pickerView, @ColorInt int color) {
         this.color = color;
-        colorView.setColor(color);
+        colorView.setColor(color, pickerView != null && !pickerView.isTrackingTouch());
 
         shouldIgnoreNextHex = true;
         colorHex.setText(String.format(isAlphaEnabled ? "#%08X" : "#%06X", isAlphaEnabled ? color : (0xFFFFFF & color)));

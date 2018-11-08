@@ -10,27 +10,26 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
-import me.jfenn.colorpickerdialog.R;
-import me.jfenn.colorpickerdialog.views.picker.ColorPickerView;
+import me.jfenn.colorpickerdialog.views.picker.PickerView;
 
-public class ColorPickerPagerAdapter extends PagerAdapter implements ColorPickerView.OnColorPickedListener, ViewPager.OnPageChangeListener {
+public class ColorPickerPagerAdapter extends PagerAdapter implements PickerView.OnColorPickedListener, ViewPager.OnPageChangeListener {
 
     private Context context;
-    private ColorPickerView.OnColorPickedListener listener;
+    private PickerView.OnColorPickedListener listener;
 
     @ColorInt
     private int color = Color.BLACK;
     private boolean isAlphaEnabled = true;
     private int position;
 
-    private ColorPickerView[] pickers;
+    private PickerView[] pickers;
 
-    public ColorPickerPagerAdapter(Context context, ColorPickerView... pickers) {
+    public ColorPickerPagerAdapter(Context context, PickerView... pickers) {
         this.context = context;
         this.pickers = pickers;
     }
 
-    public void setListener(ColorPickerView.OnColorPickedListener listener) {
+    public void setListener(PickerView.OnColorPickedListener listener) {
         this.listener = listener;
     }
 
@@ -54,7 +53,7 @@ public class ColorPickerPagerAdapter extends PagerAdapter implements ColorPicker
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
         View view;
         if (position >= 0 && position < pickers.length && pickers[position] != null) {
-            ColorPickerView picker = pickers[position];
+            PickerView picker = pickers[position];
             picker.setListener(this);
             picker.setAlphaEnabled(isAlphaEnabled);
             picker.setColor(color);
@@ -83,11 +82,11 @@ public class ColorPickerPagerAdapter extends PagerAdapter implements ColorPicker
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
-        return context.getString(new int[]{R.string.colorPickerDialog_rgb, R.string.colorPickerDialog_hsv}[position]);
+        return pickers[position] != null ? pickers[position].getName() : "";
     }
 
     @Override
-    public void onColorPicked(ColorPickerView pickerView, @ColorInt int color) {
+    public void onColorPicked(PickerView pickerView, @ColorInt int color) {
         this.color = color;
         if (listener != null)
             listener.onColorPicked(pickerView, color);

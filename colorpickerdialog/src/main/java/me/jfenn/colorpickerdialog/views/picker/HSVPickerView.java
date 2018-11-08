@@ -17,7 +17,7 @@ import androidx.appcompat.widget.AppCompatSeekBar;
 import me.jfenn.colorpickerdialog.R;
 import me.jfenn.colorpickerdialog.utils.ColorUtils;
 
-public class HSVPickerView extends ColorPickerView {
+public class HSVPickerView extends PickerView {
 
     private AppCompatSeekBar hue, saturation, brightness;
     private TextView hueInt, saturationInt, brightnessInt;
@@ -110,6 +110,11 @@ public class HSVPickerView extends ColorPickerView {
     @Override
     public String getName() {
         return getContext().getString(R.string.colorPickerDialog_hsv);
+    }
+
+    @Override
+    public boolean isTrackingTouch() {
+        return true;
     }
 
     @Override

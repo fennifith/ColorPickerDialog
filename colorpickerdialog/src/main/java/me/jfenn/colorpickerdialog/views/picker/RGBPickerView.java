@@ -14,7 +14,7 @@ import androidx.appcompat.widget.AppCompatSeekBar;
 import me.jfenn.colorpickerdialog.R;
 import me.jfenn.colorpickerdialog.utils.ColorUtils;
 
-public class RGBPickerView extends ColorPickerView {
+public class RGBPickerView extends PickerView {
 
     private AppCompatSeekBar red, green, blue;
     private TextView redInt, greenInt, blueInt;
@@ -116,5 +116,10 @@ public class RGBPickerView extends ColorPickerView {
     @Override
     public String getName() {
         return getContext().getString(R.string.colorPickerDialog_rgb);
+    }
+
+    @Override
+    public boolean isTrackingTouch() {
+        return true;
     }
 }

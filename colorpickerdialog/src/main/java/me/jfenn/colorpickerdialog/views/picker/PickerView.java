@@ -20,7 +20,7 @@ import androidx.appcompat.widget.AppCompatSeekBar;
 import me.jfenn.colorpickerdialog.R;
 import me.jfenn.colorpickerdialog.utils.ColorUtils;
 
-public abstract class ColorPickerView extends LinearLayout {
+public abstract class PickerView extends LinearLayout {
 
     private OnColorPickedListener listener;
 
@@ -30,26 +30,26 @@ public abstract class ColorPickerView extends LinearLayout {
 
     private boolean isTrackingTouch;
 
-    public ColorPickerView(Context context) {
+    public PickerView(Context context) {
         super(context);
         init();
         postInit();
     }
 
-    public ColorPickerView(Context context, @Nullable AttributeSet attrs) {
+    public PickerView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init();
         postInit();
     }
 
-    public ColorPickerView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public PickerView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init();
         postInit();
     }
 
     @TargetApi(21)
-    public ColorPickerView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public PickerView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init();
         postInit();
@@ -118,6 +118,10 @@ public abstract class ColorPickerView extends LinearLayout {
 
     @NonNull
     public abstract String getName();
+
+    public boolean isTrackingTouch() {
+        return isTrackingTouch;
+    }
 
     /**
      * Set whether the color's alpha value can be changed.
@@ -196,6 +200,6 @@ public abstract class ColorPickerView extends LinearLayout {
     }
 
     public interface OnColorPickedListener {
-        void onColorPicked(ColorPickerView pickerView, @ColorInt int color);
+        void onColorPicked(PickerView pickerView, @ColorInt int color);
     }
 }
