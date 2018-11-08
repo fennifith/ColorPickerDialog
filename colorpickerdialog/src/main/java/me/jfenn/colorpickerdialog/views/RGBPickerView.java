@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatSeekBar;
-import androidx.core.content.ContextCompat;
 import me.jfenn.colorpickerdialog.R;
 import me.jfenn.colorpickerdialog.utils.ColorUtils;
 
@@ -74,9 +73,20 @@ public class RGBPickerView extends ColorPickerView {
         green.setOnSeekBarChangeListener(listener);
         blue.setOnSeekBarChangeListener(listener);
 
-        ColorUtils.setProgressBarColor(red, ContextCompat.getColor(getContext(), R.color.colorPickerDialog_red));
-        ColorUtils.setProgressBarColor(green, ContextCompat.getColor(getContext(), R.color.colorPickerDialog_green));
-        ColorUtils.setProgressBarColor(blue, ContextCompat.getColor(getContext(), R.color.colorPickerDialog_blue));
+        ColorUtils.setProgressBarColor(
+                red,
+                ColorUtils.fromAttrRes(getContext(), R.attr.redColor, R.color.colorPickerDialog_red)
+        );
+
+        ColorUtils.setProgressBarColor(
+                green,
+                ColorUtils.fromAttrRes(getContext(), R.attr.greenColor, R.color.colorPickerDialog_green)
+        );
+
+        ColorUtils.setProgressBarColor(
+                blue,
+                ColorUtils.fromAttrRes(getContext(), R.attr.blueColor, R.color.colorPickerDialog_blue)
+        );
     }
 
     @Override

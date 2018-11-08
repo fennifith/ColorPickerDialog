@@ -1,13 +1,19 @@
 package me.jfenn.colorpickerdialog.utils;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
+import android.util.TypedValue;
 
+import androidx.annotation.AttrRes;
 import androidx.annotation.ColorInt;
+import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatSeekBar;
+import androidx.core.content.ContextCompat;
+import me.jfenn.colorpickerdialog.R;
 
 public class ColorUtils {
 
@@ -31,6 +37,32 @@ public class ColorUtils {
         );
     }
 
+    @ColorInt
+    public static int fromAttr(Context context, @AttrRes int attr, @ColorInt int defaultColor) {
+        TypedValue out = new TypedValue();
+        try {
+            context.getTheme().resolveAttribute(attr, out, true);
+            if (out.resourceId == 0)
+                return out.data == 0 ? defaultColor : out.data;
+            else return ContextCompat.getColor(context, out.resourceId);
+        } catch (Exception e) {
+            return defaultColor;
+        }
+    }
+
+    @ColorInt
+    public static int fromAttrRes(Context context, @AttrRes int attr, @ColorRes int defaultColorRes) {
+        TypedValue out = new TypedValue();
+        try {
+            context.getTheme().resolveAttribute(attr, out, true);
+            if (out.resourceId == 0)
+                return out.data == 0 ? ContextCompat.getColor(context, defaultColorRes) : out.data;
+            else return ContextCompat.getColor(context, out.resourceId);
+        } catch (Exception e) {
+            return ContextCompat.getColor(context, defaultColorRes);
+        }
+    }
+
     public static void setProgressBarColor(AppCompatSeekBar seekbar, @ColorInt int color) {
         seekbar.getProgressDrawable().setColorFilter(color, PorterDuff.Mode.SRC_IN);
         seekbar.getThumb().setColorFilter(color, PorterDuff.Mode.SRC_IN);
@@ -49,7 +81,11 @@ public class ColorUtils {
         layers.setId(1, android.R.id.background);
         seekbar.setProgressDrawable(layers);
 
-        seekbar.getThumb().setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_IN);
+        seekbar.getThumb().setColorFilter(
+                fromAttr(seekbar.getContext(), R.attr.neutralColor,
+                        fromAttrRes(seekbar.getContext(), android.R.attr.textColorPrimary, R.color.colorPickerDialog_neutral)),
+                PorterDuff.Mode.SRC_IN
+        );
     }
 
     public static int[] getColorWheelArr(float saturation, float brightness) {
