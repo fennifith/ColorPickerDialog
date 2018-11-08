@@ -25,56 +25,52 @@ allprojects {
 
 To add the dependency, copy this line into your app module's build.gradle file.
 
-``` gradle
-implementation 'me.jfenn:ColorPickerDialog:1.2.0'
+```gradle
+implementation 'me.jfenn:ColorPickerDialog:0.1.0'
 ```
 
 ### Creating a Dialog
 
-The basic requirements for the dialog are a context, color, and listener. You must handle storage of the color yourself, as the library will not do it for you.
+The basic requirements for the dialog are a context, color, and listener, though none of them _have_ to be specified. If you don't specify a listener, though, you can't do anything with the color picked by the dialog, which is not very good.
 
-``` java
-new ColorPickerDialog(this) //context
-  .setPreference(color) //the current stored color value
-  .setListener(new PreferenceDialog.OnPreferenceListener<Integer>() {
+```java
+new ColorPickerDialog(this) // context
+  .withColor(color) // the default / initial color
+  .withListener(new ColorPickerDialog.OnColorPickedListener() {
     @Override
-    public void onPreference(PreferenceDialog dialog, Integer preference) {
-      //called when a color is chosen - this is where you would update a stored value
-    }
-
-    @Override
-    public void onCancel(PreferenceDialog dialog) {
-      //called if the dialog is dismissed
+    public void onColorPicked(ColorPickerDialog dialog, int color) {
+      // a color has been picked; use it
     }
   })
   .show();
 ```
 
-### Image Picker
+### Alpha
 
-By default, the dialog will allow the user to pick a color from an image. To enable or disable this feature, use the `ColorPickerDialog.setImagePickerEnabled(boolean)` method.
+You can also call `.withAlpha(boolean)` to specify whether you want the colors' alpha to be configurable by the user (if not, all output colors will be fully opaque). This option is enabled by default. A somewhat unnecessary example:
 
-### Default Colors
-
-To add a default color, use the `ColorPickerDialog.setDefaultPreference(Integer)` method. This will cause a reset button to display when the current preference isn't equal to the default one. If a current preference isn't specified, the dialog will use the default one, but if neither are specified it will cause a `NullPointerException`.
-
-### Using The Image Picker Dialog Separately
-
-The image picker function included in this library is currently limited to getting images from the gallery on the device. To use the dialog with a different image, you can create the dialog manually like below.
-
-``` java
-new ImageColorPickerDialog(getContext(), bitmap) //context, image
-  .setDefaultPreference(Color.BLACK) //default color in case the user doesn't pick a value
-  .setListener(new PreferenceDialog.OnPreferenceListener<Integer>() {
-    @Override
-    public void onPreference(PreferenceDialog dialog, Integer preference) {
-      //called when a color is chosen
-    }
-
-    @Override
-    public void onCancel(PreferenceDialog dialog) {
-      //called if the dialog is dismissed
-    }
-  })
+```java
+new ColorPickerDialog(this)
+  .withAlphaEnabled(false) // disable the alpha
+  .withListener(...)
   .show();
 ```
+
+### Theming
+
+You can theme this dialog the same as any other: by passing a second parameter (a style resource) to its constructor. Full "runtime" theming will come later, but now is not later, so you can't do that yet. Here's an example of a `ColorPickerDialog` with a basic dark theme, demonstrating all of the options you can specify.
+
+```java
+new ColorPickerDialog(this, R.style.ColorPickerTheme).show();
+```
+
+```xml
+<style name="ColorDialog.Dark" parent="Theme.AppCompat.Dialog">
+  <item name="redColor">#FF5252</item>
+  <item name="greenColor">#FF5252</item>
+  <item name="blueColor">#536DFE</item>
+  <item name="neutralColor">#FFFFFF</item>
+</style>
+```
+
+The `redColor`, `greenColor`, and `blueColor` attributes affect the RGB sliders, and the `neutralColor` attribute changes the "neutral" colors of the others, including the alpha slider and the handles of the sliders in the HSL picker.
