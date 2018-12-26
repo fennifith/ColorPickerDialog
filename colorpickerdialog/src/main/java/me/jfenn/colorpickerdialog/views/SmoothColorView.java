@@ -10,7 +10,7 @@ import android.view.View;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.Nullable;
-import me.jfenn.colorpickerdialog.utils.AlphaColorDrawable;
+import me.jfenn.androidutils.AlphaColorDrawable;
 
 public class SmoothColorView extends View {
 

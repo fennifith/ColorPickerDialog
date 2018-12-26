@@ -10,7 +10,7 @@ import android.util.AttributeSet;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.core.graphics.drawable.RoundedBitmapDrawable;
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
-import me.jfenn.colorpickerdialog.utils.ImageUtils;
+import me.jfenn.androidutils.ImageUtils;
 
 public class CircleImageView extends AppCompatImageView {
     Paint paint;

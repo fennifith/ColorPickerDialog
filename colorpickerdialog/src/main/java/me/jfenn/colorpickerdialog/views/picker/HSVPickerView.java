@@ -14,6 +14,7 @@ import java.util.Locale;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatSeekBar;
+import me.jfenn.androidutils.seekbar.SeekBarUtils;
 import me.jfenn.colorpickerdialog.R;
 import me.jfenn.colorpickerdialog.utils.ColorUtils;
 
@@ -124,25 +125,28 @@ public class HSVPickerView extends PickerView {
     }
 
     private void updateProgressBars() {
-        ColorUtils.setProgressBarDrawable(hue, new GradientDrawable(
+        int neutralColor = ColorUtils.fromAttr(getContext(), R.attr.neutralColor,
+                ColorUtils.fromAttrRes(getContext(), android.R.attr.textColorPrimary, R.color.colorPickerDialog_neutral));
+
+        SeekBarUtils.setProgressBarDrawable(hue, new GradientDrawable(
                 GradientDrawable.Orientation.LEFT_RIGHT,
                 ColorUtils.getColorWheelArr(saturation.getProgress() / 255f, brightness.getProgress() / 255f)
-        ));
+        ), neutralColor);
 
-        ColorUtils.setProgressBarDrawable(saturation, new GradientDrawable(
+        SeekBarUtils.setProgressBarDrawable(saturation, new GradientDrawable(
                 GradientDrawable.Orientation.LEFT_RIGHT,
                 new int[]{
                         Color.HSVToColor(new float[]{hue.getProgress(), 0, brightness.getProgress() / 255f}),
                         Color.HSVToColor(new float[]{hue.getProgress(), 1, brightness.getProgress() / 255f})
                 }
-        ));
+        ), neutralColor);
 
-        ColorUtils.setProgressBarDrawable(brightness, new GradientDrawable(
+        SeekBarUtils.setProgressBarDrawable(brightness, new GradientDrawable(
                 GradientDrawable.Orientation.LEFT_RIGHT,
                 new int[]{
                         Color.HSVToColor(new float[]{hue.getProgress(), saturation.getProgress() / 255f, 0}),
                         Color.HSVToColor(new float[]{hue.getProgress(), saturation.getProgress() / 255f, 1})
                 }
-        ));
+        ), neutralColor);
     }
 }
