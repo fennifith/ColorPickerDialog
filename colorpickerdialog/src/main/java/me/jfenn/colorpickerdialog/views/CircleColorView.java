@@ -8,6 +8,7 @@ import android.graphics.Path;
 import android.util.AttributeSet;
 
 import androidx.annotation.ColorInt;
+import me.jfenn.colorpickerdialog.R;
 import me.jfenn.colorpickerdialog.utils.ColorUtils;
 
 public class CircleColorView extends ColorView {
@@ -40,7 +41,13 @@ public class CircleColorView extends ColorView {
 
     @Override
     public void setColor(@ColorInt int color) {
-        outlinePaint.setColor(ColorUtils.isColorDark(color) ? Color.TRANSPARENT : Color.BLACK);
+        int neutralColor = ColorUtils.fromAttr(getContext(), R.attr.neutralColor,
+                ColorUtils.fromAttrRes(getContext(), android.R.attr.textColorPrimary, R.color.colorPickerDialog_neutral));
+
+        outlinePaint.setColor(ColorUtils.isColorDark(neutralColor)
+                ? (ColorUtils.isColorDark(color) ? Color.TRANSPARENT : neutralColor)
+                : (ColorUtils.isColorDark(color) ? neutralColor : Color.TRANSPARENT));
+
         super.setColor(color);
     }
 
