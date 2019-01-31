@@ -84,7 +84,12 @@ public class ColorPickerImageView extends AppCompatImageView {
                             fillPaint.setColor(color);
                             strokePaint.setColor(ColorUtils.isColorDark(color) ? Color.WHITE : Color.BLACK);
 
-                            new Handler(Looper.getMainLooper()).post(() -> invalidate());
+                            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    invalidate();
+                                }
+                            });
                         }
                     }
                 }.start();
@@ -120,7 +125,12 @@ public class ColorPickerImageView extends AppCompatImageView {
                     fillPaint.setColor(color);
                     strokePaint.setColor(ColorUtils.isColorDark(color) ? Color.WHITE : Color.BLACK);
 
-                    new Handler(Looper.getMainLooper()).post(() -> invalidate());
+                    new Handler(Looper.getMainLooper()).post(new Runnable() {
+                        @Override
+                        public void run() {
+                            invalidate();
+                        }
+                    });
                 }
             }
         }.start();
