@@ -45,6 +45,7 @@ public abstract class RenderableView extends View implements CanvasRenderTask.Re
         paint = new Paint();
         paint.setDither(true);
         paint.setAntiAlias(true);
+        paint.setFilterBitmap(true);
     }
 
     public void startRender() {

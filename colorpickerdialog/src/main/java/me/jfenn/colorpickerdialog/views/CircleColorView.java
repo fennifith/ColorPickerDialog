@@ -13,7 +13,6 @@ import me.jfenn.colorpickerdialog.utils.ColorUtils;
 public class CircleColorView extends ColorView {
 
     Paint outlinePaint;
-    boolean selected = true;
 
     public CircleColorView(Context context) {
         super(context);
@@ -45,16 +44,9 @@ public class CircleColorView extends ColorView {
         super.setColor(color);
     }
 
-    public void setSelected(boolean selected) {
-        this.selected = selected;
-        postInvalidate();
-    }
-
     @Override
     public void render(Canvas canvas) {
         int size = Math.min(canvas.getWidth(), canvas.getHeight());
-        if (!selected)
-            size *= 0.8;
 
         Path path = new Path();
         path.addCircle(canvas.getWidth() / 2, canvas.getHeight() / 2, size / 2, Path.Direction.CW);

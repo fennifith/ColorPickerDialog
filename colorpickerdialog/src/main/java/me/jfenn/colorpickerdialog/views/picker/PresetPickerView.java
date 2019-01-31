@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SimpleItemAnimator;
 import me.jfenn.colorpickerdialog.R;
 import me.jfenn.colorpickerdialog.adapters.PresetColorAdapter;
 
@@ -62,6 +63,11 @@ public class PresetPickerView extends PickerView {
 
         RecyclerView recycler = findViewById(R.id.recycler);
         recycler.setHasFixedSize(true);
+
+        RecyclerView.ItemAnimator animator = recycler.getItemAnimator();
+        if (animator instanceof SimpleItemAnimator)
+            ((SimpleItemAnimator) animator).setSupportsChangeAnimations(false);
+
         recycler.setLayoutManager(new GridLayoutManager(getContext(), 4));
         recycler.setAdapter(adapter);
     }

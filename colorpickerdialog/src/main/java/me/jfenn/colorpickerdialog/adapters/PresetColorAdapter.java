@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import me.jfenn.colorpickerdialog.R;
 import me.jfenn.colorpickerdialog.interfaces.OnColorPickedListener;
-import me.jfenn.colorpickerdialog.views.CircleColorView;
+import me.jfenn.colorpickerdialog.views.SelectableCircleColorView;
 
 public class PresetColorAdapter extends RecyclerView.Adapter<PresetColorAdapter.ViewHolder> {
 
@@ -78,7 +78,7 @@ public class PresetColorAdapter extends RecyclerView.Adapter<PresetColorAdapter.
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        private CircleColorView colorView;
+        private SelectableCircleColorView colorView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
