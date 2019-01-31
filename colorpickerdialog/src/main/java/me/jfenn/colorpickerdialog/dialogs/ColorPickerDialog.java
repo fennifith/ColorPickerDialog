@@ -29,6 +29,7 @@ import me.jfenn.colorpickerdialog.R;
 import me.jfenn.colorpickerdialog.activities.ImagePickerActivity;
 import me.jfenn.colorpickerdialog.adapters.ColorPickerPagerAdapter;
 import me.jfenn.colorpickerdialog.interfaces.OnColorPickedListener;
+import me.jfenn.colorpickerdialog.utils.ArrayUtils;
 import me.jfenn.colorpickerdialog.utils.ColorUtils;
 import me.jfenn.colorpickerdialog.views.SmoothColorView;
 import me.jfenn.colorpickerdialog.views.picker.HSVPickerView;
@@ -44,6 +45,8 @@ public class ColorPickerDialog extends AppCompatDialog implements ColorPicker.On
     private ViewPager slidersPager;
     private ColorPickerPagerAdapter slidersAdapter;
 
+    private PickerView[] pickers;
+
     @ColorInt
     private int color = Color.BLACK;
     private boolean isAlphaEnabled = true;
@@ -53,12 +56,17 @@ public class ColorPickerDialog extends AppCompatDialog implements ColorPicker.On
 
     public ColorPickerDialog(Context context) {
         super(context);
-        setTitle(R.string.colorPickerDialog_dialogName);
+        init();
     }
 
     public ColorPickerDialog(Context context, @StyleRes int style) {
         super(context, style);
+        init();
+    }
+
+    private void init() {
         setTitle(R.string.colorPickerDialog_dialogName);
+        withPickers();
     }
 
     /**
@@ -95,6 +103,56 @@ public class ColorPickerDialog extends AppCompatDialog implements ColorPicker.On
         return this;
     }
 
+    /**
+     * Enables the preset picker view and applies the passed presets. Passing
+     * nothing will enable the picker view with the default preset values.
+     *
+     * @param presetColors      The preset colors to use.
+     * @return                  "This" dialog instance, for method chaining.
+     */
+    public ColorPickerDialog withPresets(@ColorInt int... presetColors) {
+        PresetPickerView presetPicker = getPicker(PresetPickerView.class);
+        if (presetPicker == null) {
+            presetPicker = new PresetPickerView(getContext());
+            pickers = ArrayUtils.push(pickers, presetPicker);
+        }
+
+        presetPicker.withPresets(presetColors);
+        return this;
+    }
+
+    /**
+     * Determine whether a particular picker view is enabled, and return
+     * it. If not, this will return null.
+     *
+     * @param pickerClass       The class of the PickerView.
+     * @return                  The view, if it is enabled; null if not.
+     */
+    @Nullable
+    public <T extends PickerView> T getPicker(Class<T> pickerClass) {
+        for (PickerView picker : pickers) {
+            if (picker.getClass().equals(pickerClass))
+                return (T) picker;
+        }
+
+        return null;
+    }
+
+    /**
+     * Set the picker views used by the dialog. If this method is called with
+     * no arguments, the default pickers will be used; an RGB and HSV picker.
+     *
+     * @param pickers           The picker views to use.
+     * @return                  "This" dialog instance, for method chaining.
+     */
+    public ColorPickerDialog withPickers(PickerView... pickers) {
+        if (pickers.length == 0)
+            this.pickers = new PickerView[]{new RGBPickerView(getContext()), new HSVPickerView(getContext())};
+        else this.pickers = pickers;
+
+        return this;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,7 +163,7 @@ public class ColorPickerDialog extends AppCompatDialog implements ColorPicker.On
         tabLayout = findViewById(R.id.tabLayout);
         slidersPager = findViewById(R.id.slidersPager);
 
-        slidersAdapter = new ColorPickerPagerAdapter(getContext(), new RGBPickerView(getContext()), new HSVPickerView(getContext()), new PresetPickerView(getContext()));
+        slidersAdapter = new ColorPickerPagerAdapter(getContext(), pickers);
         slidersAdapter.setListener(this);
         slidersAdapter.setAlphaEnabled(isAlphaEnabled);
         slidersAdapter.setColor(color);

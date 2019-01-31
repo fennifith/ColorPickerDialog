@@ -78,7 +78,7 @@ public class PresetPickerView extends PickerView {
     }
 
     public PresetPickerView withPresets(int... presets) {
-        adapter.setPresets(presets);
+        adapter.setPresets(presets.length > 0 ? presets : DEFAULT_PRESETS);
         return this;
     }
 

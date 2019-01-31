@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         new ColorPickerDialog(this, v.getId() == R.id.dark ? R.style.ColorDialog_Dark : 0)
                 .withColor(color)
                 .withAlphaEnabled(v.getId() != R.id.normal)
+                .withPresets(v.getId() == R.id.normalAlpha ? new int[]{0, 0x50ffffff, 0x50000000} : new int[]{})
                 .withListener(new ColorPickerDialog.OnColorPickedListener() {
                     @Override
                     public void onColorPicked(ColorPickerDialog dialog, int color) {
