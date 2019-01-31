@@ -28,13 +28,15 @@ import me.jfenn.colorpickerdialog.ColorPicker;
 import me.jfenn.colorpickerdialog.R;
 import me.jfenn.colorpickerdialog.activities.ImagePickerActivity;
 import me.jfenn.colorpickerdialog.adapters.ColorPickerPagerAdapter;
+import me.jfenn.colorpickerdialog.interfaces.OnColorPickedListener;
 import me.jfenn.colorpickerdialog.utils.ColorUtils;
 import me.jfenn.colorpickerdialog.views.SmoothColorView;
 import me.jfenn.colorpickerdialog.views.picker.HSVPickerView;
 import me.jfenn.colorpickerdialog.views.picker.PickerView;
+import me.jfenn.colorpickerdialog.views.picker.PresetPickerView;
 import me.jfenn.colorpickerdialog.views.picker.RGBPickerView;
 
-public class ColorPickerDialog extends AppCompatDialog implements ColorPicker.OnActivityResultListener, PickerView.OnColorPickedListener {
+public class ColorPickerDialog extends AppCompatDialog implements ColorPicker.OnActivityResultListener, OnColorPickedListener {
 
     private SmoothColorView colorView;
     private AppCompatEditText colorHex;
@@ -96,14 +98,14 @@ public class ColorPickerDialog extends AppCompatDialog implements ColorPicker.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.dialog_color_picker);
+        setContentView(R.layout.colorpicker_dialog_color_picker);
 
         colorView = findViewById(R.id.color);
         colorHex = findViewById(R.id.colorHex);
         tabLayout = findViewById(R.id.tabLayout);
         slidersPager = findViewById(R.id.slidersPager);
 
-        slidersAdapter = new ColorPickerPagerAdapter(getContext(), new RGBPickerView(getContext()), new HSVPickerView(getContext()));
+        slidersAdapter = new ColorPickerPagerAdapter(getContext(), new RGBPickerView(getContext()), new HSVPickerView(getContext()), new PresetPickerView(getContext()));
         slidersAdapter.setListener(this);
         slidersAdapter.setAlphaEnabled(isAlphaEnabled);
         slidersAdapter.setColor(color);

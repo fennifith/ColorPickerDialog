@@ -8,14 +8,14 @@ import android.view.ViewGroup;
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
+import me.jfenn.colorpickerdialog.interfaces.OnColorPickedListener;
 import me.jfenn.colorpickerdialog.views.picker.PickerView;
 
-public class ColorPickerPagerAdapter extends PagerAdapter implements PickerView.OnColorPickedListener, ViewPager.OnPageChangeListener {
+public class ColorPickerPagerAdapter extends HeightablePagerAdapter implements OnColorPickedListener, ViewPager.OnPageChangeListener {
 
     private Context context;
-    private PickerView.OnColorPickedListener listener;
+    private OnColorPickedListener listener;
 
     @ColorInt
     private int color = Color.BLACK;
@@ -34,7 +34,7 @@ public class ColorPickerPagerAdapter extends PagerAdapter implements PickerView.
      *
      * @param listener         The listener to receive updates.
      */
-    public void setListener(PickerView.OnColorPickedListener listener) {
+    public void setListener(OnColorPickedListener listener) {
         this.listener = listener;
     }
 
@@ -94,6 +94,12 @@ public class ColorPickerPagerAdapter extends PagerAdapter implements PickerView.
     @Override
     public int getCount() {
         return pickers.length;
+    }
+
+    @Override
+    public int getHeightAt(int position, int widthMeasureSpec, int heightMeasureSpec) {
+        pickers[position].measure(widthMeasureSpec, heightMeasureSpec);
+        return pickers[position].getMeasuredHeight();
     }
 
     @Override

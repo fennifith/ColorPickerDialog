@@ -58,16 +58,18 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="64dp"
         android:layout_gravity="bottom|end"
-        android:gravity="end"
+        android:gravity="end|center_vertical"
         android:orientation="horizontal"
-        android:padding="16dp">
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp">
 
         <TextView
             android:id="@+id/cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:background="?attr/selectableItemBackground"
             android:paddingLeft="12dp"
             android:paddingTop="8dp"
@@ -83,6 +85,7 @@
             android:id="@+id/confirm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:background="?attr/selectableItemBackground"
             android:paddingLeft="12dp"
             android:paddingTop="8dp"

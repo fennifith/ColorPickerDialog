@@ -1,6 +1,7 @@
 package me.jfenn.colorpickerdialog.views.picker;
 
 import android.animation.ObjectAnimator;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Color;
 import android.util.AttributeSet;
@@ -33,13 +34,14 @@ public class RGBPickerView extends PickerView {
         super(context, attrs, defStyleAttr);
     }
 
+    @TargetApi(21)
     public RGBPickerView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
     @Override
     void init() {
-        inflate(getContext(), R.layout.layout_rgb_picker, this);
+        inflate(getContext(), R.layout.colorpicker_layout_rgb_picker, this);
         red = findViewById(R.id.red);
         redInt = findViewById(R.id.redInt);
         green = findViewById(R.id.green);

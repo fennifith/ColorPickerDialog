@@ -19,9 +19,10 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatSeekBar;
 import me.jfenn.androidutils.seekbar.SeekBarUtils;
 import me.jfenn.colorpickerdialog.R;
+import me.jfenn.colorpickerdialog.interfaces.OnColorPickedListener;
 import me.jfenn.colorpickerdialog.utils.ColorUtils;
 
-public abstract class PickerView extends LinearLayout {
+public abstract class PickerView extends LinearLayout implements OnColorPickedListener {
 
     private OnColorPickedListener listener;
 
@@ -179,6 +180,9 @@ public abstract class PickerView extends LinearLayout {
      * @param animate       Whether to animate the change in values.
      */
     public void setColorAlpha(int alpha, boolean animate) {
+        if (this.alpha == null)
+            return;
+
         if (animate && !isTrackingTouch) {
             ObjectAnimator animator = ObjectAnimator.ofInt(this.alpha, "progress", alpha);
             animator.setInterpolator(new DecelerateInterpolator());
@@ -194,10 +198,15 @@ public abstract class PickerView extends LinearLayout {
      * @return The color's alpha, from 0-255.
      */
     public int getColorAlpha() {
-        return alpha.getProgress();
+        return alpha != null ? alpha.getProgress() : 255;
     }
 
     protected void onColorPicked() {
+        onColorPicked(this, getColor());
+    }
+
+    @Override
+    public void onColorPicked(@Nullable PickerView pickerView, int color) {
         if (listener != null)
             listener.onColorPicked(this, getColor());
     }
@@ -213,7 +222,4 @@ public abstract class PickerView extends LinearLayout {
         this.listener = listener;
     }
 
-    public interface OnColorPickedListener {
-        void onColorPicked(PickerView pickerView, @ColorInt int color);
-    }
 }

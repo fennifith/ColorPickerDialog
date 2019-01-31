@@ -1,6 +1,7 @@
 package me.jfenn.colorpickerdialog.views.picker;
 
 import android.animation.ObjectAnimator;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
@@ -36,13 +37,14 @@ public class HSVPickerView extends PickerView {
         super(context, attrs, defStyleAttr);
     }
 
+    @TargetApi(21)
     public HSVPickerView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
     @Override
     void init() {
-        inflate(getContext(), R.layout.layout_hsv_picker, this);
+        inflate(getContext(), R.layout.colorpicker_layout_hsv_picker, this);
         hue = findViewById(R.id.hue);
         hueInt = findViewById(R.id.hueInt);
         saturation = findViewById(R.id.saturation);

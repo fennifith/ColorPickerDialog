@@ -21,7 +21,7 @@ public class ImageColorPickerDialog extends AppCompatDialog {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.dialog_image_color_picker);
+        setContentView(R.layout.colorpicker_dialog_image_color_picker);
 
         /*ColorPickerImageView imageView = (ColorPickerImageView) findViewById(R.id.image);
         imageView.setOnColorChangedListener(new ColorPickerImageView.OnColorChangedListener() {
