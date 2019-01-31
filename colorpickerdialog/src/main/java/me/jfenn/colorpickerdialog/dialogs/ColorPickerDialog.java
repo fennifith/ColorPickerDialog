@@ -11,7 +11,6 @@ import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.View;
 
 import com.google.android.material.tabs.TabLayout;
 
@@ -197,22 +196,14 @@ public class ColorPickerDialog extends AppCompatDialog implements ColorPicker.On
             }
         });
 
-        findViewById(R.id.confirm).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (listener != null)
-                    listener.onColorPicked(ColorPickerDialog.this, color);
+        findViewById(R.id.confirm).setOnClickListener(v -> {
+            if (listener != null)
+                listener.onColorPicked(ColorPickerDialog.this, color);
 
-                dismiss();
-            }
+            dismiss();
         });
 
-        findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismiss();
-            }
-        });
+        findViewById(R.id.cancel).setOnClickListener(v -> dismiss());
 
         onColorPicked(null, color);
     }

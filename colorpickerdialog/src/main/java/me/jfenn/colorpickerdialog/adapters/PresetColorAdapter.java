@@ -61,13 +61,10 @@ public class PresetColorAdapter extends RecyclerView.Adapter<PresetColorAdapter.
         holder.colorView.setColor(colors[position]);
         holder.colorView.setSelected(color == colors[position]);
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setColor(colors[holder.getAdapterPosition()]);
-                if (listener != null)
-                    listener.onColorPicked(null, color);
-            }
+        holder.itemView.setOnClickListener(v -> {
+            setColor(colors[holder.getAdapterPosition()]);
+            if (listener != null)
+                listener.onColorPicked(null, color);
         });
     }
 
