@@ -18,6 +18,7 @@ before_deploy:
   - chmod +x .scripts/gen-bintray-descriptor.sh
   - .scripts/gen-bintray-descriptor.sh
   - cat bintray.json
+  - ls */build/outputs/apk/*/*.apk
 deploy:
   provider: bintray
   file: "bintray.json"
