@@ -1,10 +1,10 @@
 {
   "package": {
-    "name": "$(echo $TRAVIS_REPO | cut -d '/' -f 2)",
+    "name": "$(echo $TRAVIS_REPO_SLUG | cut -d '/' -f 2)",
     "repo": "builds",
     "subject": "18jafenn90",
-    "vcs_url": "https://github.com/$TRAVIS_REPO",
-    "issue_tracker_url": "https://github.com/$TRAVIS_REPO/issues",
+    "vcs_url": "https://github.com/$TRAVIS_REPO_SLUG",
+    "issue_tracker_url": "https://github.com/$TRAVIS_REPO_SLUG/issues",
     "licenses": ["Apache-2.0"]
   },
 
