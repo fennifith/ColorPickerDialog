@@ -19,7 +19,7 @@ before_deploy:
   - .scripts/gen-bintray-descriptor.sh
 deploy:
   provider: bintray
-  file: "./bintray.json",
-  user: "18jafenn90",
-  key: "$BINTRAY_KEY",
+  file: "./bintray.json"
+  user: "18jafenn90"
+  key: "$BINTRAY_KEY"
   skip_cleanup: true
