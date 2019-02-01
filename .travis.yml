@@ -23,3 +23,5 @@ deploy:
   user: "18jafenn90"
   key: "$BINTRAY_KEY"
   skip_cleanup: true
+  on:
+      all_branches: true
