@@ -15,7 +15,7 @@
 
   "files": [
     {
-      "includePattern": "app(.*)*/(.*\\\\.apk)",
+      "includePattern": "app/build(.*)*/(.*\\\\.apk)",
       "uploadPattern": "\$2"
     }
   ],

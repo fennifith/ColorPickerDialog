@@ -21,9 +21,9 @@ before_deploy:
   - ls */build/outputs/apk/*/*.apk
 deploy:
   provider: bintray
+  skip_cleanup: true
   file: "bintray.json"
   user: "18jafenn90"
-  key: "$BINTRAY_KEY"
-  skip_cleanup: true
+  key: $BINTRAY_KEY
   on:
       all_branches: true
