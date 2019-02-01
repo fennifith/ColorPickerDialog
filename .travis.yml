@@ -1,4 +1,3 @@
-
 language: android
 android:
   components:
