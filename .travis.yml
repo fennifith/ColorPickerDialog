@@ -17,6 +17,7 @@ script:
 before_deploy:
   - chmod +x .scripts/gen-bintray-descriptor.sh
   - .scripts/gen-bintray-descriptor.sh
+  - cat bintray.json
 deploy:
   provider: bintray
   file: "bintray.json"

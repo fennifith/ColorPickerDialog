@@ -7,10 +7,12 @@
     "issue_tracker_url": "https://github.com/$TRAVIS_REPO/issues",
     "licenses": ["Apache-2.0"]
   },
+
   "version": {
     "name": "$TRAVIS_COMMIT",
     "desc": "$TRAVIS_COMMIT_MESSAGE"
   },
+
   "files": [
     {
       "includePattern": "*/build/outputs/apk/*/*.apk"
