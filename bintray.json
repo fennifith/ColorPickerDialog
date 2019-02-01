@@ -15,8 +15,8 @@
 
   "files": [
     {
-      "includePattern": "(.*)*/(.*\\\\.apk)",
-      "uploadPattern": "\$3"
+      "includePattern": "app(.*)*/(.*\\\\.apk)",
+      "uploadPattern": "\$2"
     }
   ],
   "publish": true
