@@ -1,0 +1,20 @@
+{
+  "package": {
+    "name": "me.jfenn.$(echo $TRAVIS_REPO | cut -d '/' -f 2)",
+    "repo": "$TRAVIS_REPO",
+    "subject": "18jafenn90",
+    "vcs_url": "https://github.com/$TRAVIS_REPO",
+    "issue_tracker_url": "https://github.com/$TRAVIS_REPO/issues",
+    "licenses": ["Apache-2.0"]
+  },
+  "version": {
+    "name": "$TRAVIS_COMMIT",
+    "desc": "$TRAVIS_COMMIT_MESSAGE"
+  },
+  "files": [
+    {
+      "includePattern": "*/build/outputs/apk/*/*.apk"
+    }
+  ],
+  "publish": true
+}
