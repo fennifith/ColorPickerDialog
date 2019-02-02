@@ -16,7 +16,10 @@
   "files": [
     {
       "includePattern": "app/build/outputs/apk/(.*)/(.*\\.apk)",
-      "uploadPattern": "/\$2"
+      "uploadPattern": "/\$2",
+      "matrixParams": {
+        "override": 1
+      }
     }
   ],
   "publish": true
