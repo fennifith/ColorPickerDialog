@@ -1,12 +1,13 @@
-<manifest package="me.jfenn.colorpickerdialog">
+<manifest package="me.jfenn.colorpickerdialog"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!--<application android:name="me.jfenn.colorpickerdialog.ColorPicker">
+    <application>
 
         <activity
             android:name="me.jfenn.colorpickerdialog.activities.ImagePickerActivity"
-            android:label="@string/image_picker_name"
+            android:label="@string/colorPickerDialog_imageName"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
-    </application>-->
+    </application>
 
 </manifest>
