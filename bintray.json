@@ -16,7 +16,7 @@
   "files": [
     {
       "includePattern": "app/build/outputs/apk/(.*)/(.*\\.apk)",
-      "uploadPattern": "/\$2",
+      "uploadPattern": "/$TRAVIS_COMMIT/\$2",
       "matrixParams": {
         "override": 1
       }
