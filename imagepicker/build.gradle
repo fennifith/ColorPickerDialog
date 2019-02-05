@@ -10,6 +10,7 @@ android {
         versionName "0.0.1"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
     }
 
     buildTypes {
@@ -27,6 +28,7 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
     compileOnly project(path: ':base')
 
+    implementation 'me.jfenn:AndroidUtils:0.0.1'
     implementation 'com.github.bumptech.glide:glide:4.8.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
 }

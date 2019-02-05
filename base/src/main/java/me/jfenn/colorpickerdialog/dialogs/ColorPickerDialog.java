@@ -7,7 +7,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.WindowManager;
 
 import com.google.android.material.tabs.TabLayout;
 
@@ -25,7 +27,7 @@ import me.jfenn.colorpickerdialog.interfaces.PermissionsRequestHandler;
 import me.jfenn.colorpickerdialog.interfaces.PermissionsResultHandler;
 import me.jfenn.colorpickerdialog.utils.ArrayUtils;
 import me.jfenn.colorpickerdialog.utils.ColorUtils;
-import me.jfenn.colorpickerdialog.views.SmoothColorView;
+import me.jfenn.colorpickerdialog.views.color.SmoothColorView;
 import me.jfenn.colorpickerdialog.views.picker.HSVPickerView;
 import me.jfenn.colorpickerdialog.views.picker.PickerView;
 import me.jfenn.colorpickerdialog.views.picker.PresetPickerView;
@@ -180,6 +182,25 @@ public class ColorPickerDialog extends AppCompatDialog implements OnColorPickedL
     public ColorPickerDialog withPermissionsHandler(PermissionsRequestHandler permissionsHandler) {
         this.permissionsHandler = permissionsHandler;
         return this;
+    }
+
+    @Override
+    public void show() {
+        super.show();
+
+        // Manual window sizing spaghetti...
+        // Used to enforce that the dialog is able to display in a "portrait" layout
+        // regardless of whether the device is in landscape.
+
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        WindowManager windowmanager = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
+        windowmanager.getDefaultDisplay().getMetrics(displayMetrics);
+
+        WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
+        layoutParams.copyFrom(getWindow().getAttributes());
+        layoutParams.width = (int) (displayMetrics.widthPixels * 0.9f);
+
+        getWindow().setAttributes(layoutParams);
     }
 
     @Override

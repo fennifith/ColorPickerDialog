@@ -1,4 +1,4 @@
-package me.jfenn.colorpickerdialog.views;
+package me.jfenn.colorpickerdialog.views.color;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -67,13 +67,5 @@ public class SmoothColorView extends View {
         } else setBackground(current);
 
         previous = current;
-    }
-
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-
-        int height = (int) (getMeasuredWidth() * 0.5625);
-        setMeasuredDimension(getMeasuredWidth(), height);
     }
 }
