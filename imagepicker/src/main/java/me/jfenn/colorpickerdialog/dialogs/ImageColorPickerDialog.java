@@ -37,6 +37,12 @@ public class ImageColorPickerDialog extends PickerDialog<ImageColorPickerDialog>
         setTitle(R.string.colorPickerDialog_imageColorPicker);
     }
 
+    /**
+     * Specify an image path to load the picker dialog's image from.
+     *
+     * @param path          The string path of the image to load.
+     * @return              "This" dialog instance, for method chaining.
+     */
     public ImageColorPickerDialog withImagePath(String path) {
         Glide.with(getContext()).asBitmap().load(path).into(target);
         return this;

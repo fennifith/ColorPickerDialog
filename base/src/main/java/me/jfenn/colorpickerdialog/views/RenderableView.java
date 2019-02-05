@@ -41,13 +41,23 @@ public abstract class RenderableView extends View implements CanvasRenderTask.Re
         init();
     }
 
-    void init() {
+    /**
+     * Initializes several random things needed by the view to draw
+     * its content on a canvas.
+     *
+     * Should be called by the constructor.
+     */
+    protected void init() {
         paint = new Paint();
         paint.setDither(true);
         paint.setAntiAlias(true);
         paint.setFilterBitmap(true);
     }
 
+    /**
+     * Begin an asynchronous task to render the view's content
+     * into a bitmap without holding up the UI thread.
+     */
     public void startRender() {
         if (task != null)
             task.cancel(true);

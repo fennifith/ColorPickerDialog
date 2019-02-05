@@ -61,8 +61,16 @@ public abstract class PickerView extends LinearLayout implements OnColorPickedLi
         postInit();
     }
 
+    /**
+     * Called by the constructor, used to initialize and inflate
+     * the child views of the picker layout.
+     */
     protected abstract void init();
 
+    /**
+     * Called after `init()`, used to set up child views that should be
+     * present in *most* pickers, such as the "alpha" slider.
+     */
     private void postInit() {
         alphaInt = findViewById(R.id.alphaInt);
         alpha = findViewById(R.id.alpha);
@@ -252,6 +260,11 @@ public abstract class PickerView extends LinearLayout implements OnColorPickedLi
             requestHandler.handleActivityRequest(resultHandler, intent);
     }
 
+    /**
+     * Determine whether the PickerView currently has a request handler.
+     *
+     * @return                  True if the view has a request handler.
+     */
     public boolean hasActivityRequestHandler() {
         return requestHandler != null;
     }

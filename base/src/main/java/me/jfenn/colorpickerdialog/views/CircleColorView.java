@@ -28,8 +28,8 @@ public class CircleColorView extends ColorView {
     }
 
     @Override
-    void setUp() {
-        super.setUp();
+    protected void init() {
+        super.init();
 
         outlinePaint = new Paint();
         outlinePaint.setAntiAlias(true);

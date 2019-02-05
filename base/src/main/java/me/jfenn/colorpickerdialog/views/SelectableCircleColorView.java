@@ -24,11 +24,23 @@ public class SelectableCircleColorView extends CircleColorView {
     }
 
     @Override
-    void setUp() {
-        super.setUp();
+    protected void init() {
+        super.init();
         size = new AnimatedInteger(0);
     }
 
+    /**
+     * Specify whether the color is currently "selected".
+     *
+     * This animates the color circle's scale between 100%
+     * and 80% of the size of the view depending on whether
+     * it is selected or unselected, respectively.
+     *
+     * If this method is not called, the view defaults to the
+     * "selected" state.
+     *
+     * @param selected          Whether the view is selected.
+     */
     public void setSelected(boolean selected) {
         scale = selected ? 1 : 0.8f;
         postInvalidate();

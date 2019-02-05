@@ -90,6 +90,12 @@ public class ImageColorPickerView extends PickerView {
         return getContext().getString(R.string.colorPickerDialog_image);
     }
 
+    /**
+     * Specify a bitmap for the image picker to pick its color from.
+     *
+     * @param bitmap            The bitmap to pick a color from.
+     * @return                  "This" view instance, for method chaining.
+     */
     public ImageColorPickerView withBitmap(Bitmap bitmap) {
         this.bitmap = bitmap;
 
@@ -101,7 +107,7 @@ public class ImageColorPickerView extends PickerView {
         return this;
     }
 
-    public void calculateBitmapMatrix() {
+    private void calculateBitmapMatrix() {
         if (bitmap == null || getWidth() <= 0)
             return;
 

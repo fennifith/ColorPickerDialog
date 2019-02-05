@@ -18,20 +18,20 @@ public class ColorView extends RenderableView {
 
     public ColorView(final Context context) {
         super(context);
-        setUp();
     }
 
     public ColorView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        setUp();
     }
 
     public ColorView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        setUp();
     }
 
-    void setUp() {
+    @Override
+    protected void init() {
+        super.init();
+
         outlineSize = DimenUtils.dpToPx(2);
 
         tilePaint = new Paint();
@@ -40,6 +40,17 @@ public class ColorView extends RenderableView {
         tilePaint.setColor(Color.LTGRAY);
     }
 
+    /**
+     * Set the color int for this view to draw.
+     *
+     * This starts an asynchronous "render" of a bitmap
+     * in a background thread that will draw the color
+     * on top of a tiled grid of alternating squares
+     * that will be drawn as the view content upon
+     * completion.
+     *
+     * @param color         The color int for the view to draw.
+     */
     public void setColor(@ColorInt int color) {
         this.color = color;
         startRender();

@@ -72,6 +72,11 @@ abstract class PickerDialog<T extends PickerDialog> extends AppCompatDialog impl
         return (T) this;
     }
 
+    /**
+     * Determines whether the dialog has an activity request handler or not.
+     *
+     * @return                  True if the dialog has a request handler.
+     */
     public boolean hasRequestHandler() {
         return requestHandler != null;
     }
@@ -95,6 +100,19 @@ abstract class PickerDialog<T extends PickerDialog> extends AppCompatDialog impl
         getWindow().setAttributes(layoutParams);
     }
 
+    /**
+     * Displays the dialog with or without using the default system
+     * sizing. Calling this method with `false` is the same as calling
+     * `show()` with no arguments.
+     *
+     * The default system sizing should not be relied on, mainly because
+     * it comes up with ridiculous measurements based on the content of
+     * the inflated layout that kind of don't look very good and aren't
+     * really entirely usable.
+     *
+     * @param useSystemSizing           Whether to rely on the default
+     *                                  system window sizing.
+     */
     public void show(boolean useSystemSizing) {
         if (useSystemSizing)
             super.show();
