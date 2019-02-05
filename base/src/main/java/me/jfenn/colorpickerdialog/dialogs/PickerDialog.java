@@ -72,6 +72,10 @@ abstract class PickerDialog<T extends PickerDialog> extends AppCompatDialog impl
         return (T) this;
     }
 
+    public boolean hasRequestHandler() {
+        return requestHandler != null;
+    }
+
     @Override
     public void show() {
         super.show();

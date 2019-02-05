@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.Toast;
@@ -21,26 +23,26 @@ import me.jfenn.colorpickerdialog.imagepicker.R;
 import me.jfenn.colorpickerdialog.interfaces.ActivityResultHandler;
 import me.jfenn.colorpickerdialog.interfaces.OnColorPickedListener;
 
-public class ImageFilePickerView extends PickerView implements ActivityResultHandler, ImagePickerAdapter.Listener {
+public class ImagePickerView extends PickerView implements ActivityResultHandler, ImagePickerAdapter.Listener {
 
     private int color;
     private View permissions, permissionsButton;
     private RecyclerView recycler;
 
-    public ImageFilePickerView(Context context) {
+    public ImagePickerView(Context context) {
         super(context);
     }
 
-    public ImageFilePickerView(Context context, @Nullable AttributeSet attrs) {
+    public ImagePickerView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public ImageFilePickerView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public ImagePickerView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
     @TargetApi(21)
-    public ImageFilePickerView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public ImagePickerView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
@@ -57,13 +59,18 @@ public class ImageFilePickerView extends PickerView implements ActivityResultHan
         permissionsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                handlePermissionsRequest(ImageFilePickerView.this, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                handlePermissionsRequest(ImagePickerView.this, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE);
             }
         });
 
-        onPermissionsResult(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                new int[]{ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE),
-                        ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)});
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                onPermissionsResult(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        new int[]{ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE),
+                                ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)});
+            }
+        });
     }
 
     @Override
@@ -80,7 +87,7 @@ public class ImageFilePickerView extends PickerView implements ActivityResultHan
             this.permissions.setVisibility(View.GONE);
             recycler.setVisibility(View.VISIBLE);
 
-            recycler.setAdapter(new ImagePickerAdapter(getContext(), this));
+            recycler.setAdapter(new ImagePickerAdapter(getContext(), this, hasActivityRequestHandler()));
         } else {
             this.permissions.setVisibility(View.VISIBLE);
             recycler.setVisibility(View.GONE);
@@ -119,8 +126,8 @@ public class ImageFilePickerView extends PickerView implements ActivityResultHan
                 .withListener(new OnColorPickedListener<ImageColorPickerDialog>() {
                     @Override
                     public void onColorPicked(@Nullable ImageColorPickerDialog pickerView, int color) {
-                        ImageFilePickerView.this.color = color;
-                        ImageFilePickerView.this.onColorPicked();
+                        ImagePickerView.this.color = color;
+                        ImagePickerView.this.onColorPicked();
                     }
                 })
                 .show();

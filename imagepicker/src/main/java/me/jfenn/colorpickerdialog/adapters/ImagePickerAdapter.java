@@ -23,9 +23,11 @@ public class ImagePickerAdapter extends RecyclerView.Adapter {
     private Listener listener;
 
     private List<String> images;
+    private boolean hasRequestHandler;
 
-    public ImagePickerAdapter(Context context, Listener listener) {
+    public ImagePickerAdapter(Context context, Listener listener, boolean hasRequestHandler) {
         this.listener = listener;
+        this.hasRequestHandler = hasRequestHandler;
         images = getImagePaths(context);
     }
 
@@ -39,7 +41,7 @@ public class ImagePickerAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, int position) {
-        if (holder instanceof ViewHolder) {
+        if (holder instanceof ViewHolder && hasRequestHandler) {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -50,15 +52,15 @@ public class ImagePickerAdapter extends RecyclerView.Adapter {
         } else if (holder instanceof ImageViewHolder) {
             ImageViewHolder imageHolder = (ImageViewHolder) holder;
 
-            Glide.with(imageHolder.imageView)
-                    .load(images.get(position - 1))
+            Glide.with(imageHolder.imageView.getContext().getApplicationContext())
+                    .load(getItem(position))
                     .into(imageHolder.imageView);
 
             imageHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (listener != null)
-                        listener.onImagePicked(Uri.parse(images.get(holder.getAdapterPosition() - 1)));
+                        listener.onImagePicked(Uri.parse(getItem(holder.getAdapterPosition())));
                 }
             });
         }
@@ -66,12 +68,16 @@ public class ImagePickerAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemViewType(int position) {
-        return position == 0 ? 0 : 1;
+        return position == 0 && hasRequestHandler ? 0 : 1;
     }
 
     @Override
     public int getItemCount() {
-        return images.size() + 1;
+        return images.size() + (hasRequestHandler ? 1 : 0);
+    }
+
+    private String getItem(int position) {
+        return images.get(position - (hasRequestHandler ? 1 : 0));
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

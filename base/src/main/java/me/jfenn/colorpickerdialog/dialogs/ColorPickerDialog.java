@@ -151,9 +151,11 @@ public class ColorPickerDialog extends PickerDialog<ColorPickerDialog> {
         tabLayout = findViewById(R.id.tabLayout);
         slidersPager = findViewById(R.id.slidersPager);
 
-        for (PickerView picker : pickers) {
-            if (!picker.hasActivityRequestHandler())
-                picker.withActivityRequestHandler(this);
+        if (hasRequestHandler()) {
+            for (PickerView picker : pickers) {
+                if (!picker.hasActivityRequestHandler())
+                    picker.withActivityRequestHandler(this);
+            }
         }
 
         slidersAdapter = new ColorPickerPagerAdapter(getContext(), pickers);
