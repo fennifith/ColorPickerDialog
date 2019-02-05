@@ -11,16 +11,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
-import me.jfenn.colorpickerdialog.R;
-import me.jfenn.colorpickerdialog.interfaces.PermissionsRequestHandler;
+import me.jfenn.colorpickerdialog.imagepicker.R;
 import me.jfenn.colorpickerdialog.interfaces.PermissionsResultHandler;
 
 public class ImagePickerView extends PickerView implements PermissionsResultHandler {
 
     private View permissions, permissionsButton;
     private RecyclerView recycler;
-
-    private PermissionsRequestHandler permissionsHandler;
 
     public ImagePickerView(Context context) {
         super(context);
@@ -39,13 +36,8 @@ public class ImagePickerView extends PickerView implements PermissionsResultHand
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
-    public ImagePickerView withPermissionsHandler(PermissionsRequestHandler permissionsHandler) {
-        this.permissionsHandler = permissionsHandler;
-        return this;
-    }
-
     @Override
-    void init() {
+    protected void init() {
         inflate(getContext(), R.layout.colorpicker_layout_image_picker, this);
         permissions = findViewById(R.id.permissions);
         permissionsButton = findViewById(R.id.permissionsButton);
@@ -54,8 +46,7 @@ public class ImagePickerView extends PickerView implements PermissionsResultHand
         permissionsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (permissionsHandler != null)
-                    permissionsHandler.handlePermissionsRequest(ImagePickerView.this, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                handlePermissionsRequest(ImagePickerView.this, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE);
             }
         });
 

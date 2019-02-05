@@ -40,7 +40,7 @@ public class RGBPickerView extends PickerView {
     }
 
     @Override
-    void init() {
+    protected void init() {
         inflate(getContext(), R.layout.colorpicker_layout_rgb_picker, this);
         red = findViewById(R.id.red);
         redInt = findViewById(R.id.redInt);

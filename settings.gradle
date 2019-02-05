@@ -1,1 +1,1 @@
-include ':app', ':colorpickerdialog'
+include ':app', ':base', ':imagepicker'

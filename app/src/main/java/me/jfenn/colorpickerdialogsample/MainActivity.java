@@ -13,6 +13,7 @@ import me.jfenn.colorpickerdialog.dialogs.ColorPickerDialog;
 import me.jfenn.colorpickerdialog.interfaces.OnColorPickedListener;
 import me.jfenn.colorpickerdialog.interfaces.PermissionsRequestHandler;
 import me.jfenn.colorpickerdialog.interfaces.PermissionsResultHandler;
+import me.jfenn.colorpickerdialog.views.picker.ImagePickerView;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -37,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .withColor(color)
                 .withAlphaEnabled(v.getId() != R.id.normal)
                 .withPresets(v.getId() == R.id.normalAlpha ? new int[]{0, 0x50ffffff, 0x50000000} : new int[]{})
-                .withImagePicker()
+                .withPicker(new ImagePickerView(this))
                 .withPermissionsHandler(new PermissionsRequestHandler() {
                     @Override
                     public void handlePermissionsRequest(PermissionsResultHandler resultHandler, String... permissions) {

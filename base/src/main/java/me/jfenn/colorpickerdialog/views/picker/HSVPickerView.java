@@ -43,7 +43,7 @@ public class HSVPickerView extends PickerView {
     }
 
     @Override
-    void init() {
+    protected void init() {
         inflate(getContext(), R.layout.colorpicker_layout_hsv_picker, this);
         hue = findViewById(R.id.hue);
         hueInt = findViewById(R.id.hueInt);

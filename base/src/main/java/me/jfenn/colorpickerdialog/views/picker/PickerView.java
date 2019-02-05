@@ -20,11 +20,14 @@ import androidx.appcompat.widget.AppCompatSeekBar;
 import me.jfenn.androidutils.seekbar.SeekBarUtils;
 import me.jfenn.colorpickerdialog.R;
 import me.jfenn.colorpickerdialog.interfaces.OnColorPickedListener;
+import me.jfenn.colorpickerdialog.interfaces.PermissionsRequestHandler;
+import me.jfenn.colorpickerdialog.interfaces.PermissionsResultHandler;
 import me.jfenn.colorpickerdialog.utils.ColorUtils;
 
-public abstract class PickerView extends LinearLayout implements OnColorPickedListener<PickerView> {
+public abstract class PickerView extends LinearLayout implements OnColorPickedListener<PickerView>, PermissionsRequestHandler {
 
     private OnColorPickedListener<PickerView> listener;
+    private PermissionsRequestHandler permissionsHandler;
 
     private TextView alphaInt;
     private AppCompatSeekBar alpha;
@@ -57,7 +60,7 @@ public abstract class PickerView extends LinearLayout implements OnColorPickedLi
         postInit();
     }
 
-    abstract void init();
+    protected abstract void init();
 
     private void postInit() {
         alphaInt = findViewById(R.id.alphaInt);
@@ -201,16 +204,6 @@ public abstract class PickerView extends LinearLayout implements OnColorPickedLi
         return alpha != null ? alpha.getProgress() : 255;
     }
 
-    protected void onColorPicked() {
-        onColorPicked(this, getColor());
-    }
-
-    @Override
-    public void onColorPicked(@Nullable PickerView pickerView, int color) {
-        if (listener != null)
-            listener.onColorPicked(this, getColor());
-    }
-
     /**
      * Set an interface to receive updates to color values. This may
      * be called multiple times in succession if a slider is dragged
@@ -222,4 +215,37 @@ public abstract class PickerView extends LinearLayout implements OnColorPickedLi
         this.listener = listener;
     }
 
+    protected void onColorPicked() {
+        onColorPicked(this, getColor());
+    }
+
+    @Override
+    public void onColorPicked(@Nullable PickerView pickerView, int color) {
+        if (listener != null)
+            listener.onColorPicked(this, getColor());
+    }
+
+    /**
+     * Set a permissions handler interface for this view to use
+     * for permission requests.
+     *
+     * @param permissionsHandler    The interface to pass permission
+     *                              requests to.
+     * @return                      "This" view instance, for method
+     *                              chaining.
+     */
+    public PickerView withPermissionsHandler(PermissionsRequestHandler permissionsHandler) {
+        this.permissionsHandler = permissionsHandler;
+        return this;
+    }
+
+    @Override
+    public void handlePermissionsRequest(PermissionsResultHandler resultHandler, String... permissions) {
+        if (permissionsHandler != null)
+            permissionsHandler.handlePermissionsRequest(resultHandler, permissions);
+    }
+
+    public boolean hasPermissionsHandler() {
+        return permissionsHandler != null;
+    }
 }

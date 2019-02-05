@@ -27,7 +27,6 @@ import me.jfenn.colorpickerdialog.utils.ArrayUtils;
 import me.jfenn.colorpickerdialog.utils.ColorUtils;
 import me.jfenn.colorpickerdialog.views.SmoothColorView;
 import me.jfenn.colorpickerdialog.views.picker.HSVPickerView;
-import me.jfenn.colorpickerdialog.views.picker.ImagePickerView;
 import me.jfenn.colorpickerdialog.views.picker.PickerView;
 import me.jfenn.colorpickerdialog.views.picker.PresetPickerView;
 import me.jfenn.colorpickerdialog.views.picker.RGBPickerView;
@@ -118,18 +117,20 @@ public class ColorPickerDialog extends AppCompatDialog implements OnColorPickedL
     }
 
     /**
-     * Enables the image picker tab - allows the user to select a color from
-     * an image stored on their device. Requires the read/write external storage
-     * permissions.
+     * Add an unidentified picker view to the dialog, if it doesn't already
+     * exist.
      *
+     * If the picker view already exists in the dialog, this will throw an
+     * error.
+     *
+     * @param picker            The picker view to add.
      * @return                  "This" dialog instance, for method chaining.
      */
-    public ColorPickerDialog withImagePicker() {
-        ImagePickerView imagePicker = getPicker(ImagePickerView.class);
-        if (imagePicker == null) {
-            imagePicker = new ImagePickerView(getContext()).withPermissionsHandler(this);
-            pickers = ArrayUtils.push(pickers, imagePicker);
-        }
+    public ColorPickerDialog withPicker(PickerView picker) {
+        PickerView view = getPicker(picker.getClass());
+        if (view == null) {
+            pickers = ArrayUtils.push(pickers, picker);
+        } else return null;
 
         return this;
     }
@@ -190,6 +191,11 @@ public class ColorPickerDialog extends AppCompatDialog implements OnColorPickedL
         colorHex = findViewById(R.id.colorHex);
         tabLayout = findViewById(R.id.tabLayout);
         slidersPager = findViewById(R.id.slidersPager);
+
+        for (PickerView picker : pickers) {
+            if (!picker.hasPermissionsHandler())
+                picker.withPermissionsHandler(this);
+        }
 
         slidersAdapter = new ColorPickerPagerAdapter(getContext(), pickers);
         slidersAdapter.setListener(this);

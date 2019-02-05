@@ -6,7 +6,7 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDialog;
-import me.jfenn.colorpickerdialog.R;
+import me.jfenn.colorpickerdialog.imagepicker.R;
 import me.jfenn.colorpickerdialog.interfaces.OnColorPickedListener;
 import me.jfenn.colorpickerdialog.views.picker.PickerView;
 
