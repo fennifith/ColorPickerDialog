@@ -17,16 +17,16 @@
             android:gravity="center_horizontal"
             android:paddingLeft="64dp"
             android:paddingRight="64dp"
-            android:textColor="?android:attr/textColorSecondary"
             android:text="@string/colorPickerDialog_msg_grant_permissions"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:textColor="?android:attr/textColorSecondary" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/permissionsButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="?android:attr/textColorPrimary"
-            android:text="@string/colorPickerDialog_grant_permissions" />
+            android:text="@string/colorPickerDialog_grant_permissions"
+            android:textColor="?android:attr/textColorPrimary" />
 
     </LinearLayout>
 
@@ -36,8 +36,9 @@
         android:layout_height="match_parent"
         android:clipToPadding="false"
         android:paddingLeft="8dp"
+        android:paddingTop="8dp"
         android:paddingRight="8dp"
-        android:paddingBottom="26dp"
+        android:paddingBottom="126dp"
         android:visibility="gone" />
 
 </FrameLayout>
