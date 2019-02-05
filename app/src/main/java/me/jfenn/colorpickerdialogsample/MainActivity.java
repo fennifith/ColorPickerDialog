@@ -34,11 +34,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        new ColorPickerDialog(this)
+        new ColorPickerDialog(this, v.getId() == R.id.dark ? R.style.ColorDialog_Dark : R.style.Theme_AppCompat_Light_Dialog)
                 .withColor(color)
                 .withAlphaEnabled(v.getId() != R.id.normal)
                 .withPresets(v.getId() == R.id.normalAlpha ? new int[]{0, 0x50ffffff, 0x50000000} : new int[]{})
-                .withPicker(new ImagePickerView(this))
+                .withPicker(ImagePickerView.class)
                 .withPermissionsHandler(new PermissionsRequestHandler() {
                     @Override
                     public void handlePermissionsRequest(PermissionsResultHandler resultHandler, String... permissions) {

@@ -120,17 +120,24 @@ public class ColorPickerDialog extends AppCompatDialog implements OnColorPickedL
 
     /**
      * Add an unidentified picker view to the dialog, if it doesn't already
-     * exist.
+     * exist. This class is instantiated by the dialog, to keep the view's
+     * Context consistent with the rest of the styled components.
      *
      * If the picker view already exists in the dialog, this will throw an
      * error.
      *
-     * @param picker            The picker view to add.
+     * @param pickerClass       The class of the picker view to add.
      * @return                  "This" dialog instance, for method chaining.
      */
-    public ColorPickerDialog withPicker(PickerView picker) {
-        PickerView view = getPicker(picker.getClass());
-        if (view == null) {
+    public <T extends PickerView> ColorPickerDialog withPicker(Class<T> pickerClass) {
+        PickerView picker = getPicker(pickerClass);
+        if (picker == null) {
+            try {
+                picker = pickerClass.getConstructor(Context.class).newInstance(getContext());
+            } catch (Exception e) {
+                return null;
+            }
+
             pickers = ArrayUtils.push(pickers, picker);
         } else return null;
 
