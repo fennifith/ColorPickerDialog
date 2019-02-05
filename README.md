@@ -121,7 +121,7 @@ public class SomeActivity extends Activity implements ActivityRequestHandler {
             .withListener(new ActivityRequestHandler() {
                 @Override
                 public void handlePermissionsRequest(ActivityResultHandler resultHandler, String... permissions) {
-                    ActivityCompat.requestPermissions(MainActivity.this, permissions, 0);
+                    ActivityCompat.requestPermissions(SomeActivity.this, permissions, 0);
                     SomeActivity.this.resultHandler = resultHandler; 
                 }
                 
