@@ -41,15 +41,21 @@
 
         </FrameLayout>
 
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tabLayout"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
             android:background="@drawable/colorpicker_bottom_border"
-            android:backgroundTint="?android:textColorPrimary"
-            app:tabIndicatorHeight="0dp"
-            app:tabMode="fixed" />
+            android:backgroundTint="?android:textColorPrimary">
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tabLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                app:tabIndicatorHeight="0dp"
+                app:tabMode="scrollable" />
+
+        </FrameLayout>
 
         <me.jfenn.colorpickerdialog.views.HeightableViewPager
             android:id="@+id/slidersPager"
