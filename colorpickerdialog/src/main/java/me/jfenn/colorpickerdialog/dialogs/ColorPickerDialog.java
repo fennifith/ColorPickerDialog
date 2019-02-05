@@ -1,21 +1,15 @@
 package me.jfenn.colorpickerdialog.dialogs;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.ColorStateList;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 
 import com.google.android.material.tabs.TabLayout;
-
-import java.io.IOException;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.Nullable;
@@ -24,20 +18,21 @@ import androidx.appcompat.app.AppCompatDialog;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.viewpager.widget.ViewPager;
 import me.jfenn.androidutils.AlphaColorDrawable;
-import me.jfenn.colorpickerdialog.ColorPicker;
 import me.jfenn.colorpickerdialog.R;
-import me.jfenn.colorpickerdialog.activities.ImagePickerActivity;
 import me.jfenn.colorpickerdialog.adapters.ColorPickerPagerAdapter;
 import me.jfenn.colorpickerdialog.interfaces.OnColorPickedListener;
+import me.jfenn.colorpickerdialog.interfaces.PermissionsRequestHandler;
+import me.jfenn.colorpickerdialog.interfaces.PermissionsResultHandler;
 import me.jfenn.colorpickerdialog.utils.ArrayUtils;
 import me.jfenn.colorpickerdialog.utils.ColorUtils;
 import me.jfenn.colorpickerdialog.views.SmoothColorView;
 import me.jfenn.colorpickerdialog.views.picker.HSVPickerView;
+import me.jfenn.colorpickerdialog.views.picker.ImagePickerView;
 import me.jfenn.colorpickerdialog.views.picker.PickerView;
 import me.jfenn.colorpickerdialog.views.picker.PresetPickerView;
 import me.jfenn.colorpickerdialog.views.picker.RGBPickerView;
 
-public class ColorPickerDialog extends AppCompatDialog implements ColorPicker.OnActivityResultListener, OnColorPickedListener {
+public class ColorPickerDialog extends AppCompatDialog implements OnColorPickedListener<PickerView>, PermissionsRequestHandler {
 
     private SmoothColorView colorView;
     private AppCompatEditText colorHex;
@@ -52,7 +47,8 @@ public class ColorPickerDialog extends AppCompatDialog implements ColorPicker.On
     private boolean isAlphaEnabled = true;
     private boolean shouldIgnoreNextHex = false;
 
-    private OnColorPickedListener listener;
+    private OnColorPickedListener<ColorPickerDialog> listener;
+    private PermissionsRequestHandler permissionsHandler;
 
     public ColorPickerDialog(Context context) {
         super(context);
@@ -75,7 +71,7 @@ public class ColorPickerDialog extends AppCompatDialog implements ColorPicker.On
      * @param listener         The listener to receive updates.
      * @return                "This" dialog instance, for method chaining.
      */
-    public ColorPickerDialog withListener(OnColorPickedListener listener) {
+    public ColorPickerDialog withListener(OnColorPickedListener<ColorPickerDialog> listener) {
         this.listener = listener;
         return this;
     }
@@ -122,6 +118,23 @@ public class ColorPickerDialog extends AppCompatDialog implements ColorPicker.On
     }
 
     /**
+     * Enables the image picker tab - allows the user to select a color from
+     * an image stored on their device. Requires the read/write external storage
+     * permissions.
+     *
+     * @return                  "This" dialog instance, for method chaining.
+     */
+    public ColorPickerDialog withImagePicker() {
+        ImagePickerView imagePicker = getPicker(ImagePickerView.class);
+        if (imagePicker == null) {
+            imagePicker = new ImagePickerView(getContext()).withPermissionsHandler(this);
+            pickers = ArrayUtils.push(pickers, imagePicker);
+        }
+
+        return this;
+    }
+
+    /**
      * Determine whether a particular picker view is enabled, and return
      * it. If not, this will return null.
      *
@@ -150,6 +163,21 @@ public class ColorPickerDialog extends AppCompatDialog implements ColorPicker.On
             this.pickers = new PickerView[]{new RGBPickerView(getContext()), new HSVPickerView(getContext())};
         else this.pickers = pickers;
 
+        return this;
+    }
+
+    /**
+     * Specify an interface used to handle permissions requests by the dialog.
+     * This is optional; if you want to handle permissions by yourself, this
+     * library will not try to argue with you. However, it may result in some
+     * unwanted or unintuitive behavior if a required permission is not granted
+     * with this interface unimplemented.
+     *
+     * @param permissionsHandler    The permission request interface.
+     * @return                      "This" dialog instance, for method chaining.
+     */
+    public ColorPickerDialog withPermissionsHandler(PermissionsRequestHandler permissionsHandler) {
+        this.permissionsHandler = permissionsHandler;
         return this;
     }
 
@@ -186,7 +214,7 @@ public class ColorPickerDialog extends AppCompatDialog implements ColorPicker.On
                 Editable editable = colorHex.getText();
                 if (editable != null && !shouldIgnoreNextHex) {
                     String str = editable.toString();
-                    Log.d("TextChange", str);
+
                     if (str.length() == (isAlphaEnabled ? 9 : 7)) {
                         try {
                             slidersAdapter.updateColor(Color.parseColor(str), true);
@@ -201,7 +229,7 @@ public class ColorPickerDialog extends AppCompatDialog implements ColorPicker.On
             @Override
             public void onClick(View v) {
                 if (listener != null)
-                    listener.onColorPicked(ColorPickerDialog.this, color);
+                    listener.onColorPicked(null, color);
 
                 dismiss();
             }
@@ -223,7 +251,7 @@ public class ColorPickerDialog extends AppCompatDialog implements ColorPicker.On
         AlphaColorDrawable.tile.recycle();
     }
 
-    @Override
+    /*@Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         Bitmap bitmap = null;
 
@@ -246,9 +274,9 @@ public class ColorPickerDialog extends AppCompatDialog implements ColorPicker.On
                 @Override
                 public void onCancel(ColorPickerDialog dialog) {
                 }
-            }).show();*/
+            }).show();
         }
-    }
+    }*/
 
     @Override
     public void onColorPicked(@Nullable PickerView pickerView, @ColorInt int color) {
@@ -265,7 +293,9 @@ public class ColorPickerDialog extends AppCompatDialog implements ColorPicker.On
             colorHex.setBackgroundTintList(ColorStateList.valueOf(textColor));
     }
 
-    public interface OnColorPickedListener {
-        void onColorPicked(ColorPickerDialog dialog, @ColorInt int color);
+    @Override
+    public void handlePermissionsRequest(PermissionsResultHandler resultHandler, String... permissions) {
+        if (permissionsHandler != null)
+            permissionsHandler.handlePermissionsRequest(resultHandler, permissions);
     }
 }

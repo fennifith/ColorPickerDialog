@@ -12,10 +12,10 @@ import androidx.viewpager.widget.ViewPager;
 import me.jfenn.colorpickerdialog.interfaces.OnColorPickedListener;
 import me.jfenn.colorpickerdialog.views.picker.PickerView;
 
-public class ColorPickerPagerAdapter extends HeightablePagerAdapter implements OnColorPickedListener, ViewPager.OnPageChangeListener {
+public class ColorPickerPagerAdapter extends HeightablePagerAdapter implements OnColorPickedListener<PickerView>, ViewPager.OnPageChangeListener {
 
     private Context context;
-    private OnColorPickedListener listener;
+    private OnColorPickedListener<PickerView> listener;
 
     @ColorInt
     private int color = Color.BLACK;
@@ -34,7 +34,7 @@ public class ColorPickerPagerAdapter extends HeightablePagerAdapter implements O
      *
      * @param listener         The listener to receive updates.
      */
-    public void setListener(OnColorPickedListener listener) {
+    public void setListener(OnColorPickedListener<PickerView> listener) {
         this.listener = listener;
     }
 

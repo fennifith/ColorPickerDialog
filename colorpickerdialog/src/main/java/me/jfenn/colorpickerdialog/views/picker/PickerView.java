@@ -22,9 +22,9 @@ import me.jfenn.colorpickerdialog.R;
 import me.jfenn.colorpickerdialog.interfaces.OnColorPickedListener;
 import me.jfenn.colorpickerdialog.utils.ColorUtils;
 
-public abstract class PickerView extends LinearLayout implements OnColorPickedListener {
+public abstract class PickerView extends LinearLayout implements OnColorPickedListener<PickerView> {
 
-    private OnColorPickedListener listener;
+    private OnColorPickedListener<PickerView> listener;
 
     private TextView alphaInt;
     private AppCompatSeekBar alpha;

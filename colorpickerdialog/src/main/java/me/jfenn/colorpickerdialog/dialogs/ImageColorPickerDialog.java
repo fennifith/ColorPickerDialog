@@ -4,10 +4,13 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDialog;
 import me.jfenn.colorpickerdialog.R;
+import me.jfenn.colorpickerdialog.interfaces.OnColorPickedListener;
+import me.jfenn.colorpickerdialog.views.picker.PickerView;
 
-public class ImageColorPickerDialog extends AppCompatDialog {
+public class ImageColorPickerDialog extends AppCompatDialog implements OnColorPickedListener<PickerView> {
 
     private Bitmap bitmap;
 
@@ -46,6 +49,11 @@ public class ImageColorPickerDialog extends AppCompatDialog {
                 confirm();
             }
         });*/
+    }
+
+    @Override
+    public void onColorPicked(@Nullable PickerView pickerView, int color) {
+
     }
 
     /*@Override
