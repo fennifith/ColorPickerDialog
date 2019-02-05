@@ -131,6 +131,7 @@ public class ImageColorPickerView extends PickerView {
             int x = getBitmapX(event.getX()), y = getBitmapY(event.getY());
             if (x >= 0 && x < bitmap.getWidth() && y >= 0 && y < bitmap.getHeight()) {
                 color = bitmap.getPixel(x, y);
+                color = Color.argb(255, Color.red(color), Color.green(color), Color.blue(color));
                 onColorPicked(this, color);
             }
         }
@@ -151,6 +152,8 @@ public class ImageColorPickerView extends PickerView {
             int x = getBitmapX(this.x.val()), y = getBitmapY(this.y.val());
             if (x >= 0 && x < bitmap.getWidth() && y >= 0 && y < bitmap.getHeight()) {
                 int color = bitmap.getPixel(x, y);
+                color = Color.argb(255, Color.red(color), Color.green(color), Color.blue(color));
+
                 fillPaint.setColor(color);
                 strokePaint.setColor(ColorUtils.isColorDark(color) ? Color.WHITE : Color.BLACK);
 

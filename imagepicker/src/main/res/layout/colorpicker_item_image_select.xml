@@ -8,7 +8,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
-        android:src="#E0E0E0" />
+        android:alpha="0.2"
+        android:src="#000000"
+        android:tint="?android:attr/textColorPrimary" />
 
     <LinearLayout
         android:layout_width="match_parent"
