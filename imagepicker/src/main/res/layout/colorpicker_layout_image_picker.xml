@@ -7,24 +7,24 @@
         android:id="@+id/permissions"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center">
+        android:gravity="center"
+        android:orientation="vertical">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
             android:layout_marginBottom="16dp"
+            android:gravity="center_horizontal"
             android:paddingLeft="64dp"
             android:paddingRight="64dp"
-            android:textAlignment="center"
-            android:text="@string/colorPickerDialog_msg_grant_permissions" />
+            android:text="@string/colorPickerDialog_msg_grant_permissions"
+            android:textAlignment="center" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/permissionsButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/colorPickerDialog_grant_permissions"/>
+            android:text="@string/colorPickerDialog_grant_permissions" />
 
     </LinearLayout>
 
@@ -32,6 +32,9 @@
         android:id="@+id/recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
         android:visibility="gone" />
 
 </FrameLayout>

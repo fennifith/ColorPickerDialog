@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<me.jfenn.colorpickerdialog.views.SquareLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="4dp"
+    android:background="#E0E0E0"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Hi"
+        android:textAlignment="center" />
+
+</me.jfenn.colorpickerdialog.views.SquareLinearLayout>

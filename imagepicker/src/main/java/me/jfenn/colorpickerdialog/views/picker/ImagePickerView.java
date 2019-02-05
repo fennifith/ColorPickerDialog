@@ -10,7 +10,9 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import me.jfenn.colorpickerdialog.adapters.ImagePickerAdapter;
 import me.jfenn.colorpickerdialog.imagepicker.R;
 import me.jfenn.colorpickerdialog.interfaces.PermissionsResultHandler;
 
@@ -43,6 +45,9 @@ public class ImagePickerView extends PickerView implements PermissionsResultHand
         permissionsButton = findViewById(R.id.permissionsButton);
         recycler = findViewById(R.id.recycler);
 
+        recycler.setLayoutManager(new GridLayoutManager(getContext(), 3));
+        recycler.setHasFixedSize(true);
+
         permissionsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,7 +72,13 @@ public class ImagePickerView extends PickerView implements PermissionsResultHand
 
         if (isGranted) {
             this.permissions.setVisibility(View.GONE);
-        } else this.permissions.setVisibility(View.VISIBLE);
+            recycler.setVisibility(View.VISIBLE);
+
+            recycler.setAdapter(new ImagePickerAdapter(getContext()));
+        } else {
+            this.permissions.setVisibility(View.VISIBLE);
+            recycler.setVisibility(View.GONE);
+        }
     }
 
     @Override
