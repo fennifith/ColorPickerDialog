@@ -19,9 +19,12 @@ import me.jfenn.colorpickerdialog.imagepicker.R;
 
 public class ImagePickerAdapter extends RecyclerView.Adapter {
 
+    private Listener listener;
+
     private List<String> images;
 
-    public ImagePickerAdapter(Context context) {
+    public ImagePickerAdapter(Context context, Listener listener) {
+        this.listener = listener;
         images = getImagePaths(context);
     }
 
@@ -34,12 +37,13 @@ public class ImagePickerAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof ViewHolder) {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // TODO: launch alt. image picker
+                    if (listener != null)
+                        listener.onRequestImage();
                 }
             });
         } else if (holder instanceof ImageViewHolder) {
@@ -52,7 +56,8 @@ public class ImagePickerAdapter extends RecyclerView.Adapter {
             imageHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // TODO: launch color picker
+                    if (listener != null)
+                        listener.onImagePicked(images.get(holder.getAdapterPosition() - 1));
                 }
             });
         }
@@ -103,6 +108,11 @@ public class ImagePickerAdapter extends RecyclerView.Adapter {
         cursor.close();
 
         return list;
+    }
+
+    public interface Listener {
+        void onRequestImage();
+        void onImagePicked(String path);
     }
 
 }

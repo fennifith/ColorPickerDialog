@@ -3,6 +3,7 @@ package me.jfenn.colorpickerdialog.views.picker;
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.util.AttributeSet;
 import android.view.View;
@@ -14,9 +15,9 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import me.jfenn.colorpickerdialog.adapters.ImagePickerAdapter;
 import me.jfenn.colorpickerdialog.imagepicker.R;
-import me.jfenn.colorpickerdialog.interfaces.PermissionsResultHandler;
+import me.jfenn.colorpickerdialog.interfaces.ActivityResultHandler;
 
-public class ImagePickerView extends PickerView implements PermissionsResultHandler {
+public class ImagePickerView extends PickerView implements ActivityResultHandler, ImagePickerAdapter.Listener {
 
     private View permissions, permissionsButton;
     private RecyclerView recycler;
@@ -74,7 +75,7 @@ public class ImagePickerView extends PickerView implements PermissionsResultHand
             this.permissions.setVisibility(View.GONE);
             recycler.setVisibility(View.VISIBLE);
 
-            recycler.setAdapter(new ImagePickerAdapter(getContext()));
+            recycler.setAdapter(new ImagePickerAdapter(getContext(), this));
         } else {
             this.permissions.setVisibility(View.VISIBLE);
             recycler.setVisibility(View.GONE);
@@ -90,5 +91,22 @@ public class ImagePickerView extends PickerView implements PermissionsResultHand
     @Override
     public String getName() {
         return "Image";
+    }
+
+    @Override
+    public void onRequestImage() {
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType("image/*");
+        handleActivityRequest(this, intent);
+    }
+
+    @Override
+    public void onImagePicked(String path) {
+
+    }
+
+    @Override
+    public void onActivityResult(int resultCode, Intent data) {
+
     }
 }

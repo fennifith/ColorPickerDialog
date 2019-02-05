@@ -1,5 +1,6 @@
 package me.jfenn.colorpickerdialogsample;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -10,15 +11,16 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import me.jfenn.colorpickerdialog.dialogs.ColorPickerDialog;
+import me.jfenn.colorpickerdialog.interfaces.ActivityRequestHandler;
+import me.jfenn.colorpickerdialog.interfaces.ActivityResultHandler;
 import me.jfenn.colorpickerdialog.interfaces.OnColorPickedListener;
-import me.jfenn.colorpickerdialog.interfaces.PermissionsRequestHandler;
-import me.jfenn.colorpickerdialog.interfaces.PermissionsResultHandler;
 import me.jfenn.colorpickerdialog.views.picker.ImagePickerView;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final int REQUEST_DIALOG_PERMISSIONS = 572;
-    private PermissionsResultHandler resultHandler;
+    private static final int REQUEST_DIALOG_ACTIVITY = 827;
+    private ActivityResultHandler resultHandler;
 
     private int color = Color.BLUE;
 
@@ -39,10 +41,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .withAlphaEnabled(v.getId() != R.id.normal)
                 .withPresets(v.getId() == R.id.normalAlpha ? new int[]{0, 0x50ffffff, 0x50000000} : new int[]{})
                 .withPicker(ImagePickerView.class)
-                .withPermissionsHandler(new PermissionsRequestHandler() {
+                .withActivityRequestHandler(new ActivityRequestHandler() {
                     @Override
-                    public void handlePermissionsRequest(PermissionsResultHandler resultHandler, String... permissions) {
+                    public void handlePermissionsRequest(ActivityResultHandler resultHandler, String... permissions) {
                         ActivityCompat.requestPermissions(MainActivity.this, permissions, REQUEST_DIALOG_PERMISSIONS);
+                        MainActivity.this.resultHandler = resultHandler;
+                    }
+
+                    @Override
+                    public void handleActivityRequest(ActivityResultHandler resultHandler, Intent intent) {
+                        startActivityForResult(intent, REQUEST_DIALOG_ACTIVITY);
                         MainActivity.this.resultHandler = resultHandler;
                     }
                 })
@@ -61,5 +69,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == REQUEST_DIALOG_PERMISSIONS && resultHandler != null)
             resultHandler.onPermissionsResult(permissions, grantResults);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_DIALOG_ACTIVITY && resultHandler != null)
+            resultHandler.onActivityResult(resultCode, data);
     }
 }

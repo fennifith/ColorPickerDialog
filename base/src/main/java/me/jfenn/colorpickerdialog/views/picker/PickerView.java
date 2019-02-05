@@ -3,6 +3,7 @@ package me.jfenn.colorpickerdialog.views.picker;
 import android.animation.ObjectAnimator;
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.View;
@@ -19,15 +20,15 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatSeekBar;
 import me.jfenn.androidutils.seekbar.SeekBarUtils;
 import me.jfenn.colorpickerdialog.R;
+import me.jfenn.colorpickerdialog.interfaces.ActivityRequestHandler;
+import me.jfenn.colorpickerdialog.interfaces.ActivityResultHandler;
 import me.jfenn.colorpickerdialog.interfaces.OnColorPickedListener;
-import me.jfenn.colorpickerdialog.interfaces.PermissionsRequestHandler;
-import me.jfenn.colorpickerdialog.interfaces.PermissionsResultHandler;
 import me.jfenn.colorpickerdialog.utils.ColorUtils;
 
-public abstract class PickerView extends LinearLayout implements OnColorPickedListener<PickerView>, PermissionsRequestHandler {
+public abstract class PickerView extends LinearLayout implements OnColorPickedListener<PickerView>, ActivityRequestHandler {
 
     private OnColorPickedListener<PickerView> listener;
-    private PermissionsRequestHandler permissionsHandler;
+    private ActivityRequestHandler requestHandler;
 
     private TextView alphaInt;
     private AppCompatSeekBar alpha;
@@ -229,23 +230,29 @@ public abstract class PickerView extends LinearLayout implements OnColorPickedLi
      * Set a permissions handler interface for this view to use
      * for permission requests.
      *
-     * @param permissionsHandler    The interface to pass permission
+     * @param requestHandler        The interface to pass permission
      *                              requests to.
      * @return                      "This" view instance, for method
      *                              chaining.
      */
-    public PickerView withPermissionsHandler(PermissionsRequestHandler permissionsHandler) {
-        this.permissionsHandler = permissionsHandler;
+    public PickerView withActivityRequestHandler(ActivityRequestHandler requestHandler) {
+        this.requestHandler = requestHandler;
         return this;
     }
 
     @Override
-    public void handlePermissionsRequest(PermissionsResultHandler resultHandler, String... permissions) {
-        if (permissionsHandler != null)
-            permissionsHandler.handlePermissionsRequest(resultHandler, permissions);
+    public void handlePermissionsRequest(ActivityResultHandler resultHandler, String... permissions) {
+        if (requestHandler != null)
+            requestHandler.handlePermissionsRequest(resultHandler, permissions);
     }
 
-    public boolean hasPermissionsHandler() {
-        return permissionsHandler != null;
+    @Override
+    public void handleActivityRequest(ActivityResultHandler resultHandler, Intent intent) {
+        if (requestHandler != null)
+            requestHandler.handleActivityRequest(resultHandler, intent);
+    }
+
+    public boolean hasActivityRequestHandler() {
+        return requestHandler != null;
     }
 }

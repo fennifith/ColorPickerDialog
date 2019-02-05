@@ -1,6 +1,7 @@
 package me.jfenn.colorpickerdialog.dialogs;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Build;
@@ -22,9 +23,9 @@ import androidx.viewpager.widget.ViewPager;
 import me.jfenn.androidutils.AlphaColorDrawable;
 import me.jfenn.colorpickerdialog.R;
 import me.jfenn.colorpickerdialog.adapters.ColorPickerPagerAdapter;
+import me.jfenn.colorpickerdialog.interfaces.ActivityRequestHandler;
+import me.jfenn.colorpickerdialog.interfaces.ActivityResultHandler;
 import me.jfenn.colorpickerdialog.interfaces.OnColorPickedListener;
-import me.jfenn.colorpickerdialog.interfaces.PermissionsRequestHandler;
-import me.jfenn.colorpickerdialog.interfaces.PermissionsResultHandler;
 import me.jfenn.colorpickerdialog.utils.ArrayUtils;
 import me.jfenn.colorpickerdialog.utils.ColorUtils;
 import me.jfenn.colorpickerdialog.views.color.SmoothColorView;
@@ -33,7 +34,7 @@ import me.jfenn.colorpickerdialog.views.picker.PickerView;
 import me.jfenn.colorpickerdialog.views.picker.PresetPickerView;
 import me.jfenn.colorpickerdialog.views.picker.RGBPickerView;
 
-public class ColorPickerDialog extends AppCompatDialog implements OnColorPickedListener<PickerView>, PermissionsRequestHandler {
+public class ColorPickerDialog extends AppCompatDialog implements OnColorPickedListener<PickerView>, ActivityRequestHandler {
 
     private SmoothColorView colorView;
     private AppCompatEditText colorHex;
@@ -49,7 +50,7 @@ public class ColorPickerDialog extends AppCompatDialog implements OnColorPickedL
     private boolean shouldIgnoreNextHex = false;
 
     private OnColorPickedListener<ColorPickerDialog> listener;
-    private PermissionsRequestHandler permissionsHandler;
+    private ActivityRequestHandler requestHandler;
 
     public ColorPickerDialog(Context context) {
         super(context);
@@ -177,17 +178,17 @@ public class ColorPickerDialog extends AppCompatDialog implements OnColorPickedL
     }
 
     /**
-     * Specify an interface used to handle permissions requests by the dialog.
-     * This is optional; if you want to handle permissions by yourself, this
-     * library will not try to argue with you. However, it may result in some
-     * unwanted or unintuitive behavior if a required permission is not granted
+     * Specify an interface used to handle permission/activity requests from the dialog.
+     * This is optional; if you want to handle permissions / other functionality by
+     * yourself, this library will not try to argue with you. However, it may result
+     * in some unwanted or unintuitive behavior if a required permission is not granted
      * with this interface unimplemented.
      *
-     * @param permissionsHandler    The permission request interface.
+     * @param requestHandler    The permission request interface.
      * @return                      "This" dialog instance, for method chaining.
      */
-    public ColorPickerDialog withPermissionsHandler(PermissionsRequestHandler permissionsHandler) {
-        this.permissionsHandler = permissionsHandler;
+    public ColorPickerDialog withActivityRequestHandler(ActivityRequestHandler requestHandler) {
+        this.requestHandler = requestHandler;
         return this;
     }
 
@@ -221,8 +222,8 @@ public class ColorPickerDialog extends AppCompatDialog implements OnColorPickedL
         slidersPager = findViewById(R.id.slidersPager);
 
         for (PickerView picker : pickers) {
-            if (!picker.hasPermissionsHandler())
-                picker.withPermissionsHandler(this);
+            if (!picker.hasActivityRequestHandler())
+                picker.withActivityRequestHandler(this);
         }
 
         slidersAdapter = new ColorPickerPagerAdapter(getContext(), pickers);
@@ -328,8 +329,14 @@ public class ColorPickerDialog extends AppCompatDialog implements OnColorPickedL
     }
 
     @Override
-    public void handlePermissionsRequest(PermissionsResultHandler resultHandler, String... permissions) {
-        if (permissionsHandler != null)
-            permissionsHandler.handlePermissionsRequest(resultHandler, permissions);
+    public void handlePermissionsRequest(ActivityResultHandler resultHandler, String... permissions) {
+        if (requestHandler != null)
+            requestHandler.handlePermissionsRequest(resultHandler, permissions);
+    }
+
+    @Override
+    public void handleActivityRequest(ActivityResultHandler resultHandler, Intent intent) {
+        if (requestHandler != null)
+            requestHandler.handleActivityRequest(resultHandler, intent);
     }
 }
