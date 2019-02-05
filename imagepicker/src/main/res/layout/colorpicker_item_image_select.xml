@@ -33,7 +33,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="All Photos"
+            android:text="@string/colorPickerDialog_title_all_photos"
             android:textAlignment="center"
             android:textColor="?android:textColorSecondary" />
 

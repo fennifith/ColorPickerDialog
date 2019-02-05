@@ -102,7 +102,7 @@ public class ImagePickerView extends PickerView implements ActivityResultHandler
     @NonNull
     @Override
     public String getName() {
-        return "Image";
+        return getContext().getString(R.string.colorPickerDialog_image);
     }
 
     @Override
@@ -137,6 +137,6 @@ public class ImagePickerView extends PickerView implements ActivityResultHandler
     public void onActivityResult(int resultCode, Intent data) {
         if (data != null && data.getData() != null)
             onImagePicked(data.getData());
-        else Toast.makeText(getContext(), "Couldn't use this image.", Toast.LENGTH_SHORT).show();
+        else Toast.makeText(getContext(), R.string.colorPickerDialog_msg_image_invalid, Toast.LENGTH_SHORT).show();
     }
 }

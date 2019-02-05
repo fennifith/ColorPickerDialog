@@ -5,4 +5,6 @@
 
     <string name="colorPickerDialog_grant_permissions">Grant Permissions</string>
     <string name="colorPickerDialog_msg_grant_permissions">Please grant the \'External Storage\' permissions to continue.</string>
+    <string name="colorPickerDialog_msg_image_invalid">Couldn\'t use this image.</string>
+    <string name="colorPickerDialog_title_all_photos">All Photos</string>
 </resources>

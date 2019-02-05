@@ -96,6 +96,6 @@ public class PresetPickerView extends PickerView {
     @NonNull
     @Override
     public String getName() {
-        return "Preset";
+        return getContext().getString(R.string.colorPickerDialog_preset);
     }
 }

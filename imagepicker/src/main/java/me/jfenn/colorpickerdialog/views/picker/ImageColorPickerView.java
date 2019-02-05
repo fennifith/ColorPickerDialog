@@ -13,6 +13,7 @@ import android.view.ViewTreeObserver;
 import androidx.annotation.NonNull;
 import me.jfenn.androidutils.DimenUtils;
 import me.jfenn.androidutils.anim.AnimatedInteger;
+import me.jfenn.colorpickerdialog.imagepicker.R;
 import me.jfenn.colorpickerdialog.utils.ColorUtils;
 
 public class ImageColorPickerView extends PickerView {
@@ -86,7 +87,7 @@ public class ImageColorPickerView extends PickerView {
     @NonNull
     @Override
     public String getName() {
-        return "Image";
+        return getContext().getString(R.string.colorPickerDialog_image);
     }
 
     public ImageColorPickerView withBitmap(Bitmap bitmap) {
