@@ -1,31 +1,23 @@
 package me.jfenn.colorpickerdialog.dialogs;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.DisplayMetrics;
 import android.view.View;
-import android.view.WindowManager;
 
 import com.google.android.material.tabs.TabLayout;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.Nullable;
 import androidx.annotation.StyleRes;
-import androidx.appcompat.app.AppCompatDialog;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.viewpager.widget.ViewPager;
-import me.jfenn.androidutils.AlphaColorDrawable;
 import me.jfenn.colorpickerdialog.R;
 import me.jfenn.colorpickerdialog.adapters.ColorPickerPagerAdapter;
-import me.jfenn.colorpickerdialog.interfaces.ActivityRequestHandler;
-import me.jfenn.colorpickerdialog.interfaces.ActivityResultHandler;
-import me.jfenn.colorpickerdialog.interfaces.OnColorPickedListener;
 import me.jfenn.colorpickerdialog.utils.ArrayUtils;
 import me.jfenn.colorpickerdialog.utils.ColorUtils;
 import me.jfenn.colorpickerdialog.views.color.SmoothColorView;
@@ -34,7 +26,7 @@ import me.jfenn.colorpickerdialog.views.picker.PickerView;
 import me.jfenn.colorpickerdialog.views.picker.PresetPickerView;
 import me.jfenn.colorpickerdialog.views.picker.RGBPickerView;
 
-public class ColorPickerDialog extends AppCompatDialog implements OnColorPickedListener<PickerView>, ActivityRequestHandler {
+public class ColorPickerDialog extends PickerDialog<ColorPickerDialog> {
 
     private SmoothColorView colorView;
     private AppCompatEditText colorHex;
@@ -44,49 +36,21 @@ public class ColorPickerDialog extends AppCompatDialog implements OnColorPickedL
 
     private PickerView[] pickers;
 
-    @ColorInt
-    private int color = Color.BLACK;
     private boolean isAlphaEnabled = true;
     private boolean shouldIgnoreNextHex = false;
 
-    private OnColorPickedListener<ColorPickerDialog> listener;
-    private ActivityRequestHandler requestHandler;
-
     public ColorPickerDialog(Context context) {
         super(context);
-        init();
     }
 
     public ColorPickerDialog(Context context, @StyleRes int style) {
         super(context, style);
-        init();
     }
 
-    private void init() {
+    @Override
+    protected void init() {
         setTitle(R.string.colorPickerDialog_dialogName);
         withPickers();
-    }
-
-    /**
-     * Specify a listener to receive updates when a new color is selected.
-     *
-     * @param listener         The listener to receive updates.
-     * @return                "This" dialog instance, for method chaining.
-     */
-    public ColorPickerDialog withListener(OnColorPickedListener<ColorPickerDialog> listener) {
-        this.listener = listener;
-        return this;
-    }
-
-    /**
-     * Specify an initial color for the picker to use.
-     *
-     * @param color             The initial color int.
-     * @return                 "This" dialog instance, for method chaining.
-     */
-    public ColorPickerDialog withColor(@ColorInt int color) {
-        this.color = color;
-        return this;
     }
 
     /**
@@ -177,40 +141,6 @@ public class ColorPickerDialog extends AppCompatDialog implements OnColorPickedL
         return this;
     }
 
-    /**
-     * Specify an interface used to handle permission/activity requests from the dialog.
-     * This is optional; if you want to handle permissions / other functionality by
-     * yourself, this library will not try to argue with you. However, it may result
-     * in some unwanted or unintuitive behavior if a required permission is not granted
-     * with this interface unimplemented.
-     *
-     * @param requestHandler    The permission request interface.
-     * @return                      "This" dialog instance, for method chaining.
-     */
-    public ColorPickerDialog withActivityRequestHandler(ActivityRequestHandler requestHandler) {
-        this.requestHandler = requestHandler;
-        return this;
-    }
-
-    @Override
-    public void show() {
-        super.show();
-
-        // Manual window sizing spaghetti...
-        // Used to enforce that the dialog is able to display in a "portrait" layout
-        // regardless of whether the device is in landscape.
-
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        WindowManager windowmanager = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
-        windowmanager.getDefaultDisplay().getMetrics(displayMetrics);
-
-        WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
-        layoutParams.copyFrom(getWindow().getAttributes());
-        layoutParams.width = (int) (displayMetrics.widthPixels * 0.9f);
-
-        getWindow().setAttributes(layoutParams);
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -229,7 +159,7 @@ public class ColorPickerDialog extends AppCompatDialog implements OnColorPickedL
         slidersAdapter = new ColorPickerPagerAdapter(getContext(), pickers);
         slidersAdapter.setListener(this);
         slidersAdapter.setAlphaEnabled(isAlphaEnabled);
-        slidersAdapter.setColor(color);
+        slidersAdapter.setColor(getColor());
 
         slidersPager.setAdapter(slidersAdapter);
         slidersPager.addOnPageChangeListener(slidersAdapter);
@@ -263,10 +193,7 @@ public class ColorPickerDialog extends AppCompatDialog implements OnColorPickedL
         findViewById(R.id.confirm).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (listener != null)
-                    listener.onColorPicked(null, color);
-
-                dismiss();
+                confirm();
             }
         });
 
@@ -277,45 +204,12 @@ public class ColorPickerDialog extends AppCompatDialog implements OnColorPickedL
             }
         });
 
-        onColorPicked(null, color);
+        onColorPicked(null, getColor());
     }
-
-    @Override
-    public void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
-        AlphaColorDrawable.tile.recycle();
-    }
-
-    /*@Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Bitmap bitmap = null;
-
-        if (requestCode == ImagePickerActivity.ACTION_PICK_IMAGE && resultCode ==
-                ImagePickerActivity.RESULT_OK) {
-            try {
-                bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), data.getData());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        if (bitmap != null) {
-            /*new ImageColorPickerDialog(getContext(), bitmap).setDefaultPreference(Color.BLACK).setListener(new OnColorListener() {
-                @Override
-                public void onColorPicked(ColorPickerDialog dialog, @ColorInt int preference) {
-                    //TODO: set color
-                }
-
-                @Override
-                public void onCancel(ColorPickerDialog dialog) {
-                }
-            }).show();
-        }
-    }*/
 
     @Override
     public void onColorPicked(@Nullable PickerView pickerView, @ColorInt int color) {
-        this.color = color;
+        super.onColorPicked(pickerView, color);
         colorView.setColor(color, pickerView != null && !pickerView.isTrackingTouch());
 
         shouldIgnoreNextHex = true;
@@ -326,17 +220,5 @@ public class ColorPickerDialog extends AppCompatDialog implements OnColorPickedL
         colorHex.setTextColor(textColor);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
             colorHex.setBackgroundTintList(ColorStateList.valueOf(textColor));
-    }
-
-    @Override
-    public void handlePermissionsRequest(ActivityResultHandler resultHandler, String... permissions) {
-        if (requestHandler != null)
-            requestHandler.handlePermissionsRequest(resultHandler, permissions);
-    }
-
-    @Override
-    public void handleActivityRequest(ActivityResultHandler resultHandler, Intent intent) {
-        if (requestHandler != null)
-            requestHandler.handleActivityRequest(resultHandler, intent);
     }
 }

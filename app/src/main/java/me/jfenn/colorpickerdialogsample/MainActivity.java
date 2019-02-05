@@ -14,7 +14,7 @@ import me.jfenn.colorpickerdialog.dialogs.ColorPickerDialog;
 import me.jfenn.colorpickerdialog.interfaces.ActivityRequestHandler;
 import me.jfenn.colorpickerdialog.interfaces.ActivityResultHandler;
 import me.jfenn.colorpickerdialog.interfaces.OnColorPickedListener;
-import me.jfenn.colorpickerdialog.views.picker.ImagePickerView;
+import me.jfenn.colorpickerdialog.views.picker.ImageFilePickerView;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .withColor(color)
                 .withAlphaEnabled(v.getId() != R.id.normal)
                 .withPresets(v.getId() == R.id.normalAlpha ? new int[]{0, 0x50ffffff, 0x50000000} : new int[]{})
-                .withPicker(ImagePickerView.class)
+                .withPicker(ImageFilePickerView.class)
                 .withActivityRequestHandler(new ActivityRequestHandler() {
                     @Override
                     public void handlePermissionsRequest(ActivityResultHandler resultHandler, String... permissions) {

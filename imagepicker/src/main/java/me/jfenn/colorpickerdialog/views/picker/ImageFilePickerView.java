@@ -5,8 +5,10 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,28 +16,31 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import me.jfenn.colorpickerdialog.adapters.ImagePickerAdapter;
+import me.jfenn.colorpickerdialog.dialogs.ImageColorPickerDialog;
 import me.jfenn.colorpickerdialog.imagepicker.R;
 import me.jfenn.colorpickerdialog.interfaces.ActivityResultHandler;
+import me.jfenn.colorpickerdialog.interfaces.OnColorPickedListener;
 
-public class ImagePickerView extends PickerView implements ActivityResultHandler, ImagePickerAdapter.Listener {
+public class ImageFilePickerView extends PickerView implements ActivityResultHandler, ImagePickerAdapter.Listener {
 
+    private int color;
     private View permissions, permissionsButton;
     private RecyclerView recycler;
 
-    public ImagePickerView(Context context) {
+    public ImageFilePickerView(Context context) {
         super(context);
     }
 
-    public ImagePickerView(Context context, @Nullable AttributeSet attrs) {
+    public ImageFilePickerView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public ImagePickerView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public ImageFilePickerView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
     @TargetApi(21)
-    public ImagePickerView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public ImageFilePickerView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
@@ -52,7 +57,7 @@ public class ImagePickerView extends PickerView implements ActivityResultHandler
         permissionsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                handlePermissionsRequest(ImagePickerView.this, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                handlePermissionsRequest(ImageFilePickerView.this, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE);
             }
         });
 
@@ -84,7 +89,7 @@ public class ImagePickerView extends PickerView implements ActivityResultHandler
 
     @Override
     public int getColor() {
-        return 0;
+        return color;
     }
 
     @NonNull
@@ -101,12 +106,30 @@ public class ImagePickerView extends PickerView implements ActivityResultHandler
     }
 
     @Override
-    public void onImagePicked(String path) {
+    public void setColor(int color, boolean animate) {
+        super.setColor(color, animate);
+        this.color = color;
+    }
 
+    @Override
+    public void onImagePicked(Uri uri) {
+        new ImageColorPickerDialog(getContext())
+                .withUri(uri)
+                .withColor(color)
+                .withListener(new OnColorPickedListener<ImageColorPickerDialog>() {
+                    @Override
+                    public void onColorPicked(@Nullable ImageColorPickerDialog pickerView, int color) {
+                        ImageFilePickerView.this.color = color;
+                        ImageFilePickerView.this.onColorPicked();
+                    }
+                })
+                .show();
     }
 
     @Override
     public void onActivityResult(int resultCode, Intent data) {
-
+        if (data != null && data.getData() != null)
+            onImagePicked(data.getData());
+        else Toast.makeText(getContext(), "Couldn't use this image.", Toast.LENGTH_SHORT).show();
     }
 }

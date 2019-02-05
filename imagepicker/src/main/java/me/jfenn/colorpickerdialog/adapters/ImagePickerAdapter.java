@@ -2,6 +2,7 @@ package me.jfenn.colorpickerdialog.adapters;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.net.Uri;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -57,7 +58,7 @@ public class ImagePickerAdapter extends RecyclerView.Adapter {
                 @Override
                 public void onClick(View v) {
                     if (listener != null)
-                        listener.onImagePicked(images.get(holder.getAdapterPosition() - 1));
+                        listener.onImagePicked(Uri.parse(images.get(holder.getAdapterPosition() - 1)));
                 }
             });
         }
@@ -112,7 +113,7 @@ public class ImagePickerAdapter extends RecyclerView.Adapter {
 
     public interface Listener {
         void onRequestImage();
-        void onImagePicked(String path);
+        void onImagePicked(Uri data);
     }
 
 }
