@@ -118,20 +118,20 @@ public class SomeActivity extends Activity implements ActivityRequestHandler {
     protected void onCreate(Bundle savedInstanceState) {
         new ColorPickerDialog(this)
             .withActivityRequestHandler(this)
-            .withListener(...)
+            .withListener(new ActivityRequestHandler() {
+                @Override
+                public void handlePermissionsRequest(ActivityResultHandler resultHandler, String... permissions) {
+                    ActivityCompat.requestPermissions(MainActivity.this, permissions, 0);
+                    SomeActivity.this.resultHandler = resultHandler; 
+                }
+                
+                @Override                    
+                public void handleActivityRequest(ActivityResultHandler resultHandler, Intent intent) {
+                    startActivityForResult(intent, 0);
+                    SomeActivity.this.resultHandler = resultHandler;
+                }
+            })
             .show();
-    }
-    
-    @Override
-    public void handlePermissionsRequest(ActivityResultHandler resultHandler, String... permissions) {
-        ActivityCompat.requestPermissions(MainActivity.this, permissions, 0);
-        this.resultHandler = resultHandler; 
-    }
-    
-    @Override                    
-    public void handleActivityRequest(ActivityResultHandler resultHandler, Intent intent) {
-        startActivityForResult(intent, 0);
-        this.resultHandler = resultHandler;
     }
     
     @Override
