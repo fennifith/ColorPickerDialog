@@ -44,8 +44,8 @@ public class ImageColorPickerView extends PickerView {
         setClickable(true);
         setWillNotDraw(false);
 
-        x = new AnimatedInteger(0);
-        y = new AnimatedInteger(0);
+        x = new AnimatedInteger(-1);
+        y = new AnimatedInteger(-1);
 
         circleWidth = DimenUtils.dpToPx(18);
 
@@ -68,9 +68,6 @@ public class ImageColorPickerView extends PickerView {
         getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                x.setCurrent(getWidth() / 2);
-                y.setCurrent(bitmap != null ? (int) (bitmap.getHeight() * ((float) getWidth() / bitmap.getWidth())) / 2 : getHeight() / 2);
-
                 if (bitmap != null)
                     calculateBitmapMatrix();
 
@@ -111,6 +108,9 @@ public class ImageColorPickerView extends PickerView {
         if (bitmap == null || getWidth() <= 0)
             return;
 
+        x.setCurrent(-getWidth());
+        y.setCurrent(-getWidth()); // this is stupid, but the view's height isn't reliable
+
         float scale = (float) getWidth() / bitmap.getWidth();
         bitmapMatrix.reset();
         bitmapMatrix.postTranslate(-bitmap.getWidth() / 2, -bitmap.getHeight() / 2);
@@ -130,8 +130,14 @@ public class ImageColorPickerView extends PickerView {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        x.to((int) event.getX());
-        y.to((int) event.getY());
+        if (x.val() >= 0 && y.val() > 0) {
+            x.to((int) event.getX());
+            y.to((int) event.getY());
+        } else {
+            x.setCurrent((int) event.getX());
+            y.setCurrent((int) event.getY());
+        }
+
         postInvalidate();
 
         if (event.getAction() == MotionEvent.ACTION_UP) {
