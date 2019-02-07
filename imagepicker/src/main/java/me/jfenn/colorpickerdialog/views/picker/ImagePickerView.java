@@ -188,10 +188,8 @@ public class ImagePickerView extends PickerView implements ActivityResultHandler
         @Override
         public void onColorPicked(@Nullable ImageColorPickerDialog pickerView, int color) {
             PickerView view = reference.get();
-            if (view != null) {
-                Toast.makeText(view.getContext(), "color picked!", Toast.LENGTH_SHORT).show();
+            if (view != null)
                 view.onColorPicked(view, color);
-            }
         }
     }
 }
