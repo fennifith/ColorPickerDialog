@@ -1,6 +1,6 @@
 package me.jfenn.colorpickerdialog.dialogs;
 
-import android.app.Dialog;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -34,12 +34,9 @@ public class ImageColorPickerDialog extends PickerDialog<ImageColorPickerDialog>
     protected void init() {
     }
 
-    @NonNull
     @Override
-    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        Dialog dialog = super.onCreateDialog(savedInstanceState);
-        dialog.setTitle(R.string.colorPickerDialog_imageColorPicker);
-        return dialog;
+    protected String getTitle() {
+        return getString(R.string.colorPickerDialog_imageColorPicker);
     }
 
     /**
@@ -48,8 +45,12 @@ public class ImageColorPickerDialog extends PickerDialog<ImageColorPickerDialog>
      * @param path          The string path of the image to load.
      * @return              "This" dialog instance, for method chaining.
      */
-    public ImageColorPickerDialog withImagePath(String path) {
-        Glide.with(getContext()).asBitmap().load(path).into(target);
+    public ImageColorPickerDialog withImagePath(Context context, String path) {
+        Glide.with(context)
+                .asBitmap()
+                .load(path)
+                .into(target);
+
         return this;
     }
 
@@ -59,11 +60,15 @@ public class ImageColorPickerDialog extends PickerDialog<ImageColorPickerDialog>
      * @param imageUri      The string uri of the image to load.
      * @return              "This" dialog instance, for method chaining.
      */
-    public ImageColorPickerDialog withUri(Uri imageUri) {
+    public ImageColorPickerDialog withUri(Context context, Uri imageUri) {
         if (imageUri.toString().startsWith("/"))
-            return withImagePath(imageUri.toString());
+            return withImagePath(context, imageUri.toString());
 
-        Glide.with(getContext()).asBitmap().load(imageUri).into(target);
+        Glide.with(context)
+                .asBitmap()
+                .load(imageUri)
+                .into(target);
+
         return this;
     }
 

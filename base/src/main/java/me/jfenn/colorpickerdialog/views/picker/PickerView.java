@@ -18,6 +18,7 @@ import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatSeekBar;
+import androidx.fragment.app.FragmentManager;
 import me.jfenn.androidutils.seekbar.SeekBarUtils;
 import me.jfenn.colorpickerdialog.R;
 import me.jfenn.colorpickerdialog.interfaces.ActivityRequestHandler;
@@ -258,6 +259,21 @@ public abstract class PickerView extends LinearLayout implements OnColorPickedLi
     public void handleActivityRequest(ActivityResultHandler resultHandler, Intent intent) {
         if (requestHandler != null)
             requestHandler.handleActivityRequest(resultHandler, intent);
+    }
+
+    @Nullable
+    @Override
+    public FragmentManager requestFragmentManager() {
+        if (requestHandler != null)
+            return requestHandler.requestFragmentManager();
+        else return null;
+    }
+
+    @Override
+    public int requestTheme() {
+        if (requestHandler != null)
+            return requestHandler.requestTheme();
+        else return 0;
     }
 
     /**

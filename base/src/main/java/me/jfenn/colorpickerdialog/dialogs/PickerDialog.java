@@ -1,43 +1,70 @@
 package me.jfenn.colorpickerdialog.dialogs;
 
-import android.content.Context;
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.view.Window;
+import android.view.WindowManager;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import androidx.annotation.ColorInt;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.StyleRes;
+import androidx.appcompat.app.AppCompatDialogFragment;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentManager;
+import me.jfenn.androidutils.DimenUtils;
+import me.jfenn.colorpickerdialog.R;
 import me.jfenn.colorpickerdialog.interfaces.ActivityRequestHandler;
 import me.jfenn.colorpickerdialog.interfaces.ActivityResultHandler;
 import me.jfenn.colorpickerdialog.interfaces.OnColorPickedListener;
 import me.jfenn.colorpickerdialog.views.picker.PickerView;
 
-abstract class PickerDialog<T extends PickerDialog> extends DialogFragment implements OnColorPickedListener<PickerView>, ActivityRequestHandler {
-
-    protected Context context;
+abstract class PickerDialog<T extends PickerDialog> extends AppCompatDialogFragment implements OnColorPickedListener<PickerView>, ActivityRequestHandler {
 
     @ColorInt
     private int color = Color.BLACK;
 
     private OnColorPickedListener<T> listener;
-    private ActivityRequestHandler requestHandler;
+
+    private Map<Integer, ActivityResultHandler> resultHandlers;
 
     public PickerDialog() {
-        init();
-    }
-
-    public PickerDialog(Context context) {
-        this.context = context;
+        resultHandlers = new HashMap<>();
+        withTheme(R.style.ColorPickerDialog);
         init();
     }
 
     protected abstract void init();
 
-    @Nullable
+    protected abstract String getTitle();
+
+    @NonNull
     @Override
-    public Context getContext() {
-        Context context = super.getContext();
-        return context != null ? context : this.context;
+    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+        Dialog dialog = super.onCreateDialog(savedInstanceState);
+        dialog.setTitle(getTitle());
+        return dialog;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        Window window = getDialog().getWindow();
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        WindowManager windowmanager = window.getWindowManager();
+        windowmanager.getDefaultDisplay().getMetrics(displayMetrics);
+
+        window.setLayout(
+                Math.min(DimenUtils.dpToPx(500), (int) (displayMetrics.widthPixels * 0.9f)),
+                WindowManager.LayoutParams.WRAP_CONTENT
+        );
     }
 
     /**
@@ -62,30 +89,6 @@ abstract class PickerDialog<T extends PickerDialog> extends DialogFragment imple
         return (T) this;
     }
 
-    /**
-     * Specify an interface used to handle permission/activity requests from the dialog.
-     * This is optional; if you want to handle permissions / other functionality by
-     * yourself, this library will not try to argue with you. However, it may result
-     * in some unwanted or unintuitive behavior if a required permission is not granted
-     * with this interface unimplemented.
-     *
-     * @param requestHandler    The permission request interface.
-     * @return                      "This" dialog instance, for method chaining.
-     */
-    public T withActivityRequestHandler(ActivityRequestHandler requestHandler) {
-        this.requestHandler = requestHandler;
-        return (T) this;
-    }
-
-    /**
-     * Determines whether the dialog has an activity request handler or not.
-     *
-     * @return                  True if the dialog has a request handler.
-     */
-    public boolean hasRequestHandler() {
-        return requestHandler != null;
-    }
-
     @Override
     public void onColorPicked(@Nullable PickerView pickerView, @ColorInt int color) {
         this.color = color;
@@ -94,6 +97,16 @@ abstract class PickerDialog<T extends PickerDialog> extends DialogFragment imple
     @ColorInt
     public int getColor() {
         return color;
+    }
+
+    public T withTheme(@StyleRes int style) {
+        setStyle(DialogFragment.STYLE_NORMAL, style);
+        return (T) this;
+    }
+
+    @Override
+    public int requestTheme() {
+        return getTheme();
     }
 
     protected void confirm() {
@@ -105,13 +118,39 @@ abstract class PickerDialog<T extends PickerDialog> extends DialogFragment imple
 
     @Override
     public void handlePermissionsRequest(ActivityResultHandler resultHandler, String... permissions) {
-        if (requestHandler != null)
-            requestHandler.handlePermissionsRequest(resultHandler, permissions);
+        int code = resultHandlers.size();
+        resultHandlers.put(code, resultHandler);
+        requestPermissions(permissions, code);
     }
 
     @Override
     public void handleActivityRequest(ActivityResultHandler resultHandler, Intent intent) {
-        if (requestHandler != null)
-            requestHandler.handleActivityRequest(resultHandler, intent);
+        int code = resultHandlers.size();
+        resultHandlers.put(code, resultHandler);
+        startActivityForResult(intent, code);
+    }
+
+    @Nullable
+    @Override
+    public FragmentManager requestFragmentManager() {
+        return getChildFragmentManager();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        ActivityResultHandler handler;
+        if (resultHandlers.containsKey(requestCode) && (handler = resultHandlers.get(requestCode)) != null)
+            handler.onPermissionsResult(permissions, grantResults);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        ActivityResultHandler handler;
+        if (resultHandlers.containsKey(requestCode) && (handler = resultHandlers.get(requestCode)) != null)
+            handler.onActivityResult(resultCode, data);
     }
 }

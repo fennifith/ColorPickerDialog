@@ -1,6 +1,5 @@
 package me.jfenn.colorpickerdialog.dialogs;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -17,6 +16,7 @@ import com.google.android.material.tabs.TabLayout;
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.viewpager.widget.ViewPager;
 import me.jfenn.colorpickerdialog.R;
@@ -50,12 +50,9 @@ public class ColorPickerDialog extends PickerDialog<ColorPickerDialog> {
         withPickers();
     }
 
-    @NonNull
     @Override
-    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        Dialog dialog = super.onCreateDialog(savedInstanceState);
-        dialog.setTitle(R.string.colorPickerDialog_dialogName);
-        return dialog;
+    protected String getTitle() {
+        return getString(R.string.colorPickerDialog_dialogName);
     }
 
     /**
@@ -172,10 +169,12 @@ public class ColorPickerDialog extends PickerDialog<ColorPickerDialog> {
         tabLayout = v.findViewById(R.id.tabLayout);
         slidersPager = v.findViewById(R.id.slidersPager);
 
+        Context context = new ContextThemeWrapper(getContext(), getTheme());
         PickerView[] pickers = new PickerView[this.pickers.length];
+
         for (int i = 0; i < pickers.length; i++) {
-            pickers[i] = (PickerView) this.pickers[i].instantiate(getContext());
-            if (hasRequestHandler() && !pickers[i].hasActivityRequestHandler())
+            pickers[i] = (PickerView) this.pickers[i].instantiate(context);
+            if (!pickers[i].hasActivityRequestHandler())
                 pickers[i].withActivityRequestHandler(this);
         }
 

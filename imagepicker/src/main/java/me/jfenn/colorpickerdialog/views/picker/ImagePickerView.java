@@ -15,11 +15,14 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import me.jfenn.colorpickerdialog.adapters.ImagePickerAdapter;
+import me.jfenn.colorpickerdialog.dialogs.ImageColorPickerDialog;
 import me.jfenn.colorpickerdialog.imagepicker.R;
 import me.jfenn.colorpickerdialog.interfaces.ActivityResultHandler;
+import me.jfenn.colorpickerdialog.interfaces.OnColorPickedListener;
 
 public class ImagePickerView extends PickerView implements ActivityResultHandler, ImagePickerAdapter.Listener {
 
@@ -118,17 +121,21 @@ public class ImagePickerView extends PickerView implements ActivityResultHandler
 
     @Override
     public void onImagePicked(Uri uri) {
-        /*new ImageColorPickerDialog()
-                .withUri(uri)
-                .withColor(color)
-                .withListener(new OnColorPickedListener<ImageColorPickerDialog>() {
-                    @Override
-                    public void onColorPicked(@Nullable ImageColorPickerDialog pickerView, int color) {
-                        ImagePickerView.this.color = color;
-                        ImagePickerView.this.onColorPicked();
-                    }
-                })
-                .show(TODO: obtain fragment manager instance);*/
+        FragmentManager manager = requestFragmentManager();
+        if (manager != null) {
+            new ImageColorPickerDialog()
+                    .withUri(getContext(), uri)
+                    .withColor(color)
+                    .withTheme(requestTheme())
+                    .withListener(new OnColorPickedListener<ImageColorPickerDialog>() {
+                        @Override
+                        public void onColorPicked(@Nullable ImageColorPickerDialog pickerView, int color) {
+                            ImagePickerView.this.color = color;
+                            ImagePickerView.this.onColorPicked();
+                        }
+                    })
+                    .show(manager, "colorPickerDialog_imagePicker");
+        }
     }
 
     @Override
