@@ -146,11 +146,6 @@ abstract class PickerDialog<T extends PickerDialog> extends AppCompatDialogFragm
         return (T) this;
     }
 
-    @Override
-    public int requestTheme() {
-        return getTheme();
-    }
-
     /**
      * Specify the corner radius for the dialog to use, in dp.
      *
@@ -171,6 +166,24 @@ abstract class PickerDialog<T extends PickerDialog> extends AppCompatDialogFragm
     public T withCornerRadiusPx(int cornerRadiusPx) {
         this.cornerRadius = cornerRadiusPx;
         return (T) this;
+    }
+
+    /**
+     * Get the currently applied corner radius, in dp.
+     *
+     * @return                      The corner radius, in dp.
+     */
+    public float getCornerRadius() {
+        return DimenUtils.pxToDp(cornerRadius);
+    }
+
+    /**
+     * Get the currently applied corner radius, in px.
+     *
+     * @return                      The corner radius, in px.
+     */
+    public int getCornerRadiusPx() {
+        return cornerRadius;
     }
 
     protected void confirm() {
