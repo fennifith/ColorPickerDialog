@@ -6,9 +6,9 @@ ColorPickerDialog is a simple dialog making it quick and easy to add a color pic
 
 For testing and experimentation purposes, a sample apk can be downloaded [here](https://jfenn.me/projects/colorpickerdialog).
 
-|Color Picker|No Alpha|Dark Theme|
-|--------|--------|--------|
-|![img](./.github/images/picker.png?raw=true)|![img](./.github/images/noalpha.png?raw=true)|![img](./.github/images/darktheme.png?raw=true)|
+| RGB(A) Picker | HSV Picker | Preset Picker | Image Picker (Tab) | Image Picker (Images) | Dark Theme |
+|---------------|------------|---------------|--------------------|-----------------------|------------|
+| ![Screenshot](./.github/images/rgba.png) | ![Screenshot](./.github/images/hsv.png) | ![Screenshot](./.github/images/presets.png) | ![Screenshot](./.github/images/images.png) | ![Screenshot](./.github/images/image.png) | ![Screenshot](./.github/images/darktheme.png) |
 
 ## Usage
 
