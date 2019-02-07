@@ -8,7 +8,7 @@ For testing and experimentation purposes, a sample apk can be downloaded [here](
 
 | RGB(A) Picker | HSV Picker | Preset Picker | Image Picker (Tab) | Image Picker (Images) | Dark Theme |
 |---------------|------------|---------------|--------------------|-----------------------|------------|
-| ![Screenshot](./.github/images/rgba.png) | ![Screenshot](./.github/images/hsv.png) | ![Screenshot](./.github/images/presets.png) | ![Screenshot](./.github/images/images.png) | ![Screenshot](./.github/images/image.png) | ![Screenshot](./.github/images/darktheme.png) |
+| ![Screenshot](./.github/images/rgba.png?raw=true) | ![Screenshot](./.github/images/hsv.png?raw=true) | ![Screenshot](./.github/images/presets.png?raw=true) | ![Screenshot](./.github/images/images.png?raw=true) | ![Screenshot](./.github/images/image.png?raw=true) | ![Screenshot](./.github/images/darktheme.png?raw=true) |
 
 ## Usage
 
