@@ -7,7 +7,7 @@
         <item name="colorButtonNormal">@color/colorAccent</item>
     </style>
 
-    <style name="ColorDialog.Dark" parent="Theme.AppCompat.Dialog">
+    <style name="ColorPickerDialog.Dark" parent="Theme.AppCompat.Dialog">
         <item name="redColor">#FF5252</item>
         <item name="greenColor">#69F0AE</item>
         <item name="blueColor">#536DFE</item>

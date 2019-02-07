@@ -1,0 +1,16 @@
+<resources>
+    <string name="colorPickerDialog_dialogName">Color Picker</string>
+
+    <string name="colorPickerDialog_reset">Reset</string>
+
+    <string name="colorPickerDialog_red">R</string>
+    <string name="colorPickerDialog_blue">B</string>
+    <string name="colorPickerDialog_green">G</string>
+    <string name="colorPickerDialog_alpha">A</string>
+    <string name="colorPickerDialog_hue">H</string>
+    <string name="colorPickerDialog_saturation">S</string>
+    <string name="colorPickerDialog_brightness">V</string>
+    <string name="colorPickerDialog_rgb">RGB</string>
+    <string name="colorPickerDialog_hsv">HSV</string>
+    <string name="colorPickerDialog_preset">Preset</string>
+</resources>
