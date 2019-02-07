@@ -24,6 +24,7 @@ import me.jfenn.colorpickerdialog.R;
 import me.jfenn.colorpickerdialog.interfaces.ActivityRequestHandler;
 import me.jfenn.colorpickerdialog.interfaces.ActivityResultHandler;
 import me.jfenn.colorpickerdialog.interfaces.OnColorPickedListener;
+import me.jfenn.colorpickerdialog.interfaces.PickerTheme;
 import me.jfenn.colorpickerdialog.utils.ColorUtils;
 
 public abstract class PickerView extends LinearLayout implements OnColorPickedListener<PickerView>, ActivityRequestHandler {
@@ -269,11 +270,12 @@ public abstract class PickerView extends LinearLayout implements OnColorPickedLi
         else return null;
     }
 
+    @Nullable
     @Override
-    public int requestTheme() {
+    public PickerTheme getPickerTheme() {
         if (requestHandler != null)
-            return requestHandler.requestTheme();
-        else return 0;
+            return requestHandler.getPickerTheme();
+        else return null;
     }
 
     /**

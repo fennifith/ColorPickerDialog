@@ -124,9 +124,9 @@ public class ImagePickerView extends PickerView implements ActivityResultHandler
         FragmentManager manager = requestFragmentManager();
         if (manager != null) {
             new ImageColorPickerDialog()
+                    .withPickerTheme(getPickerTheme())
                     .withUri(getContext(), uri)
                     .withColor(color)
-                    .withTheme(requestTheme())
                     .withListener(new OnColorPickedListener<ImageColorPickerDialog>() {
                         @Override
                         public void onColorPicked(@Nullable ImageColorPickerDialog pickerView, int color) {

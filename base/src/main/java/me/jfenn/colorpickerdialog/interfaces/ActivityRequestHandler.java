@@ -3,7 +3,6 @@ package me.jfenn.colorpickerdialog.interfaces;
 import android.content.Intent;
 
 import androidx.annotation.Nullable;
-import androidx.annotation.StyleRes;
 import androidx.fragment.app.FragmentManager;
 
 public interface ActivityRequestHandler {
@@ -15,7 +14,7 @@ public interface ActivityRequestHandler {
     @Nullable
     FragmentManager requestFragmentManager();
 
-    @StyleRes
-    int requestTheme();
+    @Nullable
+    PickerTheme getPickerTheme();
 
 }

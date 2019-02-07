@@ -24,10 +24,11 @@ import me.jfenn.colorpickerdialog.R;
 import me.jfenn.colorpickerdialog.interfaces.ActivityRequestHandler;
 import me.jfenn.colorpickerdialog.interfaces.ActivityResultHandler;
 import me.jfenn.colorpickerdialog.interfaces.OnColorPickedListener;
+import me.jfenn.colorpickerdialog.interfaces.PickerTheme;
 import me.jfenn.colorpickerdialog.utils.ColorUtils;
 import me.jfenn.colorpickerdialog.views.picker.PickerView;
 
-abstract class PickerDialog<T extends PickerDialog> extends AppCompatDialogFragment implements OnColorPickedListener<PickerView>, ActivityRequestHandler {
+abstract class PickerDialog<T extends PickerDialog> extends AppCompatDialogFragment implements OnColorPickedListener<PickerView>, ActivityRequestHandler, PickerTheme {
 
     private static final String INST_KEY_COLOR = "me.jfenn.colorpickerdialog.INST_KEY_COLOR";
     private static final String INST_KEY_CORNER_RADIUS = "me.jfenn.colorpickerdialog.INST_KEY_CORNER_RADIUS";
@@ -213,9 +214,41 @@ abstract class PickerDialog<T extends PickerDialog> extends AppCompatDialogFragm
         return getChildFragmentManager();
     }
 
+    /**
+     * Initialize theme-related variables from a provided PickerTheme
+     * interface. Coincidentally, this class also implements that
+     * interface.
+     *
+     * @param theme             The theme to initialize values from.
+     * @return                  "This" dialog instance, for method chaining.
+     */
+    public T withPickerTheme(@Nullable PickerTheme theme) {
+        if (theme == null)
+            return (T) this;
+
+        return (T) this.withTheme(theme.requestTheme())
+                .withCornerRadiusPx(theme.requestCornerRadiusPx());
+    }
+
+    @Nullable
+    @Override
+    public PickerTheme getPickerTheme() {
+        return this;
+    }
+
     @Override
     public int requestTheme() {
         return getTheme();
+    }
+
+    @Override
+    public float requestCornerRadius() {
+        return DimenUtils.pxToDp(cornerRadius);
+    }
+
+    @Override
+    public int requestCornerRadiusPx() {
+        return cornerRadius;
     }
 
     @Override
