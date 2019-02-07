@@ -1,6 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.github.dcendents.android-maven'
-group='com.github.fennifith.ColorPickerDialog'
 
 android {
     compileSdkVersion 28
@@ -26,6 +24,6 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.0.2'
-    implementation project(path: ':base')
-    implementation project(path: ':imagepicker')
+    implementation 'me.jfenn.ColorPickerDialog:base:0.2.0'
+    implementation 'me.jfenn.ColorPickerDialog:imagepicker:0.2.0'
 }
