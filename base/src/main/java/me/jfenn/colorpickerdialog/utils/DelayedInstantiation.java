@@ -33,6 +33,14 @@ public class DelayedInstantiation<T> {
         return instantiator.instantiate(args);
     }
 
+    public Class<T> gettClass() {
+        return tClass;
+    }
+
+    public String gettClassName() {
+        return gettClass().getName();
+    }
+
     @Override
     public boolean equals(@Nullable Object obj) {
         return obj instanceof DelayedInstantiation && equalsClass(((DelayedInstantiation) obj).tClass);

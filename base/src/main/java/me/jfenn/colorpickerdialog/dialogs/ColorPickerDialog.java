@@ -32,6 +32,10 @@ import me.jfenn.colorpickerdialog.views.picker.RGBPickerView;
 
 public class ColorPickerDialog extends PickerDialog<ColorPickerDialog> {
 
+    private static final String INST_KEY_ALPHA = "me.jfenn.colorpickerdialog.INST_KEY_ALPHA";
+    private static final String INST_KEY_PRESETS = "me.jfenn.colorpickerdialog.INST_KEY_PRESETS";
+    private static final String INST_KEY_PICKERS = "me.jfenn.colorpickerdialog.INST_KEY_PICKERS";
+
     private SmoothColorView colorView;
     private AppCompatEditText colorHex;
     private TabLayout tabLayout;
@@ -53,6 +57,43 @@ public class ColorPickerDialog extends PickerDialog<ColorPickerDialog> {
     @Override
     protected String getTitle() {
         return getString(R.string.colorPickerDialog_dialogName);
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (savedInstanceState != null) {
+            isAlphaEnabled = savedInstanceState.getBoolean(INST_KEY_ALPHA, isAlphaEnabled);
+
+            int[] presets = savedInstanceState.getIntArray(INST_KEY_PRESETS);
+            if (presets != null) this.presets = presets;
+
+            String[] pickerClassNames = savedInstanceState.getStringArray(INST_KEY_PICKERS);
+            if (pickerClassNames != null && pickerClassNames.length > 0) {
+                pickers = new DelayedInstantiation[pickerClassNames.length];
+                for (int i = 0; i < pickerClassNames.length; i++) {
+                    try {
+                        pickers[i] = DelayedInstantiation.from(Class.forName(pickerClassNames[i]), Context.class);
+                    } catch (Exception ignored) {
+                        // TODO: exception handling
+                    }
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean(INST_KEY_ALPHA, isAlphaEnabled);
+        outState.putIntArray(INST_KEY_PRESETS, presets);
+
+        String[] pickerClassNames = new String[pickers.length];
+        for (int i = 0; i < pickers.length; i++) {
+            pickerClassNames[i] = pickers[i].gettClassName();
+        }
+
+        outState.putStringArray(INST_KEY_PICKERS, pickerClassNames);
     }
 
     /**

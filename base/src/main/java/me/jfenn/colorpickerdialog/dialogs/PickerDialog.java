@@ -31,6 +31,9 @@ import me.jfenn.colorpickerdialog.views.picker.PickerView;
 
 abstract class PickerDialog<T extends PickerDialog> extends AppCompatDialogFragment implements OnColorPickedListener<PickerView>, ActivityRequestHandler {
 
+    private static final String INST_KEY_COLOR = "me.jfenn.colorpickerdialog.INST_KEY_COLOR";
+    private static final String INST_KEY_CORNER_RADIUS = "me.jfenn.colorpickerdialog.INST_KEY_CORNER_RADIUS";
+
     @ColorInt
     private int color = Color.BLACK;
     private int cornerRadius;
@@ -79,6 +82,22 @@ abstract class PickerDialog<T extends PickerDialog> extends AppCompatDialogFragm
         drawable.setCornerRadius(cornerRadius);
 
         window.setBackgroundDrawable(new InsetDrawable(drawable, DimenUtils.dpToPx(12)));
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (savedInstanceState != null) {
+            color = savedInstanceState.getInt(INST_KEY_COLOR, color);
+            cornerRadius = savedInstanceState.getInt(INST_KEY_CORNER_RADIUS, cornerRadius);
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(INST_KEY_COLOR, color);
+        outState.putInt(INST_KEY_CORNER_RADIUS, cornerRadius);
     }
 
     /**

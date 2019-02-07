@@ -32,6 +32,7 @@ public class ImageColorPickerDialog extends PickerDialog<ImageColorPickerDialog>
 
     @Override
     protected void init() {
+        setRetainInstance(true);
     }
 
     @Override
