@@ -1,10 +1,12 @@
 package me.jfenn.colorpickerdialog.dialogs;
 
-import android.content.Context;
+import android.app.Dialog;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -28,13 +30,16 @@ public class ImageColorPickerDialog extends PickerDialog<ImageColorPickerDialog>
         }
     };
 
-    public ImageColorPickerDialog(Context context) {
-        super(context);
-    }
-
     @Override
     protected void init() {
-        setTitle(R.string.colorPickerDialog_imageColorPicker);
+    }
+
+    @NonNull
+    @Override
+    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+        Dialog dialog = super.onCreateDialog(savedInstanceState);
+        dialog.setTitle(R.string.colorPickerDialog_imageColorPicker);
+        return dialog;
     }
 
     /**
@@ -76,28 +81,30 @@ public class ImageColorPickerDialog extends PickerDialog<ImageColorPickerDialog>
         return this;
     }
 
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.colorpicker_dialog_image_color_picker);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.colorpicker_dialog_image_color_picker, container, false);
 
-        pickerView = findViewById(R.id.image);
+        pickerView = v.findViewById(R.id.image);
         pickerView.setListener(this);
         if (bitmap != null)
             pickerView.withBitmap(bitmap);
 
-        findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
+        v.findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 dismiss();
             }
         });
 
-        findViewById(R.id.confirm).setOnClickListener(new View.OnClickListener() {
+        v.findViewById(R.id.confirm).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 confirm();
             }
         });
+
+        return v;
     }
 }

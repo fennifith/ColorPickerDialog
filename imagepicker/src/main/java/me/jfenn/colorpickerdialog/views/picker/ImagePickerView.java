@@ -18,10 +18,8 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import me.jfenn.colorpickerdialog.adapters.ImagePickerAdapter;
-import me.jfenn.colorpickerdialog.dialogs.ImageColorPickerDialog;
 import me.jfenn.colorpickerdialog.imagepicker.R;
 import me.jfenn.colorpickerdialog.interfaces.ActivityResultHandler;
-import me.jfenn.colorpickerdialog.interfaces.OnColorPickedListener;
 
 public class ImagePickerView extends PickerView implements ActivityResultHandler, ImagePickerAdapter.Listener {
 
@@ -120,7 +118,7 @@ public class ImagePickerView extends PickerView implements ActivityResultHandler
 
     @Override
     public void onImagePicked(Uri uri) {
-        new ImageColorPickerDialog(getContext())
+        /*new ImageColorPickerDialog()
                 .withUri(uri)
                 .withColor(color)
                 .withListener(new OnColorPickedListener<ImageColorPickerDialog>() {
@@ -130,7 +128,7 @@ public class ImagePickerView extends PickerView implements ActivityResultHandler
                         ImagePickerView.this.onColorPicked();
                     }
                 })
-                .show();
+                .show(TODO: obtain fragment manager instance);*/
     }
 
     @Override

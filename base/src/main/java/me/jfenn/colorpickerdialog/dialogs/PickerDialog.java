@@ -3,19 +3,18 @@ package me.jfenn.colorpickerdialog.dialogs;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.util.DisplayMetrics;
-import android.view.WindowManager;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.Nullable;
-import androidx.annotation.StyleRes;
-import androidx.appcompat.app.AppCompatDialog;
+import androidx.fragment.app.DialogFragment;
 import me.jfenn.colorpickerdialog.interfaces.ActivityRequestHandler;
 import me.jfenn.colorpickerdialog.interfaces.ActivityResultHandler;
 import me.jfenn.colorpickerdialog.interfaces.OnColorPickedListener;
 import me.jfenn.colorpickerdialog.views.picker.PickerView;
 
-abstract class PickerDialog<T extends PickerDialog> extends AppCompatDialog implements OnColorPickedListener<PickerView>, ActivityRequestHandler {
+abstract class PickerDialog<T extends PickerDialog> extends DialogFragment implements OnColorPickedListener<PickerView>, ActivityRequestHandler {
+
+    protected Context context;
 
     @ColorInt
     private int color = Color.BLACK;
@@ -23,17 +22,23 @@ abstract class PickerDialog<T extends PickerDialog> extends AppCompatDialog impl
     private OnColorPickedListener<T> listener;
     private ActivityRequestHandler requestHandler;
 
-    public PickerDialog(Context context) {
-        super(context);
+    public PickerDialog() {
         init();
     }
 
-    public PickerDialog(Context context, @StyleRes int style) {
-        super(context, style);
+    public PickerDialog(Context context) {
+        this.context = context;
         init();
     }
 
     protected abstract void init();
+
+    @Nullable
+    @Override
+    public Context getContext() {
+        Context context = super.getContext();
+        return context != null ? context : this.context;
+    }
 
     /**
      * Specify a listener to receive updates when a new color is selected.
@@ -79,51 +84,6 @@ abstract class PickerDialog<T extends PickerDialog> extends AppCompatDialog impl
      */
     public boolean hasRequestHandler() {
         return requestHandler != null;
-    }
-
-    @Override
-    public void show() {
-        super.show();
-
-        // Manual window sizing spaghetti...
-        // Used to enforce that the dialog is able to display in a "portrait" layout
-        // regardless of whether the device is in landscape.
-
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        WindowManager windowmanager = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
-        windowmanager.getDefaultDisplay().getMetrics(displayMetrics);
-
-        WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
-        layoutParams.copyFrom(getWindow().getAttributes());
-        layoutParams.width = (int) (displayMetrics.widthPixels * 0.9f);
-
-        getWindow().setAttributes(layoutParams);
-    }
-
-    /**
-     * Displays the dialog with or without using the default system
-     * sizing. Calling this method with `false` is the same as calling
-     * `show()` with no arguments.
-     *
-     * The default system sizing should not be relied on, mainly because
-     * it comes up with ridiculous measurements based on the content of
-     * the inflated layout that kind of don't look very good and aren't
-     * really entirely usable.
-     *
-     * @param useSystemSizing           Whether to rely on the default
-     *                                  system window sizing.
-     */
-    public void show(boolean useSystemSizing) {
-        if (useSystemSizing)
-            super.show();
-        else show();
-    }
-
-    @Override
-    public void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
-        //if (AlphaColorDrawable.tile != null)
-        //    AlphaColorDrawable.tile.recycle();
     }
 
     @Override

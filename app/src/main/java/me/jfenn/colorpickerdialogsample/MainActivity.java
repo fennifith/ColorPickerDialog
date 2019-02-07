@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        new ColorPickerDialog(this, v.getId() == R.id.dark ? R.style.ColorDialog_Dark : R.style.Theme_AppCompat_Light_Dialog)
+        new ColorPickerDialog()
                 .withColor(color)
                 .withAlphaEnabled(v.getId() != R.id.normal)
                 .withPresets(v.getId() == R.id.normalAlpha ? new int[]{0, 0x50ffffff, 0x50000000} : new int[]{})
@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         Toast.makeText(MainActivity.this, String.format("#%08X", color), Toast.LENGTH_SHORT).show();
                     }
                 })
-                .show();
+                .show(getSupportFragmentManager(), "aaa");
     }
 
     @Override
