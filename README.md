@@ -33,10 +33,10 @@ implementation 'me.jfenn.ColorPickerDialog:base:0.2.0'
 
 ### Creating a Dialog
 
-The basic requirements for the dialog are a default color and a listener, and though none of them _have_ to be specified, it is usually a good idea.
+The basic requirements for the dialog are a default color and a listener, and though none of them _have_ to be specified, it is usually a good idea. You can create a simple dialog fragment using the snippet below:
 
 ```java
-new ColorPickerDialog(this) // context
+new ColorPickerDialog()
   .withColor(color) // the default / initial color
   .withListener(new OnColorPickedListener<ColorPickerDialog>() {
     @Override
@@ -44,8 +44,10 @@ new ColorPickerDialog(this) // context
       // a color has been picked; use it
     }
   })
-  .show();
+  .show(getSupportFragmentManager(), "colorPicker");
 ```
+
+Alternatively, if you are creating the dialog from a fragment, you should use `getChildFragmentManager()` instead of `getSupportFragmentManager()`.
 
 ### Alpha
 
@@ -66,13 +68,13 @@ There are also some alternative pickers that can be enabled to serve a few diffe
 
 #### Presets
 
-The `.withPresets()` method will enable the "preset" color picker, which simply displays a grid of preset colors for the user to choose from. These colors can be configured by passing an array to the `.withPresets()` method, like below:
+The `.withPresets()` method will enable the "preset" color picker, which simply displays a grid of preset colors for the user to choose from. These colors can be configured by passing them (either as an array or varargs) to the `.withPresets()` method, like below:
 
 ```java
-new ColorPickerDialog(this)
-    .withPresets(new int[]{Color.RED, Color.GREEN, Color.BLUE})
+new ColorPickerDialog()
+    .withPresets(Color.RED, Color.GREEN, Color.BLUE)
     .withListener(...)
-    .show();
+    .show(getSupportFragmentManager(), "colorPicker");
 ```
 
 #### Images
@@ -92,76 +94,27 @@ Next, you will need to declare the following permissions in your `AndroidManifes
 <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 ```
 
-Finally, make sure you add an "Activity Request Handler" as detailed below (or the picker cannot request access to the external storage itself).
-
 Now you should be able to add an image picker to your dialog by calling `.withPicker(ImagePickerView.class)` like below:
 
 ```java
-new ColorPickerDialog(this)
+new ColorPickerDialog()
     .withPicker(ImagePickerView.class)
     .withListener(...)
-    .show();
+    .show(getSupportFragmentManager(), "colorPicker");
 ```
-
-### Activity Request Handlers
-
-Some parts of the picker dialog may require access to an activity or fragment for functionality such as requesting permissions or `startActivityForResult`. You can enable this functionality using the `withActivityRequestHandler` method as detailed below.
-
-When the dialog "requests" a specific action, it will pass an `ActivityResultHandler` object for you to call when you receive a result from the request. For example, you could implement the request handler in an `Activity` class like so:
-
-```java
-public class SomeActivity extends Activity implements ActivityRequestHandler {
-    
-    private ActivityResultHandler resultHandler;
-    
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        new ColorPickerDialog(this)
-            .withActivityRequestHandler(this)
-            .withListener(new ActivityRequestHandler() {
-                @Override
-                public void handlePermissionsRequest(ActivityResultHandler resultHandler, String... permissions) {
-                    ActivityCompat.requestPermissions(SomeActivity.this, permissions, 0);
-                    SomeActivity.this.resultHandler = resultHandler; 
-                }
-                
-                @Override                    
-                public void handleActivityRequest(ActivityResultHandler resultHandler, Intent intent) {
-                    startActivityForResult(intent, 0);
-                    SomeActivity.this.resultHandler = resultHandler;
-                }
-            })
-            .show();
-    }
-    
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (resultHandler != null)
-            resultHandler.onPermissionsResult(permissions, grantResults);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultHandler != null)
-            resultHandler.onActivityResult(resultCode, data);
-    }
-}
-```
-
-Here, you can see that the methods implemented by the `ActivityRequestHandler` are used to start activities / permission requests, and the `on...Result` methods provided by the activity simply pass the results back to the `ActivityResultHandler` that was passed to it during the request.
 
 ### Theming
 
-You can theme this dialog the same as any other: by passing a second parameter (a style resource) to its constructor. Full "runtime" theming will come later, but now is not later, so you can't do that yet. Here's an example of a `ColorPickerDialog` with a basic dark theme, demonstrating all of the options you can specify.
+You can theme this dialog by passing your custom theme to `.withTheme(int)`. Support for full "runtime" theming may come later, but now is not later, so you can't do that yet. Here's an example of a `ColorPickerDialog` with a basic dark theme, demonstrating some of the options that you can specify.
 
 ```java
-new ColorPickerDialog(this, R.style.ColorPickerTheme).show();
+new ColorPickerDialog()
+    .withTheme(R.style.ColorPickerDialog_Dark)
+    .show(getSupportFragmentManager(), "colorPicker");
 ```
 
 ```xml
-<style name="ColorDialog.Dark" parent="Theme.AppCompat.Dialog">
+<style name="ColorPickerDialog.Dark" parent="Theme.AppCompat.Dialog">
   <item name="redColor">#FF5252</item>
   <item name="greenColor">#FF5252</item>
   <item name="blueColor">#536DFE</item>
@@ -170,3 +123,11 @@ new ColorPickerDialog(this, R.style.ColorPickerTheme).show();
 ```
 
 The `redColor`, `greenColor`, and `blueColor` attributes affect the RGB sliders, and the `neutralColor` attribute changes the "neutral" colors of the others, including the alpha slider and the handles of the sliders in the HSL picker.
+
+#### Rounded Corners
+
+The dialog also supports custom values for the rounded corners, which you can specify by calling `.withCornerRadius(float)` with the dp measurement of the corner radius, or `.withCornerRadiusPx(int)` with a pixel measurement.
+
+## Other Documentation
+
+Not only am I lazy, I also miss things, so this page may not describe every feature that this library is capable of. However, the majority of this library's documentation is actually written as javadocs within the source code. You can find the generated documentation pages for it [here](https://jfenn.me/projects/colorpickerdialog/docs/).
