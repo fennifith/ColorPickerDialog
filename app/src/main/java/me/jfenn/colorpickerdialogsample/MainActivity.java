@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         new ColorPickerDialog()
                 .withColor(color)
+                .withCornerRadius(16)
                 .withAlphaEnabled(v.getId() != R.id.normal)
                 .withPresets(v.getId() == R.id.normalAlpha ? new int[]{0, 0x50ffffff, 0x50000000} : new int[]{})
                 .withPicker(ImagePickerView.class)

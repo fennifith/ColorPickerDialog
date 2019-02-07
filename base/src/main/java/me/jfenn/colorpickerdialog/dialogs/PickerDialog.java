@@ -3,8 +3,11 @@ package me.jfenn.colorpickerdialog.dialogs;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.InsetDrawable;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.view.ContextThemeWrapper;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -23,12 +26,14 @@ import me.jfenn.colorpickerdialog.R;
 import me.jfenn.colorpickerdialog.interfaces.ActivityRequestHandler;
 import me.jfenn.colorpickerdialog.interfaces.ActivityResultHandler;
 import me.jfenn.colorpickerdialog.interfaces.OnColorPickedListener;
+import me.jfenn.colorpickerdialog.utils.ColorUtils;
 import me.jfenn.colorpickerdialog.views.picker.PickerView;
 
 abstract class PickerDialog<T extends PickerDialog> extends AppCompatDialogFragment implements OnColorPickedListener<PickerView>, ActivityRequestHandler {
 
     @ColorInt
     private int color = Color.BLACK;
+    private int cornerRadius;
 
     private OnColorPickedListener<T> listener;
 
@@ -37,6 +42,7 @@ abstract class PickerDialog<T extends PickerDialog> extends AppCompatDialogFragm
     public PickerDialog() {
         resultHandlers = new HashMap<>();
         withTheme(R.style.ColorPickerDialog);
+        withCornerRadius(2);
         init();
     }
 
@@ -62,9 +68,17 @@ abstract class PickerDialog<T extends PickerDialog> extends AppCompatDialogFragm
         windowmanager.getDefaultDisplay().getMetrics(displayMetrics);
 
         window.setLayout(
-                Math.min(DimenUtils.dpToPx(500), (int) (displayMetrics.widthPixels * 0.9f)),
+                Math.min(DimenUtils.dpToPx(displayMetrics.widthPixels > displayMetrics.heightPixels ? 500 : 800),
+                        (int) (displayMetrics.widthPixels * 0.9f)),
                 WindowManager.LayoutParams.WRAP_CONTENT
         );
+
+        GradientDrawable drawable = new GradientDrawable();
+        drawable.setColor(ColorUtils.fromAttr(new ContextThemeWrapper(getContext(), getTheme()),
+                android.R.attr.colorBackground, Color.WHITE));
+        drawable.setCornerRadius(cornerRadius);
+
+        window.setBackgroundDrawable(new InsetDrawable(drawable, DimenUtils.dpToPx(12)));
     }
 
     /**
@@ -107,6 +121,16 @@ abstract class PickerDialog<T extends PickerDialog> extends AppCompatDialogFragm
     @Override
     public int requestTheme() {
         return getTheme();
+    }
+
+    public T withCornerRadius(float cornerRadius) {
+        this.cornerRadius = DimenUtils.dpToPx(cornerRadius);
+        return (T) this;
+    }
+
+    public T withCornerRadiusPx(int cornerRadiusPx) {
+        this.cornerRadius = cornerRadiusPx;
+        return (T) this;
     }
 
     protected void confirm() {
