@@ -125,11 +125,22 @@ abstract class PickerDialog<T extends PickerDialog> extends AppCompatDialogFragm
         this.color = color;
     }
 
+    /**
+     * Get the current color int selected by the picker.
+     *
+     * @return                  The current color of the picker.
+     */
     @ColorInt
     public int getColor() {
         return color;
     }
 
+    /**
+     * Specify a theme/style of the dialog. Defaults to @style/ColorPickerDialog
+     *
+     * @param style             The style for the dialog to use.
+     * @return                  "This" dialog instance, for method chaining.
+     */
     public T withTheme(@StyleRes int style) {
         setStyle(DialogFragment.STYLE_NORMAL, style);
         return (T) this;
@@ -140,11 +151,23 @@ abstract class PickerDialog<T extends PickerDialog> extends AppCompatDialogFragm
         return getTheme();
     }
 
+    /**
+     * Specify the corner radius for the dialog to use, in dp.
+     *
+     * @param cornerRadius          The corner radius of the dialog, in dp.
+     * @return                      "This" dialog instance, for method chaining.
+     */
     public T withCornerRadius(float cornerRadius) {
         this.cornerRadius = DimenUtils.dpToPx(cornerRadius);
         return (T) this;
     }
 
+    /**
+     * Specify the corner radius for the dialog to use, in px.
+     *
+     * @param cornerRadiusPx        The corner radius of the dialog, in px.
+     * @return                      "This" dialog instance, for method chaining.
+     */
     public T withCornerRadiusPx(int cornerRadiusPx) {
         this.cornerRadius = cornerRadiusPx;
         return (T) this;
