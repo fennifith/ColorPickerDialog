@@ -73,7 +73,7 @@ abstract class PickerDialog<T extends PickerDialog> extends AppCompatDialogFragm
         windowmanager.getDefaultDisplay().getMetrics(displayMetrics);
 
         window.setLayout(
-                Math.min(DimenUtils.dpToPx(displayMetrics.widthPixels > displayMetrics.heightPixels ? 500 : 800),
+                Math.min(DimenUtils.dpToPx(displayMetrics.widthPixels > displayMetrics.heightPixels ? 800 : 500),
                         (int) (displayMetrics.widthPixels * 0.9f)),
                 WindowManager.LayoutParams.WRAP_CONTENT
         );
@@ -288,11 +288,6 @@ abstract class PickerDialog<T extends PickerDialog> extends AppCompatDialogFragm
     @Override
     public int requestTheme() {
         return getTheme();
-    }
-
-    @Override
-    public float requestCornerRadius() {
-        return DimenUtils.pxToDp(cornerRadius);
     }
 
     @Override

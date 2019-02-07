@@ -7,8 +7,6 @@ public interface PickerTheme {
     @StyleRes
     int requestTheme();
 
-    float requestCornerRadius();
-
     int requestCornerRadiusPx();
 
     boolean requestRetainInstance();
