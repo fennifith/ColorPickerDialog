@@ -6,22 +6,27 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.ViewTreeObserver;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import me.jfenn.androidutils.DimenUtils;
 import me.jfenn.androidutils.anim.AnimatedInteger;
 import me.jfenn.colorpickerdialog.imagepicker.R;
 import me.jfenn.colorpickerdialog.utils.ColorUtils;
 
-public class ImageColorPickerView extends PickerView {
+public class ImageColorPickerView extends PickerView<ImageColorPickerView.ImageState> {
 
     private Bitmap bitmap;
     private AnimatedInteger x, y;
     private int circleWidth;
     private int color;
+
+    private ImageState restoreState;
 
     private Paint paint, fillPaint, strokePaint;
     private Matrix bitmapMatrix;
@@ -77,6 +82,11 @@ public class ImageColorPickerView extends PickerView {
     }
 
     @Override
+    protected ImageState newState(@Nullable Parcelable parcelable) {
+        return new ImageState(parcelable);
+    }
+
+    @Override
     public int getColor() {
         return color;
     }
@@ -108,14 +118,20 @@ public class ImageColorPickerView extends PickerView {
         if (bitmap == null || getWidth() <= 0)
             return;
 
-        x.setCurrent(-getWidth());
-        y.setCurrent(-getWidth()); // this is stupid, but the view's height isn't reliable
-
         float scale = (float) getWidth() / bitmap.getWidth();
         bitmapMatrix.reset();
         bitmapMatrix.postTranslate(-bitmap.getWidth() / 2, -bitmap.getHeight() / 2);
         bitmapMatrix.postScale(scale, scale);
         bitmapMatrix.postTranslate(getWidth() / 2, (bitmap.getHeight() * scale) / 2);
+
+        if (restoreState != null) {
+            x.setCurrent((int) (restoreState.x * getWidth()));
+            y.setCurrent((int) (restoreState.y * scale * bitmap.getHeight())); // work around view height's iffy existence
+            onColorPicked(this, color);
+        } else {
+            x.setCurrent(-getWidth());
+            y.setCurrent(-getWidth()); // this is stupid, but the view's height isn't reliable
+        }
 
         postInvalidate();
     }
@@ -186,6 +202,48 @@ public class ImageColorPickerView extends PickerView {
         if (bitmap != null) {
             int width = getMeasuredWidth();
             setMeasuredDimension(width, (int) (bitmap.getHeight() * ((float) width / bitmap.getWidth())));
+        }
+    }
+
+    public static class ImageState extends PickerView.SavedState<ImageColorPickerView> {
+
+        private float x, y;
+        private int color;
+
+        protected ImageState(Parcelable superState) {
+            super(superState);
+        }
+
+        protected ImageState(@Nullable Parcel in) {
+            super(in);
+            if (in != null) {
+                x = in.readFloat();
+                y = in.readFloat();
+                color = in.readInt();
+            }
+        }
+
+        @Override
+        public SavedState<ImageColorPickerView> fromInstance(ImageColorPickerView view) {
+            x = (float) view.x.getTarget() / view.getWidth();
+            y = (float) view.y.getTarget() / view.getHeight();
+            color = view.color;
+            return super.fromInstance(view);
+        }
+
+        @Override
+        public SavedState<ImageColorPickerView> toInstance(ImageColorPickerView view) {
+            view.color = color;
+            view.restoreState = this;
+            return super.toInstance(view);
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            super.writeToParcel(dest, flags);
+            dest.writeFloat(x);
+            dest.writeFloat(y);
+            dest.writeInt(color);
         }
     }
 }

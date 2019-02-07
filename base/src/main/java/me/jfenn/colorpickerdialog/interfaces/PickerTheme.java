@@ -11,4 +11,6 @@ public interface PickerTheme {
 
     int requestCornerRadiusPx();
 
+    boolean requestRetainInstance();
+
 }

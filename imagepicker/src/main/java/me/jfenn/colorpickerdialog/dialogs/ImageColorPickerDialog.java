@@ -19,6 +19,9 @@ import me.jfenn.colorpickerdialog.views.picker.ImageColorPickerView;
 
 public class ImageColorPickerDialog extends PickerDialog<ImageColorPickerDialog> {
 
+    private static final String INST_KEY_IMAGE_URI = "me.jfenn.colorpickerdialog.INST_KEY_IMAGE_URI";
+
+    private String imageUriString;
     private Bitmap bitmap;
 
     private ImageColorPickerView pickerView;
@@ -32,13 +35,29 @@ public class ImageColorPickerDialog extends PickerDialog<ImageColorPickerDialog>
 
     @Override
     protected void init() {
-        setRetainInstance(true);
+        // nothing to initialize!
     }
 
     @Override
     public String getTitle() {
         String title = super.getTitle();
         return title != null ? title : getString(R.string.colorPickerDialog_imageColorPicker);
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (savedInstanceState != null) {
+            imageUriString = savedInstanceState.getString(INST_KEY_IMAGE_URI, imageUriString);
+            if (imageUriString != null)
+                withImageUri(getContext(), Uri.parse(imageUriString));
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(INST_KEY_IMAGE_URI, imageUriString);
     }
 
     /**
@@ -48,6 +67,8 @@ public class ImageColorPickerDialog extends PickerDialog<ImageColorPickerDialog>
      * @return              "This" dialog instance, for method chaining.
      */
     public ImageColorPickerDialog withImagePath(Context context, String path) {
+        imageUriString = path;
+
         Glide.with(context)
                 .asBitmap()
                 .load(path)
@@ -62,9 +83,11 @@ public class ImageColorPickerDialog extends PickerDialog<ImageColorPickerDialog>
      * @param imageUri      The string uri of the image to load.
      * @return              "This" dialog instance, for method chaining.
      */
-    public ImageColorPickerDialog withUri(Context context, Uri imageUri) {
+    public ImageColorPickerDialog withImageUri(Context context, Uri imageUri) {
         if (imageUri.toString().startsWith("/"))
             return withImagePath(context, imageUri.toString());
+
+        imageUriString = imageUri.toString();
 
         Glide.with(context)
                 .asBitmap()

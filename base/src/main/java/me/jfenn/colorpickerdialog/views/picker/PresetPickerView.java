@@ -2,6 +2,7 @@ package me.jfenn.colorpickerdialog.views.picker;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.os.Parcelable;
 import android.util.AttributeSet;
 
 import androidx.annotation.NonNull;
@@ -70,6 +71,11 @@ public class PresetPickerView extends PickerView {
 
         recycler.setLayoutManager(new GridLayoutManager(getContext(), 4));
         recycler.setAdapter(adapter);
+    }
+
+    @Override
+    protected SavedState newState(@Nullable Parcelable parcelable) {
+        return new SavedState(parcelable);
     }
 
     @Override

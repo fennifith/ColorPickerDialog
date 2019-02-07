@@ -5,6 +5,7 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -12,6 +13,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.android.material.tabs.TabLayout;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
@@ -74,7 +78,28 @@ public class ColorPickerDialog extends PickerDialog<ColorPickerDialog> {
                 pickers = new DelayedInstantiation[pickerClassNames.length];
                 for (int i = 0; i < pickerClassNames.length; i++) {
                     try {
-                        pickers[i] = DelayedInstantiation.from(Class.forName(pickerClassNames[i]), Context.class);
+                        Class tClass = Class.forName(pickerClassNames[i]);
+                        Constructor constructor = tClass.getConstructor(Context.class);
+                        constructor.setAccessible(true);
+
+                        pickers[i] = DelayedInstantiation.from(tClass, Context.class)
+                                .withInstantiator(new DelayedInstantiation.ConstructionInstantiator<PickerView>(constructor) {
+                                    @Nullable
+                                    @Override
+                                    public PickerView instantiate(Object... args) {
+                                        PickerView view = super.instantiate(args);
+
+                                        try {
+                                            Method method = view.getClass().getDeclaredMethod("onRestoreInstanceState", Parcelable.class);
+                                            method.setAccessible(true);
+                                            method.invoke(view, new Object[]{null});
+                                        } catch (Exception ignored) {
+                                            // can't _really_ do anything here... rip, I guess
+                                        }
+
+                                        return view;
+                                    }
+                                });
                     } catch (Exception ignored) {
                         // TODO: exception handling
                     }

@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Color;
+import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.SeekBar;
@@ -91,6 +92,11 @@ public class RGBPickerView extends PickerView {
                 blue,
                 ColorUtils.fromAttrRes(getContext(), R.attr.blueColor, R.color.colorPickerDialog_blue)
         );
+    }
+
+    @Override
+    protected SavedState newState(@Nullable Parcelable parcelable) {
+        return new SavedState(parcelable);
     }
 
     @Override

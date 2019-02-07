@@ -5,6 +5,8 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
@@ -27,7 +29,7 @@ import me.jfenn.colorpickerdialog.interfaces.OnColorPickedListener;
 import me.jfenn.colorpickerdialog.interfaces.PickerTheme;
 import me.jfenn.colorpickerdialog.utils.ColorUtils;
 
-public abstract class PickerView extends LinearLayout implements OnColorPickedListener<PickerView>, ActivityRequestHandler {
+public abstract class PickerView<S extends PickerView.SavedState> extends LinearLayout implements OnColorPickedListener<PickerView>, ActivityRequestHandler {
 
     private OnColorPickedListener<PickerView> listener;
     private ActivityRequestHandler requestHandler;
@@ -103,6 +105,22 @@ public abstract class PickerView extends LinearLayout implements OnColorPickedLi
                             ColorUtils.fromAttrRes(getContext(), android.R.attr.textColorPrimary, R.color.colorPickerDialog_neutral))
             );
         }
+    }
+
+    protected abstract S newState(@Nullable Parcelable parcelable);
+
+    @Nullable
+    @Override
+    protected Parcelable onSaveInstanceState() {
+        return newState(super.onSaveInstanceState())
+                .fromInstance(this);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Parcelable state) {
+        super.onRestoreInstanceState(state);
+        if (state instanceof SavedState)
+            ((SavedState) state).toInstance(this);
     }
 
     /**
@@ -285,5 +303,45 @@ public abstract class PickerView extends LinearLayout implements OnColorPickedLi
      */
     public boolean hasActivityRequestHandler() {
         return requestHandler != null;
+    }
+
+    public static class SavedState<T extends PickerView> extends BaseSavedState {
+
+        protected SavedState(Parcelable superState) {
+            super(superState);
+        }
+
+        protected SavedState(@Nullable Parcel in) {
+            super(in);
+        }
+
+        public SavedState<T> fromInstance(T view) {
+            return this;
+        }
+
+        public SavedState<T> toInstance(T view) {
+            return this;
+        }
+
+        public static final Creator<SavedState> CREATOR = new Creator<SavedState>() {
+            @Override
+            public SavedState createFromParcel(Parcel in) {
+                return new SavedState(in);
+            }
+
+            @Override
+            public SavedState[] newArray(int size) {
+                return new SavedState[size];
+            }
+        };
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+        }
     }
 }

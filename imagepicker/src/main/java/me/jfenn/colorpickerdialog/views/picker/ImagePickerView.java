@@ -8,13 +8,17 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.Toast;
 
+import java.lang.ref.WeakReference;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -26,9 +30,13 @@ import me.jfenn.colorpickerdialog.interfaces.OnColorPickedListener;
 
 public class ImagePickerView extends PickerView implements ActivityResultHandler, ImagePickerAdapter.Listener {
 
+    private static final String TAG_CHILD_IMAGE_PICKER = "colorPickerDialog_imagePicker";
+
     private int color;
     private View permissions, permissionsButton;
     private RecyclerView recycler;
+
+    private ImageColorListener listener;
 
     public ImagePickerView(Context context) {
         super(context);
@@ -45,6 +53,23 @@ public class ImagePickerView extends PickerView implements ActivityResultHandler
     @TargetApi(21)
     public ImagePickerView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Parcelable state) {
+        super.onRestoreInstanceState(state);
+
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                FragmentManager manager = requestFragmentManager();
+                if (manager != null) {
+                    Fragment fragment = manager.findFragmentByTag(TAG_CHILD_IMAGE_PICKER);
+                    if (fragment instanceof ImageColorPickerDialog)
+                        ((ImageColorPickerDialog) fragment).withListener(listener);
+                }
+            }
+        });
     }
 
     @Override
@@ -72,6 +97,13 @@ public class ImagePickerView extends PickerView implements ActivityResultHandler
                                 ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)});
             }
         });
+
+        listener = new ImageColorListener(this);
+    }
+
+    @Override
+    protected SavedState newState(@Nullable Parcelable parcelable) {
+        return new SavedState(parcelable);
     }
 
     @Override
@@ -125,17 +157,17 @@ public class ImagePickerView extends PickerView implements ActivityResultHandler
         if (manager != null) {
             new ImageColorPickerDialog()
                     .withPickerTheme(getPickerTheme())
-                    .withUri(getContext(), uri)
+                    .withImageUri(getContext(), uri)
                     .withColor(color)
-                    .withListener(new OnColorPickedListener<ImageColorPickerDialog>() {
-                        @Override
-                        public void onColorPicked(@Nullable ImageColorPickerDialog pickerView, int color) {
-                            ImagePickerView.this.color = color;
-                            ImagePickerView.this.onColorPicked();
-                        }
-                    })
+                    .withListener(listener)
                     .show(manager, "colorPickerDialog_imagePicker");
         }
+    }
+
+    @Override
+    public void onColorPicked(@Nullable PickerView pickerView, int color) {
+        this.color = color;
+        super.onColorPicked(pickerView, color);
     }
 
     @Override
@@ -143,5 +175,23 @@ public class ImagePickerView extends PickerView implements ActivityResultHandler
         if (data != null && data.getData() != null)
             onImagePicked(data.getData());
         else Toast.makeText(getContext(), R.string.colorPickerDialog_msg_image_invalid, Toast.LENGTH_SHORT).show();
+    }
+
+    private static class ImageColorListener implements OnColorPickedListener<ImageColorPickerDialog> {
+
+        private WeakReference<PickerView> reference;
+
+        public ImageColorListener(PickerView pickerView) {
+            reference = new WeakReference<>(pickerView);
+        }
+
+        @Override
+        public void onColorPicked(@Nullable ImageColorPickerDialog pickerView, int color) {
+            PickerView view = reference.get();
+            if (view != null) {
+                Toast.makeText(view.getContext(), "color picked!", Toast.LENGTH_SHORT).show();
+                view.onColorPicked(view, color);
+            }
+        }
     }
 }

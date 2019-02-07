@@ -33,6 +33,7 @@ abstract class PickerDialog<T extends PickerDialog> extends AppCompatDialogFragm
     private static final String INST_KEY_COLOR = "me.jfenn.colorpickerdialog.INST_KEY_COLOR";
     private static final String INST_KEY_TITLE = "me.jfenn.colorpickerdialog.INST_KEY_TITLE";
     private static final String INST_KEY_CORNER_RADIUS = "me.jfenn.colorpickerdialog.INST_KEY_CORNER_RADIUS";
+    private static final String INST_KEY_RETAIN_INST = "me.jfenn.colorpickerdialog.INST_KEY_RETAIN_INST";
 
     @ColorInt
     private int color = Color.BLACK;
@@ -48,6 +49,7 @@ abstract class PickerDialog<T extends PickerDialog> extends AppCompatDialogFragm
         resultHandlers = new SparseArray<>();
         withTheme(R.style.ColorPickerDialog);
         withCornerRadius(2);
+        setRetainInstance(true);
         init();
     }
 
@@ -91,6 +93,7 @@ abstract class PickerDialog<T extends PickerDialog> extends AppCompatDialogFragm
             color = savedInstanceState.getInt(INST_KEY_COLOR, color);
             title = savedInstanceState.getString(INST_KEY_TITLE, title);
             cornerRadius = savedInstanceState.getInt(INST_KEY_CORNER_RADIUS, cornerRadius);
+            setRetainInstance(savedInstanceState.getBoolean(INST_KEY_RETAIN_INST, getRetainInstance()));
         }
     }
 
@@ -100,6 +103,26 @@ abstract class PickerDialog<T extends PickerDialog> extends AppCompatDialogFragm
         outState.putInt(INST_KEY_COLOR, color);
         outState.putString(INST_KEY_TITLE, title);
         outState.putInt(INST_KEY_CORNER_RADIUS, cornerRadius);
+        outState.putBoolean(INST_KEY_RETAIN_INST, getRetainInstance());
+    }
+
+    /**
+     * Set whether the dialog should retain its current instance.
+     *
+     * Defaults to true. If this is true, the dialog will be dismissed on
+     * an orientation / config change - if not, it will be automatically
+     * recreated by the system. The current color, pickers, and theme
+     * options will be retained, but you will need to reconnect to this
+     * fragment to re-apply an `OnColorPickedListener`.
+     *
+     * @param shouldRetainInstance      Whether the dialog should retain its
+     *                                  current instance.
+     * @return                          "This" dialog instance, for method
+     *                                  chaining.
+     */
+    public T withRetainInstance(boolean shouldRetainInstance) {
+        setRetainInstance(shouldRetainInstance);
+        return (T) this;
     }
 
     /**
@@ -252,7 +275,8 @@ abstract class PickerDialog<T extends PickerDialog> extends AppCompatDialogFragm
             return (T) this;
 
         return (T) this.withTheme(theme.requestTheme())
-                .withCornerRadiusPx(theme.requestCornerRadiusPx());
+                .withCornerRadiusPx(theme.requestCornerRadiusPx())
+                .withRetainInstance(theme.requestRetainInstance());
     }
 
     @Nullable
@@ -274,6 +298,11 @@ abstract class PickerDialog<T extends PickerDialog> extends AppCompatDialogFragm
     @Override
     public int requestCornerRadiusPx() {
         return cornerRadius;
+    }
+
+    @Override
+    public boolean requestRetainInstance() {
+        return getRetainInstance();
     }
 
     @Override

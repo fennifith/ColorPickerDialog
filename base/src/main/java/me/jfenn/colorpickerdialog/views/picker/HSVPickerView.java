@@ -5,6 +5,7 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
+import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.SeekBar;
@@ -79,6 +80,11 @@ public class HSVPickerView extends PickerView {
         hue.setOnSeekBarChangeListener(listener);
         saturation.setOnSeekBarChangeListener(listener);
         brightness.setOnSeekBarChangeListener(listener);
+    }
+
+    @Override
+    protected SavedState newState(@Nullable Parcelable parcelable) {
+        return new SavedState(parcelable);
     }
 
     @Override
