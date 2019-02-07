@@ -7,12 +7,10 @@ import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.InsetDrawable;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.SparseArray;
 import android.view.ContextThemeWrapper;
 import android.view.Window;
 import android.view.WindowManager;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
@@ -40,10 +38,10 @@ abstract class PickerDialog<T extends PickerDialog> extends AppCompatDialogFragm
 
     private OnColorPickedListener<T> listener;
 
-    private Map<Integer, ActivityResultHandler> resultHandlers;
+    private SparseArray<ActivityResultHandler> resultHandlers;
 
     public PickerDialog() {
-        resultHandlers = new HashMap<>();
+        resultHandlers = new SparseArray<>();
         withTheme(R.style.ColorPickerDialog);
         withCornerRadius(2);
         init();
@@ -184,8 +182,10 @@ abstract class PickerDialog<T extends PickerDialog> extends AppCompatDialogFragm
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
         ActivityResultHandler handler;
-        if (resultHandlers.containsKey(requestCode) && (handler = resultHandlers.get(requestCode)) != null)
+        if ((handler = resultHandlers.get(requestCode)) != null) {
             handler.onPermissionsResult(permissions, grantResults);
+            resultHandlers.remove(requestCode);
+        }
     }
 
     @Override
@@ -193,7 +193,9 @@ abstract class PickerDialog<T extends PickerDialog> extends AppCompatDialogFragm
         super.onActivityResult(requestCode, resultCode, data);
 
         ActivityResultHandler handler;
-        if (resultHandlers.containsKey(requestCode) && (handler = resultHandlers.get(requestCode)) != null)
+        if ((handler = resultHandlers.get(requestCode)) != null) {
             handler.onActivityResult(resultCode, data);
+            resultHandlers.remove(requestCode);
+        }
     }
 }
