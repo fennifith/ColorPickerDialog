@@ -8,8 +8,11 @@ import me.jfenn.androidutils.anim.AnimatedInteger;
 
 public class SelectableCircleColorView extends CircleColorView {
 
+    private static final float MAX_SCALE = 1;
+    private static final float MIN_SCALE = 0.8f;
+
     private AnimatedInteger size;
-    private float scale = 1;
+    private float scale = MAX_SCALE;
 
     public SelectableCircleColorView(Context context) {
         super(context);
@@ -42,7 +45,7 @@ public class SelectableCircleColorView extends CircleColorView {
      * @param selected          Whether the view is selected.
      */
     public void setSelected(boolean selected) {
-        scale = selected ? 1 : 0.8f;
+        scale = selected ? MAX_SCALE : MIN_SCALE;
         postInvalidate();
     }
 
