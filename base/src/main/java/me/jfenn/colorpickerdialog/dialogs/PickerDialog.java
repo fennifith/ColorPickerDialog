@@ -214,6 +214,11 @@ abstract class PickerDialog<T extends PickerDialog> extends AppCompatDialogFragm
     }
 
     @Override
+    public int requestTheme() {
+        return getTheme();
+    }
+
+    @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 

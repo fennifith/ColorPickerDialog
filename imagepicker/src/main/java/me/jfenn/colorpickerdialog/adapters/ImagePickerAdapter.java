@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,6 +55,7 @@ public class ImagePickerAdapter extends RecyclerView.Adapter {
 
             Glide.with(imageHolder.imageView.getContext().getApplicationContext())
                     .load(getItem(position))
+                    .transition(DrawableTransitionOptions.withCrossFade())
                     .into(imageHolder.imageView);
 
             imageHolder.itemView.setOnClickListener(new View.OnClickListener() {
