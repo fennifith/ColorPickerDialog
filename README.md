@@ -28,7 +28,7 @@ allprojects {
 To add the dependency, copy this line into your app module's build.gradle file.
 
 ```gradle
-implementation 'me.jfenn.ColorPickerDialog:base:0.2.0'
+implementation 'me.jfenn.ColorPickerDialog:base:0.2.1'
 ```
 
 ### Creating a Dialog
@@ -84,7 +84,7 @@ There is an optional dependency that adds image picking functionality to the col
 To enable it, add the following to your `build.gradle` file along with the dependency from before:
 
 ```java
-implementation 'me.jfenn.ColorPickerDialog:imagepicker:0.2.0'
+implementation 'me.jfenn.ColorPickerDialog:imagepicker:0.2.1'
 ```
 
 Next, you will need to declare the following permissions in your `AndroidManifest.xml` (the library does not do it for you).
