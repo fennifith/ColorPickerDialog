@@ -36,8 +36,9 @@ public class ImageColorPickerDialog extends PickerDialog<ImageColorPickerDialog>
     }
 
     @Override
-    protected String getTitle() {
-        return getString(R.string.colorPickerDialog_imageColorPicker);
+    public String getTitle() {
+        String title = super.getTitle();
+        return title != null ? title : getString(R.string.colorPickerDialog_imageColorPicker);
     }
 
     /**

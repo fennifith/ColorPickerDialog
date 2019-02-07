@@ -31,10 +31,13 @@ import me.jfenn.colorpickerdialog.views.picker.PickerView;
 abstract class PickerDialog<T extends PickerDialog> extends AppCompatDialogFragment implements OnColorPickedListener<PickerView>, ActivityRequestHandler, PickerTheme {
 
     private static final String INST_KEY_COLOR = "me.jfenn.colorpickerdialog.INST_KEY_COLOR";
+    private static final String INST_KEY_TITLE = "me.jfenn.colorpickerdialog.INST_KEY_TITLE";
     private static final String INST_KEY_CORNER_RADIUS = "me.jfenn.colorpickerdialog.INST_KEY_CORNER_RADIUS";
 
     @ColorInt
     private int color = Color.BLACK;
+
+    private String title;
     private int cornerRadius;
 
     private OnColorPickedListener<T> listener;
@@ -49,8 +52,6 @@ abstract class PickerDialog<T extends PickerDialog> extends AppCompatDialogFragm
     }
 
     protected abstract void init();
-
-    protected abstract String getTitle();
 
     @NonNull
     @Override
@@ -88,6 +89,7 @@ abstract class PickerDialog<T extends PickerDialog> extends AppCompatDialogFragm
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
             color = savedInstanceState.getInt(INST_KEY_COLOR, color);
+            title = savedInstanceState.getString(INST_KEY_TITLE, title);
             cornerRadius = savedInstanceState.getInt(INST_KEY_CORNER_RADIUS, cornerRadius);
         }
     }
@@ -96,6 +98,7 @@ abstract class PickerDialog<T extends PickerDialog> extends AppCompatDialogFragm
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt(INST_KEY_COLOR, color);
+        outState.putString(INST_KEY_TITLE, title);
         outState.putInt(INST_KEY_CORNER_RADIUS, cornerRadius);
     }
 
@@ -134,6 +137,28 @@ abstract class PickerDialog<T extends PickerDialog> extends AppCompatDialogFragm
     @ColorInt
     public int getColor() {
         return color;
+    }
+
+    /**
+     * Specify a title for the dialog. Passing "null" will set the dialog to
+     * its default title.
+     *
+     * @param title             The (string) title of the dialog.
+     * @return                  "This" dialog instance, for method chaining.
+     */
+    public T withTitle(@Nullable String title) {
+        this.title = title;
+        return (T) this;
+    }
+
+    /**
+     * Get the current title of the dialog; "null" if there is not one set.
+     *
+     * @return                  The title of the dialog.
+     */
+    @Nullable
+    public String getTitle() {
+        return title;
     }
 
     /**

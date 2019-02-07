@@ -55,8 +55,9 @@ public class ColorPickerDialog extends PickerDialog<ColorPickerDialog> {
     }
 
     @Override
-    protected String getTitle() {
-        return getString(R.string.colorPickerDialog_dialogName);
+    public String getTitle() {
+        String title = super.getTitle();
+        return title != null ? title : getString(R.string.colorPickerDialog_dialogName);
     }
 
     @Override
