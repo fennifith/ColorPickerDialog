@@ -21,8 +21,8 @@
         android:paddingRight="16dp">
 
         <ImageView
-            android:layout_width="42dp"
-            android:layout_height="42dp"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
             android:layout_gravity="center_horizontal"
             android:alpha="0.5"
             android:scaleType="centerInside"
@@ -35,6 +35,7 @@
             android:gravity="center"
             android:text="@string/colorPickerDialog_title_all_photos"
             android:textAlignment="center"
+            android:textSize="12sp"
             android:textColor="?android:textColorSecondary" />
 
     </LinearLayout>
