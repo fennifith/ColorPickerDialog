@@ -8,9 +8,11 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+
 import me.jfenn.colorpickerdialog.dialogs.ColorPickerDialog;
 import me.jfenn.colorpickerdialog.interfaces.OnColorPickedListener;
 import me.jfenn.colorpickerdialog.views.picker.ImagePickerView;
+import me.jfenn.colorpickerdialog.views.picker.RGBPickerView;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, OnColorPickedListener<ColorPickerDialog> {
 
@@ -38,7 +40,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .withTitle("Example Color Picker")
                 .withCornerRadius(16)
                 .withAlphaEnabled(v.getId() != R.id.normal)
+                .clearPickers()
                 .withPresets(v.getId() == R.id.normalAlpha ? new int[]{0, 0x50ffffff, 0x50000000} : new int[]{})
+                .withPicker(RGBPickerView.class)
                 .withPicker(ImagePickerView.class)
                 .withTheme(v.getId() == R.id.dark ? R.style.ColorPickerDialog_Dark : R.style.ColorPickerDialog)
                 .withListener(this)
