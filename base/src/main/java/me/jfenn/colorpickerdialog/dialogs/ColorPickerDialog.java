@@ -12,17 +12,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.android.material.tabs.TabLayout;
-
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
-
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.viewpager.widget.ViewPager;
+
+import com.google.android.material.tabs.TabLayout;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
+
 import me.jfenn.colorpickerdialog.R;
 import me.jfenn.colorpickerdialog.adapters.ColorPickerPagerAdapter;
 import me.jfenn.colorpickerdialog.utils.ArrayUtils;
@@ -126,8 +127,8 @@ public class ColorPickerDialog extends PickerDialog<ColorPickerDialog> {
      * Specify whether alpha values should be enabled. This parameter
      * defaults to true.
      *
-     * @param isAlphaEnabled    Whether alpha values are enabled.
-     * @return                  "This" dialog instance, for method chaining.
+     * @param isAlphaEnabled Whether alpha values are enabled.
+     * @return "This" dialog instance, for method chaining.
      */
     public ColorPickerDialog withAlphaEnabled(boolean isAlphaEnabled) {
         this.isAlphaEnabled = isAlphaEnabled;
@@ -138,8 +139,8 @@ public class ColorPickerDialog extends PickerDialog<ColorPickerDialog> {
      * Enables the preset picker view and applies the passed presets. Passing
      * nothing will enable the picker view with the default preset values.
      *
-     * @param presets           The preset colors to use.
-     * @return                  "This" dialog instance, for method chaining.
+     * @param presets The preset colors to use.
+     * @return "This" dialog instance, for method chaining.
      */
     public ColorPickerDialog withPresets(@ColorInt int... presets) {
         this.presets = presets;
@@ -163,12 +164,12 @@ public class ColorPickerDialog extends PickerDialog<ColorPickerDialog> {
      * Add an unidentified picker view to the dialog, if it doesn't already
      * exist. This class is instantiated by the dialog, to keep the view's
      * Context consistent with the rest of the styled components.
-     *
+     * <p>
      * If the picker view already exists in the dialog, this will throw an
      * error.
      *
-     * @param pickerClass       The class of the picker view to add.
-     * @return                  "This" dialog instance, for method chaining.
+     * @param pickerClass The class of the picker view to add.
+     * @return "This" dialog instance, for method chaining.
      */
     public <T extends PickerView> ColorPickerDialog withPicker(Class<T> pickerClass) {
         DelayedInstantiation<T> picker = getPicker(pickerClass);
@@ -189,8 +190,8 @@ public class ColorPickerDialog extends PickerDialog<ColorPickerDialog> {
      * Determine whether a particular picker view is enabled, and return
      * it. If not, this will return null.
      *
-     * @param pickerClass       The class of the PickerView.
-     * @return                  The view, if it is enabled; null if not.
+     * @param pickerClass The class of the PickerView.
+     * @return The view, if it is enabled; null if not.
      */
     @Nullable
     public <T extends PickerView> DelayedInstantiation<T> getPicker(Class<T> pickerClass) {
@@ -206,8 +207,8 @@ public class ColorPickerDialog extends PickerDialog<ColorPickerDialog> {
      * Set the picker views used by the dialog. If this method is called with
      * no arguments, the default pickers will be used; an RGB and HSV picker.
      *
-     * @param pickers           The picker views to use.
-     * @return                  "This" dialog instance, for method chaining.
+     * @param pickers The picker views to use.
+     * @return "This" dialog instance, for method chaining.
      */
     public ColorPickerDialog withPickers(Class... pickers) {
         if (pickers.length == 0) {
@@ -222,6 +223,19 @@ public class ColorPickerDialog extends PickerDialog<ColorPickerDialog> {
             }
         }
 
+        return this;
+    }
+
+    /**
+     * Clears the picker views used by dialog.
+     * This is a workaround, if you want to show the presets tab as first tab
+     * you can use withPickers(), but then you use the default colors, not the ones you've set.
+     * @see #withPickers
+     *
+     * @return "This" dialog instance, for method chaining.
+     */
+    public ColorPickerDialog clearPickers() {
+        this.pickers = new DelayedInstantiation[0];
         return this;
     }
 
