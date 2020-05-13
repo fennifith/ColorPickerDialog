@@ -2,7 +2,6 @@ package me.jfenn.colorpickerdialog.adapters;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +15,7 @@ import me.jfenn.androidutils.DimenUtils;
 import me.jfenn.colorpickerdialog.R;
 import me.jfenn.colorpickerdialog.interfaces.OnColorPickedListener;
 import me.jfenn.colorpickerdialog.utils.ColorUtils;
-import me.jfenn.colorpickerdialog.views.SquareImageView;
+import me.jfenn.colorpickerdialog.views.ColorPickerImageView;
 
 public class PresetColorAdapter extends RecyclerView.Adapter<PresetColorAdapter.ViewHolder> {
 
@@ -65,10 +64,8 @@ public class PresetColorAdapter extends RecyclerView.Adapter<PresetColorAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
-        holder.colorView.setBackground(getColorDrawable(colors[position], holder.colorView.getContext()));
-        float scale = (color == colors[position]) ? MAX_SCALE : MIN_SCALE;
-        holder.colorView.setScaleX(scale);
-        holder.colorView.setScaleY(scale);
+        boolean isSelectedView = color == colors[position];
+        holder.colorView.setColor(colors[position], isSelectedView);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,23 +78,6 @@ public class PresetColorAdapter extends RecyclerView.Adapter<PresetColorAdapter.
         });
     }
 
-    private Drawable getColorDrawable(int fillColor, Context context) {
-        int neutralColor = ColorUtils.fromAttr(context, R.attr.neutralColor,
-                ColorUtils.fromAttrRes(context, android.R.attr.textColorPrimary, R.color.colorPickerDialog_neutral));
-
-        int outlineColor = (ColorUtils.isColorDark(neutralColor)
-                ? (ColorUtils.isColorDark(fillColor) ? fillColor : neutralColor)
-                : (ColorUtils.isColorDark(fillColor) ? neutralColor : fillColor));
-
-        int strokeWidth = DimenUtils.dpToPx(2F);
-        GradientDrawable colorSwatchDrawable = new GradientDrawable();
-        colorSwatchDrawable.setColor(fillColor);
-        colorSwatchDrawable.setShape(GradientDrawable.OVAL);
-        colorSwatchDrawable.setStroke(strokeWidth, outlineColor);
-
-        return colorSwatchDrawable;
-    }
-
     @Override
     public int getItemCount() {
         return colors != null ? colors.length : 0;
@@ -105,14 +85,11 @@ public class PresetColorAdapter extends RecyclerView.Adapter<PresetColorAdapter.
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        private SquareImageView colorView;
+        private ColorPickerImageView colorView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             colorView = itemView.findViewById(R.id.color);
         }
     }
-
-    private static final float MAX_SCALE = 1;
-    private static final float MIN_SCALE = 0.8F;
 }

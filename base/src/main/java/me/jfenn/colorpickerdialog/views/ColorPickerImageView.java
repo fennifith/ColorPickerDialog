@@ -1,0 +1,99 @@
+package me.jfenn.colorpickerdialog.views;
+
+
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapShader;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
+import android.graphics.drawable.GradientDrawable;
+import android.util.AttributeSet;
+import android.view.View;
+
+import androidx.annotation.ColorInt;
+import androidx.appcompat.widget.AppCompatImageView;
+
+import me.jfenn.androidutils.DimenUtils;
+import me.jfenn.colorpickerdialog.R;
+import me.jfenn.colorpickerdialog.utils.ColorUtils;
+
+public class ColorPickerImageView extends AppCompatImageView {
+    public ColorPickerImageView(Context context) {
+        super(context);
+    }
+
+    public ColorPickerImageView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+    }
+
+    public ColorPickerImageView(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+    }
+
+    private boolean showsAlphaGrid = false;
+    private Paint alphaGridPaint = getAlphaGridPattern();
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        //height will be equal to the measured width
+        setMeasuredDimension(getMeasuredWidth(), getMeasuredWidth());
+    }
+
+    public void setColor(@ColorInt int color, boolean isSelected) {
+        Context context =  getContext();
+        int neutralColor = ColorUtils.fromAttr(context, R.attr.neutralColor,
+                ColorUtils.fromAttrRes(context, android.R.attr.textColorPrimary, R.color.colorPickerDialog_neutral));
+
+        int outlineColor = (ColorUtils.isColorDark(neutralColor)
+                ? (ColorUtils.isColorDark(color) ? color : neutralColor)
+                : (ColorUtils.isColorDark(color) ? neutralColor : color));
+
+        int strokeWidth = DimenUtils.dpToPx(2F);
+        GradientDrawable colorSwatchDrawable = new GradientDrawable();
+        colorSwatchDrawable.setColor(color);
+        colorSwatchDrawable.setShape(GradientDrawable.OVAL);
+        colorSwatchDrawable.setStroke(strokeWidth, outlineColor);
+
+        showsAlphaGrid = (Color.alpha(color) < 255);
+
+        float scale = isSelected ? MAX_SCALE : MIN_SCALE;
+        setScaleX(scale);
+        setScaleY(scale);
+
+        setImageDrawable(colorSwatchDrawable);
+    }
+
+    private Paint getAlphaGridPattern() {
+        int squareSize = DimenUtils.dpToPx(8);
+        Bitmap bitmap = Bitmap.createBitmap(squareSize * 2, squareSize * 2, Bitmap.Config.ARGB_8888);
+
+        Paint fill = new Paint(Paint.ANTI_ALIAS_FLAG);
+        fill.setStyle(Paint.Style.FILL);
+        fill.setColor(Color.LTGRAY);
+
+        Canvas canvas = new Canvas(bitmap);
+        Rect rect = new Rect(0, 0, squareSize, squareSize);
+        canvas.drawRect(rect, fill);
+        rect.offset(squareSize, squareSize);
+        canvas.drawRect(rect, fill);
+
+        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        paint.setShader(new BitmapShader(bitmap, BitmapShader.TileMode.REPEAT, BitmapShader.TileMode.REPEAT));
+        return paint;
+    }
+
+    @Override
+    public void onDraw(Canvas canvas) {
+        if (showsAlphaGrid) {
+            int width = getMeasuredWidth();
+            canvas.drawCircle(width / 2F, width / 2F, width / 2F, alphaGridPaint);
+        }
+        super.onDraw(canvas);
+    }
+
+    private static final float MAX_SCALE = 1;
+    private static final float MIN_SCALE = 0.8F;
+}
