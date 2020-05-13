@@ -11,6 +11,7 @@ import android.graphics.Rect;
 import android.graphics.drawable.GradientDrawable;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.animation.DecelerateInterpolator;
 
 import androidx.annotation.ColorInt;
 import androidx.appcompat.widget.AppCompatImageView;
@@ -22,14 +23,23 @@ import me.jfenn.colorpickerdialog.utils.ColorUtils;
 public class SelectableCircleColorView extends AppCompatImageView {
     public SelectableCircleColorView(Context context) {
         super(context);
+        init();
     }
 
     public SelectableCircleColorView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        init();
     }
 
     public SelectableCircleColorView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        init();
+    }
+
+    private void init() {
+        setScaleX(0);
+        setScaleY(0);
+        setSelected(true);
     }
 
     private boolean showsAlphaGrid = false;
@@ -82,9 +92,9 @@ public class SelectableCircleColorView extends AppCompatImageView {
      */
     public void setSelected(boolean isSelected) {
         float scale = isSelected ? MAX_SCALE : MIN_SCALE;
-        setScaleX(scale);
-        setScaleY(scale);
-        postInvalidate();
+        animate().scaleX(scale).scaleY(scale)
+                .setInterpolator(new DecelerateInterpolator())
+                .start();
     }
 
     /**
