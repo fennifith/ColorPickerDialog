@@ -19,16 +19,16 @@ import me.jfenn.androidutils.DimenUtils;
 import me.jfenn.colorpickerdialog.R;
 import me.jfenn.colorpickerdialog.utils.ColorUtils;
 
-public class ColorPickerImageView extends AppCompatImageView {
-    public ColorPickerImageView(Context context) {
+public class SelectableCircleColorView extends AppCompatImageView {
+    public SelectableCircleColorView(Context context) {
         super(context);
     }
 
-    public ColorPickerImageView(Context context, AttributeSet attrs) {
+    public SelectableCircleColorView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public ColorPickerImageView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public SelectableCircleColorView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
@@ -42,7 +42,7 @@ public class ColorPickerImageView extends AppCompatImageView {
         setMeasuredDimension(getMeasuredWidth(), getMeasuredWidth());
     }
 
-    public void setColor(@ColorInt int color, boolean isSelected) {
+    public void setColor(@ColorInt int color) {
         Context context =  getContext();
         int neutralColor = ColorUtils.fromAttr(context, R.attr.neutralColor,
                 ColorUtils.fromAttrRes(context, android.R.attr.textColorPrimary, R.color.colorPickerDialog_neutral));
@@ -59,11 +59,13 @@ public class ColorPickerImageView extends AppCompatImageView {
 
         showsAlphaGrid = (Color.alpha(color) < 255);
 
+        setImageDrawable(colorSwatchDrawable);
+    }
+
+    public void setSelected(boolean isSelected) {
         float scale = isSelected ? MAX_SCALE : MIN_SCALE;
         setScaleX(scale);
         setScaleY(scale);
-
-        setImageDrawable(colorSwatchDrawable);
     }
 
     private Paint getAlphaGridPattern() {

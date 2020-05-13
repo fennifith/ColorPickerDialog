@@ -1,8 +1,5 @@
 package me.jfenn.colorpickerdialog.adapters;
 
-import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,11 +8,9 @@ import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import me.jfenn.androidutils.DimenUtils;
 import me.jfenn.colorpickerdialog.R;
 import me.jfenn.colorpickerdialog.interfaces.OnColorPickedListener;
-import me.jfenn.colorpickerdialog.utils.ColorUtils;
-import me.jfenn.colorpickerdialog.views.ColorPickerImageView;
+import me.jfenn.colorpickerdialog.views.SelectableCircleColorView;
 
 public class PresetColorAdapter extends RecyclerView.Adapter<PresetColorAdapter.ViewHolder> {
 
@@ -64,8 +59,8 @@ public class PresetColorAdapter extends RecyclerView.Adapter<PresetColorAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
-        boolean isSelectedView = color == colors[position];
-        holder.colorView.setColor(colors[position], isSelectedView);
+        holder.colorView.setColor(colors[position]);
+        holder.colorView.setSelected(color == colors[position]);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,7 +80,7 @@ public class PresetColorAdapter extends RecyclerView.Adapter<PresetColorAdapter.
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        private ColorPickerImageView colorView;
+        private SelectableCircleColorView colorView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
