@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import me.jfenn.colorpickerdialog.R;
 import me.jfenn.colorpickerdialog.interfaces.OnColorPickedListener;
 import me.jfenn.colorpickerdialog.views.SelectableCircleColorView;
@@ -15,7 +16,7 @@ public class PresetColorAdapter extends RecyclerView.Adapter<PresetColorAdapter.
 
     private int color;
     private int[] colors;
-    private OnColorPickedListener listener;
+    private OnColorPickedListener<?> listener;
 
     public PresetColorAdapter(int... colors) {
         this.colors = colors;
@@ -65,8 +66,9 @@ public class PresetColorAdapter extends RecyclerView.Adapter<PresetColorAdapter.
             @Override
             public void onClick(View v) {
                 setColor(colors[holder.getAdapterPosition()]);
-                if (listener != null)
+                if (listener != null) {
                     listener.onColorPicked(null, color);
+                }
             }
         });
     }
