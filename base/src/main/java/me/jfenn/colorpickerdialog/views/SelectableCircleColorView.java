@@ -42,6 +42,12 @@ public class SelectableCircleColorView extends AppCompatImageView {
         setMeasuredDimension(getMeasuredWidth(), getMeasuredWidth());
     }
 
+    /**
+     * Sets the color that should display as a circle.
+     * If the color matches certain criteria, a border will be automatically added
+     *
+     * @param color The color that we want to apply
+     */
     public void setColor(@ColorInt int color) {
         Context context =  getContext();
         int neutralColor = ColorUtils.fromAttr(context, R.attr.neutralColor,
@@ -62,12 +68,31 @@ public class SelectableCircleColorView extends AppCompatImageView {
         setImageDrawable(colorSwatchDrawable);
     }
 
+    /**
+     * Specify whether the color is currently "selected".
+     *
+     * This animates the color circle's scale between 100%
+     * and 80% of the size of the view depending on whether
+     * it is selected or unselected, respectively.
+     *
+     * If this method is not called, the view defaults to the
+     * "selected" state.
+     *
+     * @param isSelected          Whether the view is selected.
+     */
     public void setSelected(boolean isSelected) {
         float scale = isSelected ? MAX_SCALE : MIN_SCALE;
         setScaleX(scale);
         setScaleY(scale);
+        postInvalidate();
     }
 
+    /**
+     * Generates a Paint object that simulates the alpha-grid background
+     * that is associated with alpha transparency
+     *
+     * @return                  Alpha-Grid Paint
+     */
     private Paint getAlphaGridPattern() {
         int squareSize = DimenUtils.dpToPx(8);
         Bitmap bitmap = Bitmap.createBitmap(squareSize * 2, squareSize * 2, Bitmap.Config.ARGB_8888);
