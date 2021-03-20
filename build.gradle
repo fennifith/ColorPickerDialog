@@ -26,8 +26,8 @@ allprojects {
 project.ext {
     minSdkVersion = 16
     targetSdkVersion = 28
-    versionCode = 7
-    versionName = '0.2.1'
+    versionCode = 8
+    versionName = '0.2.2'
 }
 
 task clean(type: Delete) {
