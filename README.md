@@ -130,6 +130,10 @@ The `redColor`, `greenColor`, and `blueColor` attributes affect the RGB sliders,
 
 The dialog also supports custom values for the rounded corners, which you can specify by calling `.withCornerRadius(float)` with the dp measurement of the corner radius, or `.withCornerRadiusPx(int)` with a pixel measurement.
 
+### Proguard / Minification
+
+For those using the R8 compiler, this library's [proguard rules](./base/consumer-rules.pro) should be conveniently bundled with the library already - otherwise, you will need to add them to your app's `proguard-rules.pro` file yourself to prevent running into any issues with `minifyEnabled` and the like.
+
 ## Other Documentation
 
 Not only am I lazy, I also miss things, so this page may not describe every feature that this library is capable of. However, the majority of this library's documentation is actually written as javadocs within the source code. You can find the generated documentation pages for it [here](https://jfenn.me/projects/colorpickerdialog/docs/).
