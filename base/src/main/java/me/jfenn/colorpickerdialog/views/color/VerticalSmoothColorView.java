@@ -5,7 +5,8 @@ import android.content.Context;
 import android.util.AttributeSet;
 
 import androidx.annotation.Nullable;
-import me.jfenn.androidutils.DimenUtils;
+
+import me.jfenn.androidutils.DimenUtilsKt;
 
 public class VerticalSmoothColorView extends SmoothColorView {
 
@@ -31,6 +32,6 @@ public class VerticalSmoothColorView extends SmoothColorView {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
         int size = getMeasuredHeight();
-        setMeasuredDimension(Math.min(DimenUtils.dpToPx(200), size), size);
+        setMeasuredDimension(Math.min(DimenUtilsKt.dpToPx(200), size), size);
     }
 }

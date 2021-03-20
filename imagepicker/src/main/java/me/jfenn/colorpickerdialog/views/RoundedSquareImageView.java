@@ -7,7 +7,7 @@ import android.graphics.RectF;
 import android.util.AttributeSet;
 
 import androidx.appcompat.widget.AppCompatImageView;
-import me.jfenn.androidutils.DimenUtils;
+import me.jfenn.androidutils.DimenUtilsKt;
 
 public class RoundedSquareImageView extends AppCompatImageView {
 
@@ -31,7 +31,7 @@ public class RoundedSquareImageView extends AppCompatImageView {
     }
 
     private void init() {
-        radius = DimenUtils.dpToPx(4);
+        radius = DimenUtilsKt.dpToPx(4);
         path = new Path();
         rect = new RectF(0, 0, getWidth(), getHeight());
     }

@@ -10,7 +10,8 @@ import android.util.AttributeSet;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.core.graphics.drawable.RoundedBitmapDrawable;
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
-import me.jfenn.androidutils.ImageUtils;
+
+import me.jfenn.androidutils.ImageUtilsKt;
 
 public class CircleImageView extends AppCompatImageView {
     Paint paint;
@@ -32,7 +33,7 @@ public class CircleImageView extends AppCompatImageView {
 
     @Override
     public void onDraw(Canvas canvas) {
-        Bitmap image = ImageUtils.drawableToBitmap(getDrawable());
+        Bitmap image = ImageUtilsKt.toBitmap(getDrawable());
         if (image != null) {
             int size = Math.min(getWidth(), getHeight());
             image = ThumbnailUtils.extractThumbnail(image, size, size);
@@ -42,7 +43,7 @@ public class CircleImageView extends AppCompatImageView {
             roundedBitmapDrawable.setCornerRadius(size / 2);
             roundedBitmapDrawable.setAntiAlias(true);
 
-            canvas.drawBitmap(ImageUtils.drawableToBitmap(roundedBitmapDrawable), 0, 0, paint);
+            canvas.drawBitmap(ImageUtilsKt.toBitmap(roundedBitmapDrawable), 0, 0, paint);
         }
     }
 

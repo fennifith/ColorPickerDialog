@@ -19,7 +19,7 @@ import androidx.annotation.StyleRes;
 import androidx.appcompat.app.AppCompatDialogFragment;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
-import me.jfenn.androidutils.DimenUtils;
+import me.jfenn.androidutils.DimenUtilsKt;
 import me.jfenn.colorpickerdialog.R;
 import me.jfenn.colorpickerdialog.interfaces.ActivityRequestHandler;
 import me.jfenn.colorpickerdialog.interfaces.ActivityResultHandler;
@@ -73,7 +73,7 @@ abstract class PickerDialog<T extends PickerDialog> extends AppCompatDialogFragm
         windowmanager.getDefaultDisplay().getMetrics(displayMetrics);
 
         window.setLayout(
-                Math.min(DimenUtils.dpToPx(displayMetrics.widthPixels > displayMetrics.heightPixels ? 800 : 500),
+                Math.min(DimenUtilsKt.dpToPx(displayMetrics.widthPixels > displayMetrics.heightPixels ? 800 : 500),
                         (int) (displayMetrics.widthPixels * 0.9f)),
                 WindowManager.LayoutParams.WRAP_CONTENT
         );
@@ -83,7 +83,7 @@ abstract class PickerDialog<T extends PickerDialog> extends AppCompatDialogFragm
                 android.R.attr.colorBackground, Color.WHITE));
         drawable.setCornerRadius(cornerRadius);
 
-        window.setBackgroundDrawable(new InsetDrawable(drawable, DimenUtils.dpToPx(12)));
+        window.setBackgroundDrawable(new InsetDrawable(drawable, DimenUtilsKt.dpToPx(12)));
     }
 
     @Override
@@ -202,7 +202,7 @@ abstract class PickerDialog<T extends PickerDialog> extends AppCompatDialogFragm
      * @return                      "This" dialog instance, for method chaining.
      */
     public T withCornerRadius(float cornerRadius) {
-        this.cornerRadius = DimenUtils.dpToPx(cornerRadius);
+        this.cornerRadius = DimenUtilsKt.dpToPx(cornerRadius);
         return (T) this;
     }
 
@@ -223,7 +223,7 @@ abstract class PickerDialog<T extends PickerDialog> extends AppCompatDialogFragm
      * @return                      The corner radius, in dp.
      */
     public float getCornerRadius() {
-        return DimenUtils.pxToDp(cornerRadius);
+        return DimenUtilsKt.pxToDp(cornerRadius);
     }
 
     /**

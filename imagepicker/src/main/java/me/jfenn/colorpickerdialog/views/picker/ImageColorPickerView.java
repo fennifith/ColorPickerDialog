@@ -14,7 +14,8 @@ import android.view.ViewTreeObserver;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import me.jfenn.androidutils.DimenUtils;
+
+import me.jfenn.androidutils.DimenUtilsKt;
 import me.jfenn.androidutils.anim.AnimatedInteger;
 import me.jfenn.colorpickerdialog.imagepicker.R;
 import me.jfenn.colorpickerdialog.utils.ColorUtils;
@@ -52,7 +53,7 @@ public class ImageColorPickerView extends PickerView<ImageColorPickerView.ImageS
         x = new AnimatedInteger(-1);
         y = new AnimatedInteger(-1);
 
-        circleWidth = DimenUtils.dpToPx(18);
+        circleWidth = DimenUtilsKt.dpToPx(18);
 
         paint = new Paint();
         paint.setDither(true);
@@ -65,7 +66,7 @@ public class ImageColorPickerView extends PickerView<ImageColorPickerView.ImageS
 
         strokePaint = new Paint();
         strokePaint.setStyle(Paint.Style.STROKE);
-        strokePaint.setStrokeWidth(DimenUtils.dpToPx(2));
+        strokePaint.setStrokeWidth(DimenUtilsKt.dpToPx(2));
         strokePaint.setAntiAlias(true);
 
         bitmapMatrix = new Matrix();

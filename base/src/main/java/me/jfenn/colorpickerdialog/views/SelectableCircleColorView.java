@@ -16,7 +16,7 @@ import android.view.animation.DecelerateInterpolator;
 import androidx.annotation.ColorInt;
 import androidx.appcompat.widget.AppCompatImageView;
 
-import me.jfenn.androidutils.DimenUtils;
+import me.jfenn.androidutils.DimenUtilsKt;
 import me.jfenn.colorpickerdialog.R;
 import me.jfenn.colorpickerdialog.utils.ColorUtils;
 
@@ -67,7 +67,7 @@ public class SelectableCircleColorView extends AppCompatImageView {
                 ? (ColorUtils.isColorDark(color) ? color : neutralColor)
                 : (ColorUtils.isColorDark(color) ? neutralColor : color));
 
-        int strokeWidth = DimenUtils.dpToPx(2F);
+        int strokeWidth = DimenUtilsKt.dpToPx(2F);
         GradientDrawable colorSwatchDrawable = new GradientDrawable();
         colorSwatchDrawable.setColor(color);
         colorSwatchDrawable.setShape(GradientDrawable.OVAL);
@@ -104,7 +104,7 @@ public class SelectableCircleColorView extends AppCompatImageView {
      * @return                  Alpha-Grid Paint
      */
     private Paint getAlphaGridPattern() {
-        int squareSize = DimenUtils.dpToPx(8);
+        int squareSize = DimenUtilsKt.dpToPx(8);
         Bitmap bitmap = Bitmap.createBitmap(squareSize * 2, squareSize * 2, Bitmap.Config.ARGB_8888);
 
         Paint fill = new Paint(Paint.ANTI_ALIAS_FLAG);
