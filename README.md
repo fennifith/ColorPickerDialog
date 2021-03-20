@@ -1,8 +1,10 @@
-ColorPickerDialog is a simple dialog making it quick and easy to add a color picker functionality to any app.
-
+ColorPickerDialog
 [![JitPack](https://jitpack.io/v/me.jfenn/ColorPickerDialog.svg)](https://jitpack.io/#me.jfenn/ColorPickerDialog)
-[![Build Status](https://travis-ci.com/fennifith/ColorPickerDialog.svg)](https://travis-ci.com/fennifith/ColorPickerDialog)
-[![Discord](https://img.shields.io/discord/514625116706177035.svg?logo=discord&colorB=7289da)](https://discord.gg/hwddBF7)
+![Gradle Build](https://github.com/fennifith/ColorPickerDialog/workflows/Gradle%20Build/badge.svg)
+[![Discord](https://img.shields.io/discord/514625116706177035.svg?logo=discord&colorB=7289da)](https://discord.jfenn.me/)
+=====
+
+ColorPickerDialog is a simple dialog making it quick and easy to add a color picker functionality to any app.
 
 For testing and experimentation purposes, a sample apk can be downloaded [here](https://jfenn.me/projects/colorpickerdialog).
 
